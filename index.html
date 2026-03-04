@@ -10,6 +10,7 @@
             --primary: #ffffff;
             --card-bg: rgba(255, 255, 255, 0.15);
             --card-hover: rgba(255, 255, 255, 0.25);
+            --gold: #ffd700;
         }
 
         body {
@@ -29,139 +30,43 @@
             100% { background-position: 0% 50%; }
         }
 
-        /* Top Header */
-        header {
-            padding: 40px 20px 20px;
-            text-align: center;
-        }
-
-        header .school-name { 
-            font-size: 1.1rem; 
-            color: #ffd700; 
-            font-weight: 600; 
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            margin-bottom: 10px;
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
-        }
-
+        header { padding: 40px 20px 20px; text-align: center; }
+        header .school-name { font-size: 1.1rem; color: var(--gold); font-weight: 600; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 10px; text-shadow: 1px 1px 2px rgba(0,0,0,0.3); }
         header h1 { margin: 0; font-weight: 700; font-size: 2.5rem; text-shadow: 2px 3px 5px rgba(0,0,0,0.3); }
 
-        /* Sections (Views) */
-        .section {
-            display: none; /* છુપાવવા માટે */
-            animation: fadeIn 0.4s ease-in-out;
-            max-width: 1100px;
-            margin: 0 auto;
-            padding: 0 20px 60px;
-        }
+        .section { display: none; animation: fadeIn 0.4s ease-in-out; max-width: 1100px; margin: 0 auto; padding: 0 20px 60px; }
+        .section.active { display: block; }
 
-        .section.active {
-            display: block; /* દેખાડવા માટે */
-        }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+        .section-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 25px; padding-bottom: 15px; border-bottom: 2px solid rgba(255,255,255,0.2); }
+        .section-title { font-size: 1.8rem; font-weight: 700; margin: 0; }
 
-        /* Section Title & Back Button */
-        .section-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 25px;
-            padding-bottom: 15px;
-            border-bottom: 2px solid rgba(255,255,255,0.2);
-        }
-
-        .section-title { font-size: 1.8rem; font-weight: 700; text-shadow: 1px 1px 2px rgba(0,0,0,0.3); margin: 0; }
-
-        .back-btn {
-            background: rgba(255,255,255,0.2);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255,255,255,0.4);
-            color: white;
-            padding: 10px 20px;
-            border-radius: 30px;
-            font-family: 'Hind Vadodara', sans-serif;
-            font-size: 1.1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: 0.3s;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
+        .back-btn { background: rgba(255,255,255,0.2); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.4); color: white; padding: 10px 20px; border-radius: 30px; font-family: inherit; font-size: 1.1rem; font-weight: 600; cursor: pointer; transition: 0.3s; display: flex; align-items: center; gap: 8px; }
         .back-btn:hover { background: rgba(255,255,255,0.4); transform: translateX(-5px); }
 
-        /* Grid Layouts */
-        .category-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 25px;
-            margin-top: 20px;
-        }
+        .category-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 25px; margin-top: 20px; }
+        .quiz-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; margin-top: 15px; }
 
-        .quiz-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 20px;
-        }
+        /* Grade Selection Style */
+        .grade-container { margin-top: 30px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px; }
+        .grade-title { font-size: 1.3rem; font-weight: 600; margin-bottom: 15px; color: var(--gold); }
 
-        /* Category Card (Square & Big) */
-        .cat-card {
-            background: var(--card-bg);
-            backdrop-filter: blur(12px);
-            border: 1px solid rgba(255,255,255,0.3);
-            padding: 40px 20px;
-            border-radius: 25px;
-            text-align: center;
-            cursor: pointer;
-            transition: 0.4s;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-        }
+        .cat-card { background: var(--card-bg); backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.3); padding: 40px 20px; border-radius: 25px; text-align: center; cursor: pointer; transition: 0.4s; }
+        .cat-card:hover { background: var(--card-hover); transform: translateY(-10px); border-color: #fff; }
+        .cat-icon { font-size: 60px; margin-bottom: 15px; }
+        .cat-name { font-size: 1.5rem; font-weight: 700; }
 
-        .cat-card:hover {
-            background: var(--card-hover);
-            transform: translateY(-10px);
-            border-color: #fff;
-            box-shadow: 0 15px 40px rgba(0,0,0,0.3);
-        }
+        /* Small Grade Cards */
+        .grade-card { background: rgba(0,0,0,0.2); padding: 15px; border-radius: 15px; cursor: pointer; transition: 0.3s; border: 1px solid rgba(255,255,255,0.1); font-weight: 600; font-size: 1.2rem; }
+        .grade-card:hover { background: var(--gold); color: #1e3c72; }
 
-        .cat-icon { font-size: 60px; margin-bottom: 15px; filter: drop-shadow(2px 4px 6px rgba(0,0,0,0.2)); }
-        .cat-name { font-size: 1.5rem; font-weight: 700; text-shadow: 1px 1px 2px rgba(0,0,0,0.2); }
-
-        /* Quiz Card (Horizontal) */
-        .quiz-card {
-            background: var(--card-bg);
-            backdrop-filter: blur(12px);
-            border: 1px solid rgba(255,255,255,0.3);
-            padding: 20px;
-            border-radius: 20px;
-            text-decoration: none;
-            color: white;
-            transition: 0.3s;
-            display: flex;
-            align-items: center;
-            gap: 20px;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .quiz-card:hover {
-            background: var(--card-hover);
-            transform: translateY(-5px);
-            border-color: #fff;
-        }
-
+        .quiz-card { background: var(--card-bg); backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.3); padding: 20px; border-radius: 20px; text-decoration: none; color: white; transition: 0.3s; display: flex; align-items: center; gap: 20px; }
+        .quiz-card:hover { background: var(--card-hover); transform: translateY(-5px); border-color: #fff; }
         .quiz-icon { width: 60px; height: 60px; background: rgba(255,255,255,0.2); border-radius: 15px; display: flex; align-items: center; justify-content: center; font-size: 30px; flex-shrink: 0; }
-        .quiz-details { text-align: left; }
         .quiz-name { font-weight: 700; font-size: 1.2rem; margin-bottom: 5px; }
-        .quiz-sub { font-size: 0.9rem; opacity: 0.8; font-weight: 500; }
+        .quiz-sub { font-size: 0.9rem; opacity: 0.8; }
 
-        /* Footer */
         footer { text-align: center; padding: 20px; opacity: 0.7; font-size: 0.9rem; margin-top: 20px; }
 
         @media (max-width: 600px) {
@@ -179,23 +84,19 @@
 
     <div id="home-view" class="section active">
         <p style="text-align: center; opacity: 0.9; font-size: 1.2rem; font-weight: 500;">નીચેમાંથી તમારો વિભાગ પસંદ કરો</p>
-        
         <div class="category-grid">
             <div class="cat-card" onclick="showCategory('parakh-view')">
                 <div class="cat-icon">📚</div>
                 <div class="cat-name">પરખ કસોટી</div>
             </div>
-
             <div class="cat-card" onclick="showCategory('science-view')">
                 <div class="cat-icon">🧪</div>
                 <div class="cat-name">વિજ્ઞાન</div>
             </div>
-
             <div class="cat-card" onclick="showCategory('maths-view')">
                 <div class="cat-icon">➗</div>
                 <div class="cat-name">ગણિત</div>
             </div>
-
             <div class="cat-card" onclick="showCategory('social-view')">
                 <div class="cat-icon">🌍</div>
                 <div class="cat-name">સામાજિક વિજ્ઞાન</div>
@@ -203,160 +104,120 @@
         </div>
     </div>
 
-
     <div id="parakh-view" class="section">
         <div class="section-header">
             <button class="back-btn" onclick="goHome()">🔙 પાછા જાઓ</button>
             <h2 class="section-title">📚 પરખ કસોટીઓ</h2>
         </div>
-
         <div class="quiz-grid">
-            <a href="Parakh Quiz1.html" class="quiz-card">
-                <div class="quiz-icon">📝</div>
-                <div class="quiz-details">
-                    <div class="quiz-name">પરખ ક્વિજ - 1</div>
-                    <div class="quiz-sub">પ્રકરણ માંથી</div>
-                </div>
-            </a>
-            <a href="Parakh Quiz2.html" class="quiz-card">
-                <div class="quiz-icon">📝</div>
-                <div class="quiz-details">
-                    <div class="quiz-name">પરખ ક્વિજ - 2</div>
-                    <div class="quiz-sub">પ્રકરણ માંથી</div>
-                </div>
-            </a><a href="Parakh Quiz3.html" class="quiz-card">
-                <div class="quiz-icon">📝</div>
-                <div class="quiz-details">
-                    <div class="quiz-name">પરખ ક્વિજ - 3</div>
-                    <div class="quiz-sub">પ્રકરણ માંથી</div>
-                </div>
-            </a><a href="Parakh Quiz4.html" class="quiz-card">
-                <div class="quiz-icon">📝</div>
-                <div class="quiz-details">
-                    <div class="quiz-name">પરખ ક્વિજ - 4</div>
-                    <div class="quiz-sub">પ્રકરણ માંથી</div>
-                </div>
-            </a><a href="Parakh Quiz5.html" class="quiz-card">
-                <div class="quiz-icon">📝</div>
-                <div class="quiz-details">
-                    <div class="quiz-name">પરખ ક્વિજ - 5</div>
-                    <div class="quiz-sub">પ્રકરણ માંથી</div>
-                </div>
-            </a><a href="Parakh Quiz6.html" class="quiz-card">
-                <div class="quiz-icon">📝</div>
-                <div class="quiz-details">
-                    <div class="quiz-name">પરખ ક્વિજ - 6</div>
-                    <div class="quiz-sub">પ્રકરણ માંથી</div>
-                </div>
-            </a><a href="Parakh Quiz7.html" class="quiz-card">
-                <div class="quiz-icon">📝</div>
-                <div class="quiz-details">
-                    <div class="quiz-name">પરખ ક્વિજ - 7</div>
-                    <div class="quiz-sub">પ્રકરણ માંથી</div>
-                </div>
-            </a><a href="Parakh Quiz8.html" class="quiz-card">
-                <div class="quiz-icon">📝</div>
-                <div class="quiz-details">
-                    <div class="quiz-name">પરખ ક્વિજ - 8</div>
-                    <div class="quiz-sub">પ્રકરણ માંથી</div>
-                </div>
-            </a>
-            
-    </div> </div>
-
+            <a href="Parakh Quiz1.html" class="quiz-card"><div class="quiz-icon">📝</div><div class="quiz-details"><div class="quiz-name">પરખ ક્વિજ - 1</div><div class="quiz-sub">પ્રકરણ માંથી</div></div></a>
+            <a href="Parakh Quiz2.html" class="quiz-card"><div class="quiz-icon">📝</div><div class="quiz-details"><div class="quiz-name">પરખ ક્વિજ - 2</div><div class="quiz-sub">પ્રકરણ માંથી</div></div></a>
+            <a href="Parakh Quiz3.html" class="quiz-card"><div class="quiz-icon">📝</div><div class="quiz-details"><div class="quiz-name">પરખ ક્વિજ - 3</div><div class="quiz-sub">પ્રકરણ માંથી</div></div></a>
+            </div>
+    </div>
 
     <div id="science-view" class="section">
         <div class="section-header">
             <button class="back-btn" onclick="goHome()">🔙 પાછા જાઓ</button>
-            <h2 class="section-title">🧪 વિજ્ઞાન કસોટીઓ</h2>
+            <h2 class="section-title">🧪 વિજ્ઞાન વિભાગ</h2>
         </div>
-
+        
+        <h3 class="grade-title">⭐ મુખ્ય ક્વિઝ</h3>
         <div class="quiz-grid">
             <a href="quiz.html" class="quiz-card">
                 <div class="quiz-icon">🔬</div>
-                <div class="quiz-details">
-                    <div class="quiz-name">સાયન્સ ક્વિઝ Pro</div>
-                    <div class="quiz-sub">ધોરણ ૬ થી ૮ | સંપૂર્ણ ક્વિઝ</div>
-                </div>
-            </a>
-            <a href="quiz2.html" class="quiz-card">
-                <div class="quiz-icon">💡</div>
-                <div class="quiz-details">
-                    <div class="quiz-name">વિદ્યુત પ્રવાહની રાસાયણિક અસરો</div>
-                    <div class="quiz-sub">ધોરણ ૭ | ચેપ્ટર ૧૪</div>
-                </div>
+                <div class="quiz-details"><div class="quiz-name">સાયન્સ ક્વિઝ Pro</div><div class="quiz-sub">સંપૂર્ણ ક્વિઝ</div></div>
             </a>
         </div>
-    </div>
 
+        <div class="grade-container">
+            <h3 class="grade-title">ધોરણ મુજબ કસોટીઓ પસંદ કરો:</h3>
+            <div class="category-grid" style="grid-template-columns: repeat(3, 1fr);">
+                <div class="grade-card" onclick="showSubCategory('sci-std6')">ધોરણ ૬</div>
+                <div class="grade-card" onclick="showSubCategory('sci-std7')">ધોરણ ૭</div>
+                <div class="grade-card" onclick="showSubCategory('sci-std8')">ધોરણ ૮</div>
+            </div>
+        </div>
+
+        <div id="sci-std6" class="quiz-grid" style="display:none;">
+            <a href="#" class="quiz-card"><div class="quiz-icon">🌱</div><div class="quiz-details"><div class="quiz-name">આહારના ઘટકો</div><div class="quiz-sub">ધોરણ ૬</div></div></a>
+        </div>
+        <div id="sci-std7" class="quiz-grid" style="display:none;">
+            <a href="quiz2.html" class="quiz-card"><div class="quiz-icon">💡</div><div class="quiz-details"><div class="quiz-name">વિદ્યુત પ્રવાહની અસરો</div><div class="quiz-sub">ધોરણ ૭ | ચેપ્ટર ૧૪</div></div></a>
+        </div>
+        <div id="sci-std8" class="quiz-grid" style="display:none;">
+            <a href="#" class="quiz-card"><div class="quiz-icon">🦠</div><div class="quiz-details"><div class="quiz-name">સૂક્ષ્મજીવો</div><div class="quiz-sub">ધોરણ ૮</div></div></a>
+        </div>
+    </div>
 
     <div id="maths-view" class="section">
         <div class="section-header">
             <button class="back-btn" onclick="goHome()">🔙 પાછા જાઓ</button>
-            <h2 class="section-title">➗ ગણિત કસોટીઓ</h2>
+            <h2 class="section-title">➗ ગણિત વિભાગ</h2>
         </div>
 
-        <div class="quiz-grid">
-            <a href="parimiti_game.html" class="quiz-card">
-                <div class="quiz-icon">📐</div>
-                <div class="quiz-details">
-                    <div class="quiz-name">પરીમીતી ગણિત ગમ્મત</div>
-                    <div class="quiz-sub">ધોરણ ૬</div>
-                </div>
-            </a>
-            <a href="#" class="quiz-card">
-                <div class="quiz-icon">📊</div>
-                <div class="quiz-details">
-                    <div class="quiz-name">માહિતીનું નિયમન</div>
-                    <div class="quiz-sub">ધોરણ ૭</div>
-                </div>
-            </a>
+        <div class="grade-container" style="border:none; padding:0;">
+            <h3 class="grade-title">તમારું ધોરણ પસંદ કરો:</h3>
+            <div class="category-grid" style="grid-template-columns: repeat(3, 1fr);">
+                <div class="grade-card" onclick="showSubCategory('math-std6')">ધોરણ ૬</div>
+                <div class="grade-card" onclick="showSubCategory('math-std7')">ધોરણ ૭</div>
+                <div class="grade-card" onclick="showSubCategory('math-std8')">ધોરણ ૮</div>
+            </div>
+        </div>
+
+        <div id="math-std6" class="quiz-grid" style="display:none;">
+            <a href="parimiti_game.html" class="quiz-card"><div class="quiz-icon">📐</div><div class="quiz-details"><div class="quiz-name">પરીમીતી ગણિત ગમ્મત</div><div class="quiz-sub">ધોરણ ૬</div></div></a>
+        </div>
+        <div id="math-std7" class="quiz-grid" style="display:none;">
+            <a href="std7maths10.html" class="quiz-card"><div class="quiz-icon">📊</div><div class="quiz-details"><div class="quiz-name">બીજગણિતીય પદાવલિ</div><div class="quiz-sub">ધોરણ ૭ | ચેપ્ટર ૧૦</div></div></a>
+        </div>
+        <div id="math-std8" class="quiz-grid" style="display:none;">
+            <a href="#" class="quiz-card"><div class="quiz-icon">➗</div><div class="quiz-details"><div class="quiz-name">સંમેય સંખ્યાઓ</div><div class="quiz-sub">ધોરણ ૮</div></div></a>
         </div>
     </div>
-
 
     <div id="social-view" class="section">
         <div class="section-header">
             <button class="back-btn" onclick="goHome()">🔙 પાછા જાઓ</button>
             <h2 class="section-title">🌍 સામાજિક વિજ્ઞાન</h2>
         </div>
-
         <div class="quiz-grid">
-            <a href="#" class="quiz-card">
-                <div class="quiz-icon">🏰</div>
-                <div class="quiz-details">
-                    <div class="quiz-name">ઇતિહાસ જાણવાના સ્ત્રોતો</div>
-                    <div class="quiz-sub">ધોરણ ૬</div>
-                </div>
-            </a>
+            <a href="#" class="quiz-card"><div class="quiz-icon">🏰</div><div class="quiz-details"><div class="quiz-name">ઇતિહાસ જાણવાના સ્ત્રોતો</div><div class="quiz-sub">ધોરણ ૬</div></div></a>
         </div>
     </div>
 
-
-    <footer>
-        Designed for Students by Nayan Prajapati
-    </footer>
+    <footer>Designed for Students by Nayan Prajapati</footer>
 
     <script>
         function showCategory(categoryId) {
-            // બધી section છુપાવી દો
             let sections = document.querySelectorAll('.section');
-            sections.forEach(sec => {
-                sec.classList.remove('active');
-            });
-
-            // જેની પર ક્લિક કર્યું છે તેને જ દેખાડો
+            sections.forEach(sec => sec.classList.remove('active'));
             document.getElementById(categoryId).classList.add('active');
             
-            // પેજને ઉપર લઈ જાઓ
+            // જ્યારે નવો વિભાગ ખુલે ત્યારે ધોરણ મુજબના લિસ્ટ છુપાવી દેવા
+            let subGrids = document.querySelectorAll('.quiz-grid[id*="std"]');
+            subGrids.forEach(grid => grid.style.display = 'none');
+            
             window.scrollTo(0, 0);
         }
 
+        function showSubCategory(subId) {
+            // જે વિભાગ (Science/Maths) માં છીએ તેના જ ધોરણોને હેન્ડલ કરવા
+            let parentId = document.querySelector('.section.active').id;
+            let subGrids = document.querySelectorAll('#' + parentId + ' .quiz-grid[id*="std"]');
+            
+            subGrids.forEach(grid => {
+                if(grid.id === subId) {
+                    grid.style.display = (grid.style.display === 'grid') ? 'none' : 'grid';
+                } else {
+                    grid.style.display = 'none';
+                }
+            });
+        }
+
         function goHome() {
-            // પાછા મેઈન પેજ (Home) પર આવવા માટે
             showCategory('home-view');
         }
     </script>
-
 </body>
 </html>
