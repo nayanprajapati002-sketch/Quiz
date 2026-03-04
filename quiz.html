@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <base target="_top">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Science Quiz Pro</title>
+  <link href="https://fonts.googleapis.com/css2?family=Hind+Vadodara:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <style>
+    /* --- Ultra Premium Theme --- */
+    :root {
+      --primary: #6366f1;
+      --primary-dark: #4338ca;
+      --accent: #f43f5e;
+      --success: #10b981;
+      --bg-gradient: radial-gradient(circle at top right, #c7d2fe, #e0e7ff, #ffffff);
+      --glass-bg: rgba(255, 255, 255, 0.90);
+      --glass-border: 1px solid rgba(255, 255, 255, 0.6);
+      --font-main: 'Hind Vadodara', sans-serif;
+    }
+
+    body {
+      font-family: var(--font-main);
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      user-select: none;
+      color: #1f2937;
+    }
+
+    .card {
+      background: var(--glass-bg);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: var(--glass-border);
+      border-radius: 30px;
+      padding: 2rem;
+      width: 90%;
+      max-width: 480px;
+      text-align: center;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+      position: relative;
+      overflow-y: auto;
+      max-height: 90vh;
+      transition: all 0.3s ease;
+    }
+
+    h1 { font-family: var(--font-main); font-weight: 700; color: #312e81; font-size: 2rem; margin-bottom: 0.5rem; letter-spacing: -0.5px; }
+    p { font-family: var(--font-main); color: #6b7280; font-weight: 500; font-size: 1rem; }
+
+    input, select {
+      font-family: var(--font-main); width: 100%; padding: 14px; margin: 10px 0;
+      border: 2px solid #e5e7eb; border-radius: 18px; font-size: 1.1rem;
+      font-weight: 600; color: #374151; background: #f9fafb; outline: none;
+      box-sizing: border-box; text-align: center;
+    }
+    input:focus, select:focus { border-color: var(--primary); background: #fff; }
+
+    .btn {
+      font-family: var(--font-main); background: linear-gradient(to bottom, #6366f1, #4f46e5);
+      color: white; border: none; padding: 16px; width: 100%; border-radius: 18px;
+      font-size: 1.2rem; font-weight: 700; cursor: pointer; margin-top: 15px;
+      box-shadow: 0 6px 0 #3730a3, 0 15px 20px rgba(99, 102, 241, 0.3);
+      position: relative; overflow: hidden;
+    }
+    .btn:active { transform: translateY(6px); box-shadow: 0 0 0 #3730a3; }
+    
+    .btn-secondary { background: linear-gradient(to bottom, #ec4899, #db2777); box-shadow: 0 6px 0 #be185d; margin-top: 10px; }
+    .btn-secondary:active { box-shadow: 0 0 0 #be185d; }
+
+    .btn-gold { background: linear-gradient(to bottom, #f59e0b, #d97706); box-shadow: 0 6px 0 #b45309; margin-top: 10px; }
+    
+    .quiz-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; font-weight: 700; color: #4b5563; }
+    .timer-pill { background: #f3f4f6; padding: 6px 14px; border-radius: 20px; }
+    
+    .progress-track { height: 10px; background: #e5e7eb; border-radius: 10px; margin-bottom: 25px; overflow: hidden; }
+    .progress-fill { height: 100%; background: linear-gradient(90deg, #6366f1, #ec4899); width: 0%; transition: width 0.4s; }
+
+    #q-text { background: #fff; padding: 20px; border-radius: 20px; margin-bottom: 20px; font-size: 1.2rem; font-weight: 600; color: #111827; border: 1px solid #f3f4f6; min-height: 80px; display: flex; align-items: center; justify-content: center; }
+
+    .option-btn {
+      font-family: var(--font-main); width: 100%; padding: 16px 20px; border: none; border-radius: 16px;
+      font-size: 1.1rem; font-weight: 600; color: white; cursor: pointer; text-align: left;
+      margin-bottom: 12px; position: relative; display: flex; justify-content: space-between;
+      box-shadow: 0 4px 0 rgba(0,0,0,0.1);
+    }
+    .option-btn:nth-child(1) { background: #3b82f6; }
+    .option-btn:nth-child(2) { background: #10b981; }
+    .option-btn:nth-child(3) { background: #f59e0b; }
+    .option-btn:nth-child(4) { background: #ec4899; }
+    
+    .option-btn.correct { background: #22c55e !important; box-shadow: 0 0 0 4px #bbf7d0 !important; transform: scale(1.02); z-index: 10; }
+    .option-btn.wrong { background: #ef4444 !important; opacity: 0.5; }
+
+    /* Leaderboard Styles */
+    .lb-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+    .lb-container { background: #f9fafb; border-radius: 20px; padding: 10px; border: 2px solid #f3f4f6; max-height: 250px; overflow-y: auto; }
+    .lb-item { display: flex; align-items: center; padding: 10px; background: white; border-radius: 14px; margin-bottom: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.03); border: 1px solid #f3f4f6; }
+    
+    .lb-rank { font-size: 1.1rem; font-weight: 800; width: 30px; color: #9ca3af; }
+    .lb-rank.top1 { color: #fbbf24; }
+    .lb-rank.top2 { color: #94a3b8; }
+    .lb-rank.top3 { color: #b45309; }
+    
+    .lb-details { flex: 1; text-align: left; padding: 0 10px; }
+    .lb-name { display: block; font-weight: 700; color: #374151; font-size: 0.95rem; }
+    .lb-meta { font-size: 0.75rem; color: #9ca3af; }
+    .lb-score { font-size: 1.1rem; font-weight: 800; color: var(--primary); }
+
+    .hidden { display: none !important; }
+    .loader { width: 40px; height: 40px; border: 4px solid #e5e7eb; border-top-color: var(--primary); border-radius: 50%; animation: spin 0.8s linear infinite; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    #cert-canvas { display: none; }
+  </style>
+</head>
+<body>
+
+<canvas id="confetti" style="position:fixed; top:0; left:0; width:100%; height:100%; pointer-events:none; z-index:99;"></canvas>
+
+<div class="card">
+
+  <div id="screen-loading">
+    <div class="loader" style="margin: 0 auto 20px auto;"></div>
+    <h3 style="color:#6b7280; font-weight:600;">ડેટા લોડ થાય છે...</h3>
+  </div>
+
+  <div id="screen-start" class="hidden">
+    <div style="margin-bottom:10px;"><span style="font-size:3rem;">🎓</span></div>
+    <h1>જ્ઞાન કસોટી</h1>
+    <p>ધોરણ 6 થી 8 • સાયન્સ ક્વિઝ</p>
+    
+    <div style="margin-top: 20px;">
+      <input type="text" id="username" placeholder=" નામ પિતાનું નામ અટક " autocomplete="off">
+      <select id="std-select" onchange="updateChapters()">
+        <option value="" disabled selected>-- ધોરણ પસંદ કરો --</option>
+      </select>
+      <select id="chap-select" disabled>
+        <option value="" disabled selected>-- ચેપ્ટર પસંદ કરો --</option>
+      </select>
+    </div>
+    
+    <button class="btn" onclick="startGame()">ક્વિઝ શરૂ કરો 🚀</button>
+    <button class="btn btn-secondary" onclick="openLeaderboardOnly()">🏆 લીડરબોર્ડ જુઓ</button>
+  </div>
+
+  <div id="screen-quiz" class="hidden">
+    <div class="quiz-header">
+      <span>પ્રશ્ન <span id="q-idx">1</span> / 10</span>
+      <div class="timer-pill">⏰ <span id="timer">30</span>s</div>
+    </div>
+    <div class="progress-track"><div class="progress-fill" id="progress"></div></div>
+    <div id="q-text">પ્રશ્ન અહીં આવશે...</div>
+    <div id="options-box"></div>
+  </div>
+
+  <div id="screen-result" class="hidden">
+    <h2 style="color:#6b7280;">પરિણામ</h2>
+    <div style="font-size:4rem; font-weight:900; color:var(--primary); line-height:1; margin:5px 0;">
+      <span id="final-score">0</span><span style="font-size:2rem; color:#d1d5db;">/10</span>
+    </div>
+    <div id="time-stats" style="color:#6b7280; font-size:0.9rem; margin-bottom:10px;"></div>
+    
+    <button id="btn-cert" class="btn btn-gold hidden" onclick="downloadCertificate()">📜 સર્ટિફિકેટ ડાઉનલોડ કરો</button>
+
+    <div id="save-msg" style="font-size:0.9rem; color:#9ca3af; font-weight:600; margin:15px 0;">
+      સ્કોર સેવ થાય છે... ⏳
+    </div>
+
+    <div class="lb-header">
+      <span style="font-weight:700; color:#4b5563;">🏆 લીડરબોર્ડ</span>
+      <span id="lb-filter-badge" class="filter-badge">All</span>
+    </div>
+    <div class="lb-container" id="lb-list">
+      <div style="padding:20px; color:#9ca3af;">લોડ થાય છે...</div>
+    </div>
+    
+    <button class="btn" onclick="resetGame()" style="background: linear-gradient(to bottom, #1f2937, #111827); box-shadow: 0 6px 0 #000;">ફરીથી રમો 🔄</button>
+  </div>
+
+  <div id="screen-only-lb" class="hidden">
+    <h2>🏆 લીડરબોર્ડ</h2>
+    <select id="lb-std-select" onchange="filterOnlyLeaderboard()">
+      <option value="" disabled selected>-- ધોરણ પસંદ કરો --</option>
+    </select>
+    <div class="lb-container" id="lb-list-only" style="height:300px; max-height:300px;">
+       <div style="padding:20px; color:#9ca3af;">ડેટા લોડ થાય છે...</div>
+    </div>
+    <button class="btn btn-secondary" onclick="generatePDF()">📄 PDF રિપોર્ટ ડાઉનલોડ</button>
+    <button class="btn" onclick="backToHome()" style="background:#4b5563; margin-top:10px; box-shadow:none;">🔙 હોમ પેજ</button>
+  </div>
+
+</div>
+
+<canvas id="cert-canvas" width="800" height="600"></canvas>
+
+<script>
+  // ==========================================
+  // અગત્યનું: અહીં તમારી Apps Script ની Web App URL પેસ્ટ કરો
+  // ==========================================
+  const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbylR4lkkMvmGE9oDwsfzKPICXQooCh7aTkuApl1bKkFx5ebC3yuYUwRMvjNfr8Muk87/exec'; 
+  // ==========================================
+
+  // --- Audio ---
+  const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  function beep(freq = 600, type='sine') {
+    if(audioCtx.state === 'suspended') audioCtx.resume();
+    const osc = audioCtx.createOscillator();
+    const gain = audioCtx.createGain();
+    osc.connect(gain); gain.connect(audioCtx.destination);
+    osc.frequency.value = freq; osc.type = type;
+    gain.gain.setValueAtTime(0.1, audioCtx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.1);
+    osc.start(); osc.stop(audioCtx.currentTime + 0.1);
+  }
+
+  // --- State ---
+  let fullData = {};
+  let questions = [];
+  let currentQ = 0;
+  let score = 0;
+  let timer;
+  let timeLeft = 30;
+  let totalTimeTaken = 0; 
+  let userName = "";
+  let selStd = "";
+  let selChap = "";
+  let leaderboardCache = []; 
+  let myRank = 0; 
+
+  // --- Init (GitHub/Fetch API વાપર્યું છે) ---
+  window.onload = function() {
+    fetch(`${SCRIPT_URL}?action=getDropdownData`)
+      .then(res => res.json())
+      .then(data => initDropdowns(data))
+      .catch(err => {
+        alert("ડેટા લોડ કરવામાં મુશ્કેલી! કૃપા કરીને ઇન્ટરનેટ કનેક્શન તપાસો.");
+        console.error(err);
+      });
+  };
+
+  function initDropdowns(data) {
+    if(data.error) { alert("Error: " + data.error); return; }
+    fullData = data;
+    const stdSelect = document.getElementById('std-select');
+    const lbStdSelect = document.getElementById('lb-std-select'); 
+    
+    stdSelect.innerHTML = '<option value="" disabled selected>-- ધોરણ પસંદ કરો --</option>';
+    lbStdSelect.innerHTML = '<option value="" disabled selected>-- ધોરણ પસંદ કરો --</option>';
+    
+    Object.keys(fullData).sort().forEach(std => {
+      let opt = document.createElement('option');
+      opt.value = std; opt.innerText = std;
+      stdSelect.appendChild(opt);
+      
+      let opt2 = document.createElement('option');
+      opt2.value = std; opt2.innerText = std;
+      lbStdSelect.appendChild(opt2);
+    });
+    
+    document.getElementById('screen-loading').classList.add('hidden');
+    document.getElementById('screen-start').classList.remove('hidden');
+  }
+
+  function updateChapters() {
+    const stdSelect = document.getElementById('std-select');
+    const chapSelect = document.getElementById('chap-select');
+    const selectedStd = stdSelect.value;
+    
+    chapSelect.innerHTML = '<option value="" disabled selected>-- ચેપ્ટર પસંદ કરો --</option>';
+    
+    if(fullData[selectedStd]) {
+      fullData[selectedStd].sort().forEach(chap => {
+        let opt = document.createElement('option');
+        opt.value = chap; opt.innerText = chap;
+        chapSelect.appendChild(opt);
+      });
+      chapSelect.disabled = false;
+    } else { chapSelect.disabled = true; }
+  }
+
+  // --- Game Flow ---
+  function startGame() {
+    const nameInput = document.getElementById('username');
+    const stdSelect = document.getElementById('std-select');
+    const chapSelect = document.getElementById('chap-select');
+    
+    if(!nameInput.value.trim()) return alert("કૃપા કરીને નામ લખો!");
+    if(!stdSelect.value) return alert("ધોરણ પસંદ કરો!");
+    if(!chapSelect.value) return alert("ચેપ્ટર પસંદ કરો!");
+
+    userName = nameInput.value.trim();
+    selStd = stdSelect.value;
+    selChap = chapSelect.value;
+
+    document.getElementById('screen-start').classList.add('hidden');
+    document.getElementById('screen-loading').classList.remove('hidden');
+    document.querySelector('#screen-loading h3').innerText = "પ્રશ્નો તૈયાર થાય છે...";
+
+    // Fetch API નો ઉપયોગ પ્રશ્નો લાવવા માટે
+    fetch(`${SCRIPT_URL}?action=getQuizData&std=${encodeURIComponent(selStd)}&chap=${encodeURIComponent(selChap)}`)
+      .then(res => res.json())
+      .then(data => launchQuiz(data))
+      .catch(err => {
+        alert("પ્રશ્નો લાવવામાં મુશ્કેલી!");
+        resetGame();
+      });
+  }
+
+  function launchQuiz(data) {
+    if(!data || data.length === 0 || data.error) {
+      alert("ક્ષમા કરશો, આ ચેપ્ટરમાં પ્રશ્નો મળ્યા નથી.");
+      resetGame();
+      return;
+    }
+    questions = data;
+    currentQ = 0; score = 0; totalTimeTaken = 0;
+    
+    document.getElementById('screen-loading').classList.add('hidden');
+    document.getElementById('screen-quiz').classList.remove('hidden');
+    loadQuestion();
+  }
+
+  function loadQuestion() {
+    clearInterval(timer);
+    timeLeft = 30;
+    document.getElementById('timer').innerText = timeLeft;
+    document.getElementById('q-idx').innerText = currentQ + 1;
+    document.getElementById('progress').style.width = ((currentQ)/questions.length * 100) + "%";
+    
+    const q = questions[currentQ];
+    document.getElementById('q-text').innerText = q.q;
+    const box = document.getElementById('options-box');
+    box.innerHTML = "";
+    
+    q.opt.forEach((o, i) => {
+      const btn = document.createElement('button');
+      btn.className = 'option-btn';
+      btn.innerHTML = `<span>${o}</span>`;
+      btn.onclick = () => checkAns(i, btn);
+      box.appendChild(btn);
+    });
+
+    const timerBadge = document.querySelector('.timer-pill');
+    timerBadge.style.background = '#f3f4f6';
+    timerBadge.style.color = '#1f2937';
+
+    timer = setInterval(() => {
+      timeLeft--;
+      document.getElementById('timer').innerText = timeLeft;
+      
+      if(timeLeft <= 5) {
+        timerBadge.style.background = '#fee2e2';
+        timerBadge.style.color = '#ef4444';
+        beep(800);
+      }
+      
+      if(timeLeft <= 0) { 
+        clearInterval(timer); 
+        totalTimeTaken += 30; 
+        beep(200, 'sawtooth'); 
+        nextQ(); 
+      }
+    }, 1000);
+  }
+
+  function checkAns(idx, btn) {
+    clearInterval(timer);
+    totalTimeTaken += (30 - timeLeft);
+
+    const correct = questions[currentQ].ans;
+    const all = document.querySelectorAll('.option-btn');
+    all.forEach(b => { b.disabled = true; b.style.cursor = 'default'; });
+
+    if(idx === correct) {
+      score++;
+      btn.classList.add('correct');
+      btn.innerHTML += " ✅";
+      beep(1200);
+      fireConfetti(20);
+    } else {
+      btn.classList.add('wrong');
+      btn.innerHTML += " ❌";
+      all[correct].classList.add('correct');
+      all[correct].innerHTML += " 👈";
+      beep(300, 'sawtooth');
+    }
+    setTimeout(nextQ, 1500);
+  }
+
+  function nextQ() {
+    currentQ++;
+    if(currentQ < questions.length) loadQuestion();
+    else endGame();
+  }
+
+  function endGame() {
+    document.getElementById('screen-quiz').classList.add('hidden');
+    document.getElementById('screen-result').classList.remove('hidden');
+    document.getElementById('final-score').innerText = score;
+    document.getElementById('time-stats').innerText = `લીધેલ સમય: ${totalTimeTaken} સેકન્ડ`;
+    
+    if(score/questions.length > 0.7) fireConfetti(100);
+
+    document.getElementById('lb-filter-badge').innerText = selStd;
+    document.getElementById('save-msg').innerHTML = "સ્કોર સેવ થાય છે... ⏳";
+
+    // Fetch API નો ઉપયોગ રિઝલ્ટ સેવ કરવા માટે
+    fetch(`${SCRIPT_URL}?action=saveScore&name=${encodeURIComponent(userName)}&score=${score}&timeTaken=${totalTimeTaken}&std=${encodeURIComponent(selStd)}&chap=${encodeURIComponent(selChap)}`)
+      .then(res => res.json())
+      .then(data => showResultLeaderboard(data))
+      .catch(err => {
+        document.getElementById('save-msg').innerHTML = "<span style='color:red'>ઇન્ટરનેટ મુશ્કેલીના કારણે સ્કોર સેવ ન થઈ શક્યો.</span>";
+      });
+  }
+
+  function showResultLeaderboard(data) {
+    if(data.error) {
+      document.getElementById('save-msg').innerHTML = "<span style='color:red'>સ્કોર સેવ કરવામાં ભૂલ થઈ.</span>";
+      return;
+    }
+    leaderboardCache = data;
+    document.getElementById('save-msg').innerHTML = "<span style='color:var(--success)'>✔ સેવ થઈ ગયું!</span>";
+    
+    renderLeaderboard(data, selStd, 'lb-list');
+    
+    const filtered = data.filter(row => row.std == selStd);
+    const myIndex = filtered.findIndex(r => r.name === userName && r.score == score && r.time == totalTimeTaken);
+    
+    if(myIndex !== -1 && score >= 7) {
+      myRank = myIndex + 1; 
+      document.getElementById('btn-cert').classList.remove('hidden');
+      if(score === 10) fireConfetti(200); 
+    }
+  }
+
+  // --- Independent Leaderboard Flow ---
+  function openLeaderboardOnly() {
+    document.getElementById('screen-start').classList.add('hidden');
+    document.getElementById('screen-only-lb').classList.remove('hidden');
+    document.getElementById('lb-list-only').innerHTML = "<div style='padding:20px; color:#9ca3af;'>ડેટા લોડ થાય છે...</div>";
+    
+    // Fetch API નો ઉપયોગ લીડરબોર્ડ લાવવા માટે
+    fetch(`${SCRIPT_URL}?action=getLeaderboardData`)
+      .then(res => res.json())
+      .then(data => {
+        if(data.error) { throw new Error(data.error); }
+        leaderboardCache = data;
+        document.getElementById('lb-list-only').innerHTML = "<div style='padding:20px; color:#9ca3af;'>ધોરણ પસંદ કરો...</div>";
+        filterOnlyLeaderboard(); // જો પહેલાથી ધોરણ સિલેક્ટ હોય તો
+      })
+      .catch(err => {
+         document.getElementById('lb-list-only').innerHTML = "<div style='padding:20px; color:red;'>ડેટા લાવવામાં ભૂલ.</div>";
+      });
+  }
+
+  function filterOnlyLeaderboard() {
+    const std = document.getElementById('lb-std-select').value;
+    if(!std || !leaderboardCache.length) return;
+    renderLeaderboard(leaderboardCache, std, 'lb-list-only');
+  }
+
+  function backToHome() {
+    document.getElementById('screen-only-lb').classList.add('hidden');
+    document.getElementById('screen-start').classList.remove('hidden');
+  }
+
+  // --- Common Render Logic ---
+  function renderLeaderboard(data, stdFilter, containerId) {
+    const container = document.getElementById(containerId);
+    const filteredData = data.filter(row => row.std == stdFilter);
+
+    if(!filteredData || filteredData.length === 0) {
+      container.innerHTML = "<div style='padding:20px; color:#9ca3af;'>આ ધોરણમાં હજુ કોઈ ડેટા નથી.</div>";
+      return;
+    }
+
+    let html = "";
+    filteredData.forEach((r, i) => {
+      let rankClass = i===0 ? 'top1' : (i===1 ? 'top2' : (i===2 ? 'top3' : ''));
+      let rankIcon = i===0 ? '🥇' : (i===1 ? '🥈' : (i===2 ? '🥉' : `#${i+1}`));
+      
+      html += `
+        <div class="lb-item">
+          <div class="lb-rank ${rankClass}">${rankIcon}</div>
+          <div class="lb-details">
+            <span class="lb-name">${r.name}</span>
+            <span class="lb-meta">${r.chap} | ⏱ ${r.time}s</span>
+          </div>
+          <div class="lb-score">${r.score}</div>
+        </div>
+      `;
+    });
+    container.innerHTML = html;
+  }
+
+  function resetGame() {
+    currentQ = 0; score = 0; totalTimeTaken = 0;
+    document.getElementById('screen-result').classList.add('hidden');
+    document.getElementById('btn-cert').classList.add('hidden'); 
+    document.getElementById('screen-start').classList.remove('hidden');
+    document.getElementById('chap-select').value = "";
+  }
+
+  // --- Certificate Generation (Canvas) ---
+  function downloadCertificate() {
+    const canvas = document.getElementById('cert-canvas');
+    const ctx = canvas.getContext('2d');
+    
+    ctx.fillStyle = "#fffdf5";
+    ctx.fillRect(0, 0, 800, 600);
+    
+    ctx.lineWidth = 15;
+    ctx.strokeStyle = "#1a237e"; 
+    ctx.strokeRect(10, 10, 780, 580);
+    
+    ctx.lineWidth = 5;
+    ctx.strokeStyle = "#d4af37"; 
+    ctx.strokeRect(25, 25, 750, 550);
+
+    ctx.fillStyle = "#1a237e";
+    ctx.fillRect(10, 10, 40, 40); ctx.fillRect(750, 10, 40, 40);
+    ctx.fillRect(10, 550, 40, 40); ctx.fillRect(750, 550, 40, 40);
+    
+    ctx.fillStyle = "#d4af37";
+    ctx.fillRect(20, 20, 20, 20); ctx.fillRect(760, 20, 20, 20);
+    ctx.fillRect(20, 560, 20, 20); ctx.fillRect(760, 560, 20, 20);
+
+    ctx.textAlign = "center";
+    
+    ctx.font = "bold 32px 'Hind Vadodara', Arial";
+    ctx.fillStyle = "#1a237e"; 
+    ctx.fillText("ઇકબાલગઢ પગાર કેન્દ્ર શાળા પીએમ શ્રી ગુજરાત", 400, 100);
+    
+    ctx.beginPath(); ctx.moveTo(150, 115); ctx.lineTo(650, 115);
+    ctx.strokeStyle = "#d4af37"; ctx.lineWidth = 2; ctx.stroke();
+
+    ctx.font = "bold 48px 'Hind Vadodara', serif";
+    ctx.fillStyle = "#b45309"; 
+    ctx.fillText("✨ સિદ્ધિ પ્રમાણપત્ર ✨", 400, 180);
+    
+    ctx.font = "22px 'Hind Vadodara', Arial";
+    ctx.fillStyle = "#4b5563"; 
+    ctx.fillText("આથી પ્રમાણપત્ર આપવામાં આવે છે કે", 400, 240);
+    
+    ctx.font = "bold 40px 'Hind Vadodara', serif"; 
+    ctx.fillStyle = "#111827"; 
+    ctx.shadowColor = "rgba(0,0,0,0.1)"; ctx.shadowBlur = 5; ctx.shadowOffsetX = 2; ctx.shadowOffsetY = 2;
+    ctx.fillText(userName, 400, 300);
+    ctx.shadowColor = "transparent";
+    
+    ctx.font = "24px 'Hind Vadodara', Arial";
+    ctx.fillStyle = "#374151";
+    
+    let rankGuj;
+    if(myRank === 1) rankGuj = "પ્રથમ (1st)";
+    else if(myRank === 2) rankGuj = "દ્વિતીય (2nd)";
+    else if(myRank === 3) rankGuj = "તૃતીય (3rd)";
+    else rankGuj = `${myRank} માં (${myRank}th)`;
+
+    ctx.fillText(`ધોરણ: ${selStd} | વિષય: વિજ્ઞાન`, 400, 360);
+    ctx.fillText(`પ્રકરણ: ${selChap}`, 400, 400);
+    ctx.fillText(`તેમણે ${score}/10 ગુણ સાથે ${rankGuj} નંબર પ્રાપ્ત કર્યો છે.`, 400, 440);
+
+    let date = new Date().toLocaleDateString('gu-IN');
+    ctx.textAlign = "left"; 
+    ctx.font = "bold 20px Arial";
+    ctx.fillStyle = "#4b5563";
+    ctx.fillText(`તારીખ: ${date}`, 60, 530);
+
+    ctx.textAlign = "center"; 
+    const sigX = 680; 
+
+    ctx.font = "18px Arial";
+    ctx.fillStyle = "#6b7280";
+    ctx.fillText("Certified By:", sigX, 500);
+
+    ctx.font = "italic bold 30px 'Brush Script MT', cursive"; 
+    ctx.fillStyle = "#1a237e"; 
+    ctx.fillText("Nayan Prajapati", sigX, 535);
+    
+    ctx.font = "16px Arial";
+    ctx.fillStyle = "#4b5563"; 
+    ctx.fillText("(Science Teacher)", sigX, 555);
+
+    const link = document.createElement('a');
+    link.download = `Certificate_${userName}.png`;
+    link.href = canvas.toDataURL();
+    link.click();
+  }
+
+  // --- PDF Report Generation (Print Window) ---
+  function generatePDF() {
+    const std = document.getElementById('lb-std-select').value;
+    if(!std) return alert("કૃપા કરીને પહેલા ધોરણ પસંદ કરો.");
+    
+    const filtered = leaderboardCache.filter(r => r.std == std);
+    if(!filtered.length) return alert("કોઈ ડેટા નથી.");
+
+    let printWindow = window.open('', '', 'height=800,width=1000');
+    
+    let html = `
+      <html>
+      <head>
+        <title>Result Report - Std ${std}</title>
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Hind+Vadodara:wght@400;600;700&display=swap" rel="stylesheet">
+        
+        <style>
+          body { font-family: 'Hind Vadodara', sans-serif; padding: 40px; color: #000; }
+          .header { text-align: center; border-bottom: 3px solid #1a237e; padding-bottom: 20px; margin-bottom: 30px; }
+          h1 { color: #1a237e; margin: 0 0 10px 0; font-size: 28px; font-weight: 700; }
+          h2 { color: #374151; margin: 5px 0; font-size: 20px; font-weight: 700; }
+          .meta { color: #4b5563; font-size: 14px; margin-top: 5px; font-weight: 600; }
+          table { width: 100%; border-collapse: collapse; margin-top: 20px; border: 2px solid #000; }
+          thead { background-color: #1a237e; color: white; print-color-adjust: exact; -webkit-print-color-adjust: exact; }
+          th { padding: 12px; text-align: center; font-weight: 800; font-size: 16px; border: 1px solid #000; letter-spacing: 0.5px; }
+          td { padding: 10px; text-align: center; border: 1px solid #000; font-size: 15px; font-weight: 500; color: #000; }
+          tr:nth-child(even) { background-color: #f3f4f6; }
+          .footer { margin-top: 30px; text-align: right; font-size: 12px; font-weight: 600; }
+        </style>
+      </head>
+      <body>
+        <div class="header">
+          <h1>ઇકબાલગઢ પગાર કેન્દ્ર શાળા પીએમ શ્રી ગુજરાત</h1>
+          <h2>સાયન્સ ક્વિઝ પરિણામ - ધોરણ ${std}</h2>
+          <div class="meta">તારીખ: ${new Date().toLocaleDateString('gu-IN')} | કુલ વિદ્યાર્થીઓ: ${filtered.length}</div>
+        </div>
+        <table>
+          <thead>
+            <tr>
+              <th style="width: 10%">રેન્ક</th>
+              <th style="width: 35%; text-align: left; padding-left: 15px;">વિદ્યાર્થીનું નામ</th>
+              <th style="width: 25%">ચેપ્ટર</th>
+              <th style="width: 15%">ગુણ</th>
+              <th style="width: 15%">સમય (sec)</th>
+            </tr>
+          </thead>
+          <tbody>
+    `;
+
+    filtered.forEach((r, i) => {
+      let rankDisplay = i+1;
+      let nameStyle = "text-align:left; padding-left: 15px;";
+      if(i < 3) { nameStyle += " font-weight: 700;"; }
+
+      html += `
+        <tr>
+          <td>${rankDisplay}</td>
+          <td style="${nameStyle}">${r.name}</td>
+          <td>${r.chap}</td>
+          <td style="font-weight:bold;">${r.score}</td>
+          <td>${r.time}</td>
+        </tr>
+      `;
+    });
+
+    html += `
+          </tbody>
+        </table>
+        <div class="footer">Generated via Science Quiz Pro | Teacher: Nayan Prajapati</div>
+        <script>
+           setTimeout(() => { window.print(); }, 1000);
+        <\/script>
+      </body>
+      </html>
+    `;
+
+    printWindow.document.write(html);
+    printWindow.document.close();
+  }
+
+  function fireConfetti(count) {
+    const c = document.getElementById('confetti'); const ctx = c.getContext('2d');
+    c.width=window.innerWidth; c.height=window.innerHeight;
+    let p=[]; for(let i=0;i<count;i++) p.push({x:Math.random()*c.width, y:Math.random()*c.height, c:['#6366f1','#ec4899','#10b981','#f59e0b'][Math.floor(Math.random()*4)], s:Math.random()*10+5, d:Math.random()*10-5});
+    function d(){ ctx.clearRect(0,0,c.width,c.height); p.forEach((pt,i)=>{ pt.y+=5; ctx.fillStyle=pt.c; ctx.fillRect(pt.x,pt.y,pt.s,pt.s); if(pt.y>c.height)p.splice(i,1); }); if(p.length)requestAnimationFrame(d); }
+    d();
+  }
+</script>
+</body>
+</html>
