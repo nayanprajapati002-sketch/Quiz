@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="gu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Parakh Quiz S8 Chap8-1 (Jeetendra Rathod)</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Hind+Vadodara:wght@400;600;700&display=swap');
+
+        body {
+            font-family: 'Hind Vadodara', sans-serif;
+            background: radial-gradient(circle at center, #001f3f, #000000); /* Deep Navy KBC Theme */
+            color: white;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            text-align: center;
+            user-select: none;
+        }
+
+        .container {
+            width: 95%;
+            max-width: 900px;
+            background: rgba(0, 31, 63, 0.8);
+            border-radius: 25px;
+            padding: 25px;
+            border: 3px solid #FF851B; /* Orange Border */
+            box-shadow: 0 0 35px rgba(255, 133, 27, 0.4);
+            position: relative;
+            backdrop-filter: blur(5px);
+        }
+
+        h1 { color: #FF851B; text-shadow: 2px 2px 2px #000; margin-bottom: 5px; letter-spacing: 1px; }
+
+        /* Footer Credit */
+        .footer-credit {
+            margin-top: 30px;
+            font-size: 13px;
+            color: #fff;
+            background: linear-gradient(90deg, #111, #1D7D28, #111);
+            padding: 10px;
+            border-radius: 50px;
+            letter-spacing: 0.5px;
+            font-weight: bold;
+            text-shadow: 1px 1px 2px black;
+        }
+
+        /* Inputs */
+        .input-box {
+            width: 75%;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 15px;
+            border: 2px solid #FF851B;
+            background: #111;
+            color: white;
+            font-size: 18px;
+            text-align: center;
+            outline: none;
+        }
+
+        /* Timer */
+        .timer-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            width: 65px;
+            height: 65px;
+            background: #000;
+            border: 3px solid #00d2ff;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 26px;
+            font-weight: bold;
+            box-shadow: 0 0 15px #00d2ff;
+            z-index: 10;
+        }
+
+        /* Question Box */
+        .question-panel {
+            background: linear-gradient(180deg, #001f3f, #003366);
+            border: 2px solid #fff;
+            border-radius: 20px;
+            padding: 25px;
+            margin: 35px 0;
+            font-size: 23px;
+            font-weight: 600;
+            box-shadow: inset 0 0 30px #000;
+            min-height: 85px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Options */
+        .options-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        
+        .opt-btn {
+            background: #001226;
+            border: 2px solid #3d9970;
+            border-radius: 12px;
+            padding: 15px 25px;
+            cursor: pointer;
+            transition: 0.3s;
+            font-size: 19px;
+            color: white;
+            text-align: left;
+            position: relative;
+            display: flex;
+            align-items: center;
+            box-shadow: 0 5px 10px rgba(0,0,0,0.5);
+        }
+        
+        .opt-letter {
+            color: #FF851B;
+            font-weight: bold;
+            margin-right: 15px;
+            font-size: 20px;
+            min-width: 25px;
+        }
+
+        .opt-btn:hover { background: #003366; border-color: #FF851B; transform: translateY(-2px); }
+        .opt-btn.correct { background: #2ECC40 !important; border-color: #fff; color: white; box-shadow: 0 0 20px #2ECC40; }
+        .opt-btn.wrong { background: #FF4136 !important; border-color: #fff; color: white; }
+
+        .praise-text {
+            height: 35px;
+            font-size: 24px;
+            font-weight: bold;
+            color: #FF851B;
+            margin-bottom: 5px;
+            text-shadow: 2px 2px 4px #000;
+        }
+
+        .btn-start, .btn-action {
+            background: linear-gradient(45deg, #1A2980, #26D0CE);
+            border: none;
+            padding: 15px 50px;
+            font-size: 20px;
+            border-radius: 50px;
+            color: #EDEDD1;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 20px;
+            box-shadow: 0 0 20px rgba(255, 133, 27, 0.4);
+        }
+
+        /* Certificate (Hidden) */
+        #cert-container {
+            position: absolute;
+            top: -9999px;
+            width: 1000px;
+            height: 700px;
+            background: #fff;
+            color: #000;
+            border: 20px solid #001f3f;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Hind Vadodara', sans-serif;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .cert-inner {
+            border: 8px solid #FF851B;
+            width: 95%;
+            height: 95%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: #f0f8ff;
+        }
+
+        @media (max-width: 600px) {
+            .options-grid { grid-template-columns: 1fr; }
+            .question-panel { font-size: 18px; padding: 15px; }
+            .timer-badge { width: 50px; height: 50px; font-size: 20px; }
+            .footer-credit { font-size: 11px; }
+        }
+    </style>
+</head>
+<body>
+
+    <audio id="kbc-sound" loop>
+        <source src="kbc.mp3" type="audio/mpeg">
+    </audio>
+
+    <div class="container">
+        
+        <div id="screen-start">
+            <h1>પરખ ક્વિઝ પ્રકરણ 8 (વિજ્ઞાન- 8 )</h1>
+            <p style="color: #ccc;">પરખ ક્વિઝ - પ્રકરણ - 8-1 વિજ્ઞાન ધોરણ 8</p>
+            <br>
+            <input type="text" id="s-name" class="input-box" placeholder="વિદ્યાર્થીનું પૂરું નામ" autocomplete="off">
+            <input type="text" id="s-school" class="input-box" placeholder="શાળાનું નામ" autocomplete="off">
+            <br>
+            <button class="btn-start" onclick="beginGame()">ક્વિઝ શરૂ કરો</button>
+
+            <div class="footer-credit">
+                બનાવનાર : જિતેન્દ્રકુમાર યું રાઠોડ (જુનાપાધર પ્રાથમિક શાળા, તા. વિરમગામ જી. જિ.અમદાવાદ)
+            </div>
+        </div>
+
+        <div id="screen-quiz" style="display: none;">
+            <div class="timer-badge" id="timer-display">30</div>
+            <div class="praise-text" id="feedback-display"></div>
+
+            <div class="question-panel">
+                <span id="q-content">પ્રશ્ન લોડ થઈ રહ્યો છે...</span>
+            </div>
+
+            <div class="options-grid" id="opts-area">
+                </div>
+
+            <div class="footer-credit">
+                બનાવનાર : જિતેન્દ્રકુમાર યું રાઠોડ (જુનાપાધર પ્રાથમિક શાળા, તા. વિરમગામ જી. જિ.અમદાવાદ)
+            </div>
+        </div>
+
+        <div id="screen-result" style="display: none;">
+            <h1>પરિણામ</h1>
+            <h2 id="final-name-disp" style="color: #FF851B;"></h2>
+            <p>તમારો સ્કોર</p>
+            <div style="font-size: 70px; font-weight: bold; color: #fff; text-shadow: 0 0 10px #FF851B;">
+                <span id="final-score">0</span> / 21
+            </div>
+            <button class="btn-action" onclick="downloadCertificateImage()">સર્ટિફિકેટ ડાઉનલોડ</button>
+            <br><br>
+            <button class="btn-action" style="background: #333; color: white;" onclick="location.reload()">ફરીથી રમો</button>
+
+            <div class="footer-credit">
+                બનાવનાર : જિતેન્દ્રકુમાર યું રાઠોડ (જુનાપાધર પ્રાથમિક શાળા, તા. વિરમગામ જી. જિ.અમદાવાદ)
+            </div>
+        </div>
+    </div>
+
+    <div id="cert-container">
+        <div class="cert-inner">
+            <h1 style="font-size: 50px; color: #001f3f; margin: 0;">પ્રમાણપત્ર</h1>
+            <p style="font-size: 22px; color: #555;">પરખ ક્વિઝ -પ્રકરણ - 8 વિજ્ઞાન </p>
+            <hr style="width: 50%; border: 3px solid #FF851B; margin: 15px 0;">
+            
+            <p style="font-size: 24px;">આથી પ્રમાણિત કરવામાં આવે છે કે</p>
+            <h2 id="c-name" style="font-size: 45px; color: #FF4136; text-transform: uppercase; margin: 10px; font-weight: 800;">STUDENT NAME</h2>
+            <h3 id="c-school" style="font-size: 30px; color: #000;">SCHOOL NAME</h3>
+            
+            <p style="font-size: 24px; margin-top: 20px;">તેમણે પરખ ક્વિઝ -પ્રકરણ - 8માં ભાગ લઈ</p>
+            <div style="font-size: 55px; font-weight: bold; color: #fff; background: #001f3f; padding: 10px 40px; border-radius: 40px; margin: 15px 0;">
+                <span id="c-score">21</span> / 21
+            </div>
+            <p style="font-size: 24px;">ગુણ મેળવ્યા છે.</p>
+
+            <div style="margin-top: 40px; width: 90%; font-size: 16px; color: #000; display: flex; justify-content: space-between; align-items: flex-end;">
+                <div style="text-align: left;">તારીખ: <span id="c-date"></span></div>
+                <div style="text-align: right; background: #FF851B; color: black; padding: 10px; font-weight: bold; border-radius: 5px;">
+                    બનાવનાર : જિતેન્દ્રકુમાર યું રાઠોડ <br>
+                    (જુનાપાધર પ્રાથમિક શાળા)
+                </div>
+            </div>
+        </div>
+    </div>
+
+<script>
+    // --- SET  : 30 New Unique Questions ---
+    // 'correct' contains the right answer text. 'options' contains all 4 choices.
+    // The options will be shuffled automatically by the shuffleArray function.
+    const quizData = [
+        //
+        { q: "એક પાત્રમાં પાણી ભરેલું છે જેના તળિયે ત્રણ છિદ્રો P, Q અને R અલગ અલગ ઊંચાઈએ (P સૌથી નીચે, R સૌથી ઉપર) કરેલા છે. જ્યારે છિદ્રો ખોલવામાં આવે ત્યારે કયા છિદ્રમાંથી પાણી સૌથી વધુ વેગથી બહાર આવશે? ", options: ["છિદ્ર R માંથી, કારણ કે તે ઉપરની તરફ છે.", "છિદ્ર Q માંથી, કારણ કે તે મધ્યમાં છે.", "છિદ્ર P માંથી, કારણ કે પ્રવાહીનું દબાણ ઊંડાઈ સાથે વધે છે.", " ત્રણેયમાંથી સમાન વેગથી આવશે કારણ કે પાણી એક જ પાત્રમાં છે."], correct: "છિદ્ર P માંથી, કારણ કે પ્રવાહીનું દબાણ ઊંડાઈ સાથે વધે છે." },
+	{ q: "શાર્પ (તીક્ષ્ણ) ધારવાળા ચપ્પુથી શાકભાજી કાપવી સરળ છે, જ્યારે બુઠ્ઠા ચપ્પુથી મુશ્કેલ છે. આ પરિસ્થિતિમાં કયો વૈજ્ઞાનિક સંબંધ લાગુ પડે છે?", options: ["સંપર્ક ક્ષેત્રફળ ઓછું હોવાથી ઓછા બળથી વધુ દબાણ પેદા થાય છે.", "સંપર્ક ક્ષેત્રફળ વધુ હોવાથી વધુ બળની જરૂર પડે છે.", " તીક્ષ્ણ ધાર બળની દિશા બદલી નાખે છે.", " બુઠ્ઠું ચપ્પુ ઘર્ષણ બળમાં વધારો કરે છે. "], correct: "સંપર્ક ક્ષેત્રફળ ઓછું હોવાથી ઓછા બળથી વધુ દબાણ પેદા થાય છે." },
+	{ q: "એક મકાન બનાવતી વખતે પાયાના ભાગને ઉપરની દીવાલ કરતાં વધુ પહોળો રાખવામાં આવે છે. વિજ્ઞાનના સિદ્ધાંત મુજબ આનું સાચું કારણ શું હોઈ શકે?", options: ["પહોળા પાયા જમીન પર લાગતા બળમાં વધારો કરે છે.", " ક્ષેત્રફળ વધારવાથી જમીન પર લાગતું દબાણ ઘટે છે, જેથી મકાન ખૂંપી ન જાય.", "પહોળો પાયો મકાનનું વજન ઘટાડવામાં મદદ કરે છે.", " ક્ષેત્રફળ ઘટાડવાથી દબાણ વધે છે જે મકાનને મજબૂતી આપે છે."], correct: "ક્ષેત્રફળ વધારવાથી જમીન પર લાગતું દબાણ ઘટે છે, જેથી મકાન ખૂંપી ન જાય." },
+	{ q: "જ્યારે કોઈ ફૂલી ભારે સામાન પોતાના માથા પર ઉઠાવે છે, ત્યારે તે માથા પર કપડાની ગોળ વીંટી (ઈંઢોણી) રાખે છે. આ ક્રિયા પાછળનું વિજ્ઞાન શું સમજાવે છે?", options: [" સામાન અને માથા વચ્ચેનું અંતર વધારવા માટે.", " સામાનનું વજન ઘટાડવા માટે.", "સંપર્ક ક્ષેત્રફળ વધારીને માથા પર લાગતું દબાણ ઘટાડવા માટે.", "માથા પર લાગતું સ્નાયુબળ વધારવા માટે."], correct: "સંપર્ક ક્ષેત્રફળ વધારીને માથા પર લાગતું દબાણ ઘટાડવા માટે." },
+	{ q: "રણ પ્રદેશમાં ઊંટ સરળતાથી ચાલી શકે છે, જ્યારે ઘોડાને ચાલવામાં તકલીફ પડે છે. આનું મુખ્ય કારણ શું છે?", options: ["ઊંટના પગની રચના સ્નાયુબળ વધુ પેદા કરે છે.", "ઊંટના પગના તળિયા પહોળા હોવાથી જમીન પર દબાણ ઘટે છે અને પગ રેતીમાં ખૂંપતા નથી.", "ઊંટ રેતી પર ઓછું ઘર્ષણ બળ લગાડે છે.", " રેતી અને પગ વચ્ચે લાગતું સ્થિર વિદ્યુત બળ જવાબદાર છે."], correct: "ઊંટના પગના તળિયા પહોળા હોવાથી જમીન પર દબાણ ઘટે છે અને પગ રેતીમાં ખૂંપતા નથી." },
+	{ q: "એક વિદ્યાર્થી બે સમાન વજનના લાકડાના બ્લોક લે છે. એક બ્લોકને તે તેની પહોળી સપાટી પર અને બીજા બ્લોકને તેની સાંકડી સપાટી પર રેતીમાં મૂકે છે. તેણે જોયું કે સાંકડી સપાટીવાળો બ્લોક રેતીમાં વધુ ઊંડે ખૂંપી જાય છે. આ તપાસ દ્વારા તે કયા નિષ્કર્ષ પર પહોંચી શકે?", options: ["બળ વધારવાથી દબાણ ઘટે છે.", "ક્ષેત્રફળ વધારવાથી દબાણ વધે છે ", "સમાન બળ માટે, સંપર્ક ક્ષેત્રફળ ઓછું હોય ત્યારે દબાણ વધુ લાગે છે.", "રેતી પર લાગતું ગુરુત્વાકર્ષણ બળ બ્લોકની સપાટી પર આધાર રાખે છે."], correct: "સમાન બળ માટે, સંપર્ક ક્ષેત્રફળ ઓછું હોય ત્યારે દબાણ વધુ લાગે છે." },
+	{ q: "નીચેનામાંથી કઈ પરિસ્થિતિમાં સૌથી ઓછું દબાણ લાગશે?", options: ["10 kg ની પેટીને તેની સૌથી નાની બાજુ પર મૂકવામાં આવે ત્યારે.", "10 kg ની પેટીને તેની સૌથી મોટી બાજુ પર મૂકવામાં આવે ત્યારે.", "20 kg ની પેટીને તેની સૌથી મોટી બાજુ પર મૂકવામાં આવે ત્યારે.", "5 kg ની પેટીને તેની સૌથી નાની બાજુ પર મૂકવામાં આવે ત્યારે."], correct: "10 kg ની પેટીને તેની સૌથી મોટી બાજુ પર મૂકવામાં આવે ત્યારે." },
+	{ q: "એક કાચની નળીના તળિયે રબરની શીટ બાંધેલી છે. તેમાં 5cm ઊંચાઈ સુધી પાણી ભરતા રબરની શીટ થોડી ફૂલે છે, પરંતુ જો 15 cm ઊંચાઈ સુધી પાણી ભરવામાં આવે તો રબરની શીટ વધુ ફૂલે છે. આ તપાસ શું સાબિત કરે છે?", options: ["પ્રવાહીનું દબાણ પાત્રના આકાર પર આધાર રાખે છે.", "પ્રવાહીનું દબાણ પ્રવાહીની ઘનતા પર આધાર રાખતું નથી.", "પ્રવાહી દ્વારા લાગતું દબાણ સ્તંભની ઊંચાઈ (ઊંડાઈ) વધવાની સાથે વધે છે.", "રબરની શીટ પાણીના વજનને કારણે સંકોચાય છે "], correct: "પ્રવાહી દ્વારા લાગતું દબાણ સ્તંભની ઊંચાઈ (ઊંડાઈ) વધવાની સાથે વધે છે." },
+	{ q: "એક ટ્રકના ટાયરો કારના ટાયરો કરતા ઘણા પહોળા અને સંખ્યામાં વધુ રાખવામાં આવે છે. આ પ્રક્રિયા કયા કારણ સાથે જોડાયેલી છે?", options: ["ટાયરોની સંખ્યા વધારવાથી ટ્રકનો વેગ વધારી શકાય છે ", "પહોળા ટાયરો દ્વારા જમીન સાથેનું સંપર્ક ક્ષેત્રફળ વધે છે, જેથી જમીન પર લાગતું દબાણ ઘટે છે.", "ટ્રકનું વજન ઘટાડવા માટે ટાયરો પહોળા રાખવામાં આવે છે.", "સાંકડા ટાયરો જમીન પર વધુ ઘર્ષણ બળ પેદા કરે છે."], correct: "પહોળા ટાયરો દ્વારા જમીન સાથેનું સંપર્ક ક્ષેત્રફળ વધે છે, જેથી જમીન પર લાગતું દબાણ ઘટે છે." },
+	{ q: "એક લાકડાના પાટિયામાં લોખંડની ખીલી ઠોકવી હોય, તો તેનો અણીદાર છેડો જ કેમ નીચે રાખવામાં આવે છે?", options: ["અણીદાર છેડો લાકડા સાથે ઓછું ઘર્ષણ કરે છે.", "અણીદાર છેડાનું સંપર્ક ક્ષેત્રફળ ઓછું હોવાથી થોડા બળથી વધુ દબાણ ઉત્પન્ન થાય છે.", "ખીલીનો આકાર તેના વજનમાં વધારો કરે છે.", "સપાટ છેડો વાતાવરણના દબાણને રોકે છે."], correct: "અણીદાર છેડાનું સંપર્ક ક્ષેત્રફળ ઓછું હોવાથી થોડા બળથી વધુ દબાણ ઉત્પન્ન થાય છે." },
+	{ q: "એક પાત્રમાં પાણી ભરેલું છે અને તેની દીવાલ પર સમાન ઊંચાઈએ ચારે બાજુ છિદ્રો પાડવામાં આવે છે. તપાસ દરમિયાન જોવા મળે છે કે દરેક છિદ્રમાંથી પાણી સમાન અંતરે બહાર પડે છે. આ શું સૂચવે છે?", options: ["પ્રવાહી પાત્રના તળિયે જ દબાણ લગાડે છે.", "પ્રવાહી પાત્રની દીવાલ પર દબાણ લગાડતું નથી.", "પ્રવાહી સમાન ઊંડાઈએ દીવાલો પર સમાન દબાણ લગાડે છે.", "પાણીનો વેગ છિદ્રના કદ પર આધાર રાખે છે."], correct: "પ્રવાહી સમાન ઊંડાઈએ દીવાલો પર સમાન દબાણ લગાડે છે." },
+	{ q: "જ્યારે આપણે પીવાના ઠંડા પીણાની બોટલમાં સ્ટ્રો નાખીને પ્રવાહી ઉપર ખેંચીએ છીએ, ત્યારે તે કયા દબાણને કારણે મોંમાં આવે છે?", options: ["ફેફસા દ્વારા લાગતા સ્નાયુબળને કારણે...","સ્ટ્રોની અંદર હવાનું દબાણ ઘટવાથી અને પ્રવાહીની સપાટી પર બહારનું વાતાવરણીય દબાણ લાગવાથી.","પ્રવાહીના અણુઓ વચ્ચેના આંતરિક બળને કારણે."," પૃથ્વીના ગુરુત્વાકર્ષણ બળમાં ફેરફાર થવાને કારણે..."], correct: "સ્ટ્રોની અંદર હવાનું દબાણ ઘટવાથી અને પ્રવાહીની સપાટી પર બહારનું વાતાવરણીય દબાણ લાગવાથી." },
+	{ q: "યુદ્ધમાં વપરાતી ટેન્ક (Tank) પૈડાં પર હોવા છતાં તેની નીચે લોખંડના પહોળા પટ્ટા (Continuous Tracks) કેમ હોય છે?", options: ["ટેન્કનો વેગ વધારવા માટે.","ટેન્કનું વજન ઘટાડવા માટે","ટેન્કનું વજન મોટા ક્ષેત્રફળ પર વહેંચાઈ જાય અને જમીન પર દબાણ ઘટે, જેથી તે નરમ જમીનમાં ખૂંપે નહીં.", "ટેન્કને કાટથી બચાવવા માટે."], correct: "ટેન્કનું વજન મોટા ક્ષેત્રફળ પર વહેંચાઈ જાય અને જમીન પર દબાણ ઘટે, જેથી તે નરમ જમીનમાં ખૂંપે નહીં." },
+	{ q: "પાણી ભરેલા પાત્રમાં તળિયે પથ્થર મૂક્યો હોય અને ઉપરના ભાગે લાકડું તરે છે. જો પાત્રમાં વધુ પાણી ઉમેરવામાં આવે, તો પથ્થર પર લાગતા દબાણમાં શું ફેરફાર થશે?", options: ["પથ્થર પરનું દબાણ ઘટશે.","પથ્થર પરનું દબાણ વધશે કારણ કે પ્રવાહી સ્તંભની ઊંચાઈ વધે છે.", "પથ્થર પરના દબાણમાં કોઈ ફેરફાર થશે નહીં.","લાકડાનું વજન વધવાથી પથ્થર પરનું બળ શૂન્ય થશે."], correct: "પથ્થર પરનું દબાણ વધશે કારણ કે પ્રવાહી સ્તંભની ઊંચાઈ વધે છે." },
+	{ q: "દીવાલ પર ચિત્રો લટકાવવા માટે વપરાતા રબરનો ચૂષક (Suction Cups) દીવાલ પર ચોંટી જાય છે. આ ઘટના કયા કારણને લીધે શક્ય બને છે?", options: ["ચૂષક અને દીવાલ વચ્ચે ગુંદર જેવું બળ લાગે છે.", "ચૂષકની અંદરની હવા બહાર નીકળી જતાં, બહારનું વાતાવરણનું દબાણ તેને દીવાલ પર દબાવી રાખે છે.", "ચુંબકીય બળને કારણે તે દીવાલ પર પકડ મેળવે છે.", "દીવાલની ગરમીને કારણે રબર પીગળીને ચોંટી જાય છે."], correct: "ચૂષકની અંદરની હવા બહાર નીકળી જતાં, બહારનું વાતાવરણનું દબાણ તેને દીવાલ પર દબાવી રાખે છે." },
+	{ q: "એક લોખંડનો ટુકડો પાણીમાં ડૂબી જાય છે, પરંતુ તે જ લોખંડમાંથી બનેલું જહાજ પાણી પર તરે છે. આ ઘટના પાછળનું મુખ્ય કારણ શું હોઈ શકે?", options: ["જહાજ પર લાગતું ગુરુત્વાકર્ષણ બળ શૂન્ય હોય છે.","જહાજનો આકાર એવો હોય છે કે તે મોટા ક્ષેત્રફળ પર દબાણ વહેંચે છે અને વધુ પાણી સ્થાનાંતરિત કરે છે.","લોખંડનો ટુકડો સ્નાયુબળને કારણે ડૂબે છે.","પાણી માત્ર નાની વસ્તુઓ પર જ દબાણ લગાડે છે. "], correct: "જહાજનો આકાર એવો હોય છે કે તે મોટા ક્ષેત્રફળ પર દબાણ વહેંચે છે અને વધુ પાણી સ્થાનાંતરિત કરે છે." },
+	{ q: "એક પાત્રમાં રહેલા પ્રવાહીની દીવાલો પર લાગતું દબાણ કઈ બાબત પર આધારિત છે?", options: ["માત્ર પાત્રના આકાર પર,","માત્ર પ્રવાહીના રંગ પર.","પ્રવાહી સ્તંભની ઊંચાઈ (ઊંડાઈ) પર.","પાત્ર કઈ ધાતુનું બનેલું છે તેના પર. "], correct: "પ્રવાહી સ્તંભની ઊંચાઈ (ઊંડાઈ) પર." },
+	{ q: "જો તમે કોઈ તીક્ષ્ણ સોયને ફૂલાવેલા ફુગ્ગા પર અડાડો તો તે તરત જ ફૂટી જાય છે, પરંતુ તે જ બળથી આંગળી દબાવતા તે ફૂટતો નથી. આ ઘટનામાં દબાણનો કયો સિદ્ધાંત કામ કરે છે?", options: ["આંગળીનું બળ સોય કરતા ઓછું હોય છે.","સોયનો અણીદાર ભાગ ખૂબ ઓછું ક્ષેત્રફળ ધરાવે છે, જે સમાન બળ માટે ખૂબ મોટું દબાણ પેદા કરે","સોય ફુગ્ગાની અંદરની હવાને ઠંડી કરી નાખે છે.","આંગળી ફુગ્ગા પર અસંપર્ક બળ લગાડે છે. "], correct: "સોયનો અણીદાર ભાગ ખૂબ ઓછું ક્ષેત્રફળ ધરાવે છે, જે સમાન બળ માટે ખૂબ મોટું દબાણ પેદા કરે" },
+	{ q: "ટ્રક કે બસ જેવા ભારે વાહનોના ટાયર કારના ટાયર કરતા ઘણા પહોળા કેમ રાખવામાં આવે છે?", options: ["વાહનની ઝડપ વધારવા માટે.","રસ્તા સાથેનું સંપર્ક ક્ષેત્રફળ વધારીને રસ્તા પર લાગતું દબાણ ઘટાડવા માટે.","ટાયરના ઘસારાને રોકવા માટે."," બળતણની બચત કરવા માટે. "], correct: "રસ્તા સાથેનું સંપર્ક ક્ષેત્રફળ વધારીને રસ્તા પર લાગતું દબાણ ઘટાડવા માટે." },
+	{ q: "જ્યારે કોઈ વ્યક્તિ કોઈ વસ્તુને ખેંચે છે (Pull), ત્યારે તે કયા પ્રકારનું બળ લગાડે છે?", options: ["માત્ર ગુરુત્વાકર્ષણ બળ.","સ્નાયુબળ, જે સંપર્ક બળનો એક પ્રકાર છે.","ચુંબકીય બળ, કારણ કે વસ્તુ તેની તરફ આવે છે.","સ્થિત વિદ્યુત બળ. "], correct: "સ્નાયુબળ, જે સંપર્ક બળનો એક પ્રકાર છે." },
+	{ q: "દૂધની પ્લાસ્ટિકની થેલીમાં નીચેના ભાગે નાનું કાણું પાડતા દૂધ વેગથી બહાર આવે છે, પરંતુ જેમ જેમ દૂધ ઓછું થતું જાય છે તેમ તેનો વેગ ઘટે છે. આ પ્રક્રિયા શું દર્શાવે છે?", options: ["પ્રવાહીનું દબાણ પ્રવાહીના જથ્થા પર આધાર રાખે છે.","પ્રવાહીનું દબાણ ઊંડાઈ (ઊંચાઈ) ઘટતા ઘટે છે.","કાણું મોટું થતું જાય છે.","વાતાવરણનું દબાણ દૂધને અંદર ખેંચે છે."], correct: "પ્રવાહીનું દબાણ ઊંડાઈ (ઊંચાઈ) ઘટતા ઘટે છે." }
+    ];
+
+    let qIndex = 0;
+    let score = 0;
+    let timeVal = 30;
+    let timerJob;
+    let audio = document.getElementById("kbc-sound");
+
+    // વિકલ્પોને આડા-અવળા કરવા માટેનું ફંક્શન (Shuffle Function)
+    function shuffleArray(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
+        }
+    }
+
+    function beginGame() {
+        let n = document.getElementById("s-name").value;
+        let s = document.getElementById("s-school").value;
+        
+        if(n.trim() == "" || s.trim() == "") {
+            alert("કૃપા કરીને નામ અને શાળાની વિગત ભરો.");
+            return;
+        }
+        
+        document.getElementById("screen-start").style.display = "none";
+        document.getElementById("screen-quiz").style.display = "block";
+        
+        audio.volume = 0.5;
+        audio.play().catch(e => console.log("Audio needs user interaction"));
+
+        showQuestion();
+    }
+
+    function showQuestion() {
+        clearInterval(timerJob);
+        timeVal = 30;
+        document.getElementById("timer-display").innerText = timeVal;
+        document.getElementById("timer-display").style.borderColor = "#00d2ff";
+        document.getElementById("feedback-display").innerText = "";
+
+        let currentQ = quizData[qIndex];
+        document.getElementById("q-content").innerText = `${qIndex + 1}. ${currentQ.q}`;
+
+        // RANDOMIZATION LOGIC:
+        // 1. Copy the options to a new array
+        let optionsCopy = [...currentQ.options];
+        // 2. Shuffle the copied array
+        shuffleArray(optionsCopy);
+
+        let optHtml = "";
+        optionsCopy.forEach((optText, idx) => {
+            let letter = ['A','B','C','D'][idx];
+            // Pass the clicked option text to validation function
+            optHtml += `<div class="opt-btn" onclick="checkAns(this, '${optText}')">
+                            <span class="opt-letter">${letter}</span> ${optText}
+                        </div>`;
+        });
+        document.getElementById("opts-area").innerHTML = optHtml;
+
+        runTimer();
+    }
+
+    function runTimer() {
+        timerJob = setInterval(() => {
+            timeVal--;
+            document.getElementById("timer-display").innerText = timeVal;
+            if(timeVal <= 10) {
+                document.getElementById("timer-display").style.borderColor = "red";
+            }
+            if(timeVal <= 0) {
+                clearInterval(timerJob);
+                handleTimeOut();
+            }
+        }, 1000);
+    }
+
+    function handleTimeOut() {
+        document.getElementById("feedback-display").innerText = "સમય પૂરો!";
+        document.getElementById("feedback-display").style.color = "red";
+        disableBtns();
+        setTimeout(nextStep, 2000);
+    }
+
+    function checkAns(btn, selectedText) {
+        clearInterval(timerJob);
+        disableBtns();
+        
+        let correctText = quizData[qIndex].correct;
+        let allBtns = document.querySelectorAll(".opt-btn");
+        let feedback = document.getElementById("feedback-display");
+
+        // Check if the selected text matches the correct answer
+        if(selectedText === correctText) {
+            score++;
+            btn.classList.add("correct");
+            let praises = ["અભિનંદન!", "ખૂબ સરસ!", "ઉત્તમ!", "સાચો જવાબ!", "જોરદાર!", "Fantastic!"];
+            feedback.innerText = praises[Math.floor(Math.random() * praises.length)];
+            feedback.style.color = "#2ECC40";
+        } else {
+            btn.classList.add("wrong");
+            // Highlight the correct answer button
+            allBtns.forEach(b => {
+                if(b.innerText.includes(correctText)) {
+                    b.classList.add("correct");
+                }
+            });
+            feedback.innerText = "ખોટો જવાબ!";
+            feedback.style.color = "#FF4136";
+        }
+        
+        setTimeout(nextStep, 2500);
+    }
+
+    function disableBtns() {
+        let btns = document.querySelectorAll(".opt-btn");
+        btns.forEach(b => b.style.pointerEvents = "none");
+    }
+
+    function nextStep() {
+        qIndex++;
+        if(qIndex < quizData.length) {
+            showQuestion();
+        } else {
+            endGame();
+        }
+    }
+
+    function endGame() {
+        document.getElementById("screen-quiz").style.display = "none";
+        document.getElementById("screen-result").style.display = "block";
+        document.getElementById("final-score").innerText = score;
+        document.getElementById("final-name-disp").innerText = document.getElementById("s-name").value;
+        audio.pause();
+    }
+
+    function downloadCertificateImage() {
+        document.getElementById("c-name").innerText = document.getElementById("s-name").value;
+        document.getElementById("c-school").innerText = document.getElementById("s-school").value;
+        document.getElementById("c-score").innerText = score;
+        
+        let d = new Date();
+        document.getElementById("c-date").innerText = `${d.getDate()}/${d.getMonth()+1}/${d.getFullYear()}`;
+
+        html2canvas(document.querySelector("#cert-container")).then(canvas => {
+            let a = document.createElement("a");
+            a.download = `Certificate_${document.getElementById("s-name").value}.png`;
+            a.href = canvas.toDataURL();
+            a.click();
+        });
+    }
+</script>
+
+</body>
+</html>

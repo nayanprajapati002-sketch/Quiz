@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="gu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Parakh Quiz S8 Chap9-2 (Jeetendra Rathod)</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Hind+Vadodara:wght@400;600;700&display=swap');
+
+        body {
+            font-family: 'Hind Vadodara', sans-serif;
+            background: radial-gradient(circle at center, #001f3f, #000000); /* Deep Navy KBC Theme */
+            color: white;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            text-align: center;
+            user-select: none;
+        }
+
+        .container {
+            width: 95%;
+            max-width: 900px;
+            background: rgba(0, 31, 63, 0.8);
+            border-radius: 25px;
+            padding: 25px;
+            border: 3px solid #FF851B; /* Orange Border */
+            box-shadow: 0 0 35px rgba(255, 133, 27, 0.4);
+            position: relative;
+            backdrop-filter: blur(5px);
+        }
+
+        h1 { color: #FF851B; text-shadow: 2px 2px 2px #000; margin-bottom: 5px; letter-spacing: 1px; }
+
+        /* Footer Credit */
+        .footer-credit {
+            margin-top: 30px;
+            font-size: 13px;
+            color: #fff;
+            background: linear-gradient(90deg, #111, #1D7D28, #111);
+            padding: 10px;
+            border-radius: 50px;
+            letter-spacing: 0.5px;
+            font-weight: bold;
+            text-shadow: 1px 1px 2px black;
+        }
+
+        /* Inputs */
+        .input-box {
+            width: 75%;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 15px;
+            border: 2px solid #FF851B;
+            background: #111;
+            color: white;
+            font-size: 18px;
+            text-align: center;
+            outline: none;
+        }
+
+        /* Timer */
+        .timer-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            width: 65px;
+            height: 65px;
+            background: #000;
+            border: 3px solid #00d2ff;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 26px;
+            font-weight: bold;
+            box-shadow: 0 0 15px #00d2ff;
+            z-index: 10;
+        }
+
+        /* Question Box */
+        .question-panel {
+            background: linear-gradient(180deg, #001f3f, #003366);
+            border: 2px solid #fff;
+            border-radius: 20px;
+            padding: 25px;
+            margin: 35px 0;
+            font-size: 23px;
+            font-weight: 600;
+            box-shadow: inset 0 0 30px #000;
+            min-height: 85px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Options */
+        .options-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        
+        .opt-btn {
+            background: #001226;
+            border: 2px solid #3d9970;
+            border-radius: 12px;
+            padding: 15px 25px;
+            cursor: pointer;
+            transition: 0.3s;
+            font-size: 19px;
+            color: white;
+            text-align: left;
+            position: relative;
+            display: flex;
+            align-items: center;
+            box-shadow: 0 5px 10px rgba(0,0,0,0.5);
+        }
+        
+        .opt-letter {
+            color: #FF851B;
+            font-weight: bold;
+            margin-right: 15px;
+            font-size: 20px;
+            min-width: 25px;
+        }
+
+        .opt-btn:hover { background: #003366; border-color: #FF851B; transform: translateY(-2px); }
+        .opt-btn.correct { background: #2ECC40 !important; border-color: #fff; color: white; box-shadow: 0 0 20px #2ECC40; }
+        .opt-btn.wrong { background: #FF4136 !important; border-color: #fff; color: white; }
+
+        .praise-text {
+            height: 35px;
+            font-size: 24px;
+            font-weight: bold;
+            color: #FF851B;
+            margin-bottom: 5px;
+            text-shadow: 2px 2px 4px #000;
+        }
+
+        .btn-start, .btn-action {
+            background: linear-gradient(45deg, #1A2980, #26D0CE);
+            border: none;
+            padding: 15px 50px;
+            font-size: 20px;
+            border-radius: 50px;
+            color: #EDEDD1;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 20px;
+            box-shadow: 0 0 20px rgba(255, 133, 27, 0.4);
+        }
+
+        /* Certificate (Hidden) */
+        #cert-container {
+            position: absolute;
+            top: -9999px;
+            width: 1000px;
+            height: 700px;
+            background: #fff;
+            color: #000;
+            border: 20px solid #001f3f;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Hind Vadodara', sans-serif;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .cert-inner {
+            border: 8px solid #FF851B;
+            width: 95%;
+            height: 95%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: #f0f8ff;
+        }
+
+        @media (max-width: 600px) {
+            .options-grid { grid-template-columns: 1fr; }
+            .question-panel { font-size: 18px; padding: 15px; }
+            .timer-badge { width: 50px; height: 50px; font-size: 20px; }
+            .footer-credit { font-size: 11px; }
+        }
+    </style>
+</head>
+<body>
+
+    <audio id="kbc-sound" loop>
+        <source src="kbc.mp3" type="audio/mpeg">
+    </audio>
+
+    <div class="container">
+        
+        <div id="screen-start">
+            <h1>પરખ ક્વિઝ પ્રકરણ 9 (વિજ્ઞાન- 8 )</h1>
+            <p style="color: #ccc;">પરખ ક્વિઝ - પ્રકરણ - 9-2 વિજ્ઞાન ધોરણ 8</p>
+            <br>
+            <input type="text" id="s-name" class="input-box" placeholder="વિદ્યાર્થીનું પૂરું નામ" autocomplete="off">
+            <input type="text" id="s-school" class="input-box" placeholder="શાળાનું નામ" autocomplete="off">
+            <br>
+            <button class="btn-start" onclick="beginGame()">ક્વિઝ શરૂ કરો</button>
+
+            <div class="footer-credit">
+                બનાવનાર : જિતેન્દ્રકુમાર યું રાઠોડ (જુનાપાધર પ્રાથમિક શાળા, તા. વિરમગામ જી. જિ.અમદાવાદ)
+            </div>
+        </div>
+
+        <div id="screen-quiz" style="display: none;">
+            <div class="timer-badge" id="timer-display">30</div>
+            <div class="praise-text" id="feedback-display"></div>
+
+            <div class="question-panel">
+                <span id="q-content">પ્રશ્ન લોડ થઈ રહ્યો છે...</span>
+            </div>
+
+            <div class="options-grid" id="opts-area">
+                </div>
+
+            <div class="footer-credit">
+                બનાવનાર : જિતેન્દ્રકુમાર યું રાઠોડ (જુનાપાધર પ્રાથમિક શાળા, તા. વિરમગામ જી. જિ.અમદાવાદ)
+            </div>
+        </div>
+
+        <div id="screen-result" style="display: none;">
+            <h1>પરિણામ</h1>
+            <h2 id="final-name-disp" style="color: #FF851B;"></h2>
+            <p>તમારો સ્કોર</p>
+            <div style="font-size: 70px; font-weight: bold; color: #fff; text-shadow: 0 0 10px #FF851B;">
+                <span id="final-score">0</span> / 23
+            </div>
+            <button class="btn-action" onclick="downloadCertificateImage()">સર્ટિફિકેટ ડાઉનલોડ</button>
+            <br><br>
+            <button class="btn-action" style="background: #333; color: white;" onclick="location.reload()">ફરીથી રમો</button>
+
+            <div class="footer-credit">
+                બનાવનાર : જિતેન્દ્રકુમાર યું રાઠોડ (જુનાપાધર પ્રાથમિક શાળા, તા. વિરમગામ જી. જિ.અમદાવાદ)
+            </div>
+        </div>
+    </div>
+
+    <div id="cert-container">
+        <div class="cert-inner">
+            <h1 style="font-size: 50px; color: #001f3f; margin: 0;">પ્રમાણપત્ર</h1>
+            <p style="font-size: 22px; color: #555;">પરખ ક્વિઝ -પ્રકરણ - 9 વિજ્ઞાન </p>
+            <hr style="width: 50%; border: 3px solid #FF851B; margin: 15px 0;">
+            
+            <p style="font-size: 24px;">આથી પ્રમાણિત કરવામાં આવે છે કે</p>
+            <h2 id="c-name" style="font-size: 45px; color: #FF4136; text-transform: uppercase; margin: 10px; font-weight: 800;">STUDENT NAME</h2>
+            <h3 id="c-school" style="font-size: 30px; color: #000;">SCHOOL NAME</h3>
+            
+            <p style="font-size: 24px; margin-top: 20px;">તેમણે પરખ ક્વિઝ -પ્રકરણ - 9માં ભાગ લઈ</p>
+            <div style="font-size: 55px; font-weight: bold; color: #fff; background: #001f3f; padding: 10px 40px; border-radius: 40px; margin: 15px 0;">
+                <span id="c-score">23</span> / 23
+            </div>
+            <p style="font-size: 24px;">ગુણ મેળવ્યા છે.</p>
+
+            <div style="margin-top: 40px; width: 90%; font-size: 16px; color: #000; display: flex; justify-content: space-between; align-items: flex-end;">
+                <div style="text-align: left;">તારીખ: <span id="c-date"></span></div>
+                <div style="text-align: right; background: #FF851B; color: black; padding: 10px; font-weight: bold; border-radius: 5px;">
+                    બનાવનાર : જિતેન્દ્રકુમાર યું રાઠોડ <br>
+                    (જુનાપાધર પ્રાથમિક શાળા)
+                </div>
+            </div>
+        </div>
+    </div>
+
+<script>
+    // --- SET  : 30 New Unique Questions ---
+    // 'correct' contains the right answer text. 'options' contains all 4 choices.
+    // The options will be shuffled automatically by the shuffleArray function.
+    const quizData = [
+        //
+       { q: "જ્યારે કોઈ વ્યક્તિ કાગળ પર પેનથી લખે છે, ત્યારે કાગળ પર શાહી કેમ ચોંટે છે?", options: ["ગુરુત્વાકર્ષણને કારણે.", "કાગળ અને પેનની અણી વચ્ચે લાગતા ઘર્ષણ બળને કારણે.", "કાગળ ચુંબકીય હોવાને કારણે.", "પેનની અંદર હવાનું દબાણ વધુ હોવાને કારણે. "], correct: "કાગળ અને પેનની અણી વચ્ચે લાગતા ઘર્ષણ બળને કારણે." },
+	{ q: "કબડ્ડીના ખેલાડીઓ પોતાના હાથ પર માટી ઘસે છે. આ તપાસ દ્વારા તેઓ શું મેળવવા માંગે છે?", options: ["હાથને સાફ કરવા માંગે છે.", "સપાટીને લીસી બનાવવા માંગે છે.", "હાથ પર ઘર્ષણ વધારીને સામેના ખેલાડી પર પકડ મજબૂત કરવા માંગે છે.", "માટી સ્નાયુબળમાં વધારો કરે છે."], correct: "હાથ પર ઘર્ષણ વધારીને સામેના ખેલાડી પર પકડ મજબૂત કરવા માંગે છે." },
+	{ q: "અવકાશમાંથી પૃથ્વીના વાતાવરણમાં પ્રવેશતી ઉલ્કાઓ સળગી ઉઠે છે. આ ઘટના પાછળનું વૈજ્ઞાનિક કારણ શું છે?", options: ["વાતાવરણમાં ઓક્સિજન વધુ હોવાથી આગ લાગે છે.", "ઉલ્કા અને હવાના કણો વચ્ચે લાગતા પ્રવાહી ઘર્ષણને કારણે ખૂબ ઉષ્મા પેદા થાય છે.", "પૃથ્વીનું ચુંબકીય બળ ઉલ્કાને ગરમ કરે છે.", "ઉલ્કાની ગતિને કારણે તે આપમેળે સળગે છે. "], correct: "ઉલ્કા અને હવાના કણો વચ્ચે લાગતા પ્રવાહી ઘર્ષણને કારણે ખૂબ ઉષ્મા પેદા થાય છે." },
+	{ q: "મશીનોમાં બોલ-બેરિંગનો ઉપયોગ કરવાથી ઘર્ષણ ઘટે છે. આ પ્રક્રિયાને તમે કયા વૈજ્ઞાનિક કારણ સાથે જોડશો?", options: ["બોલ-બેરિંગ સરકતા ઘર્ષણને સ્થિત ઘર્ષણમાં ફેરવે છે.", "બોલ-બેરિંગ સરકતા ઘર્ષણને લોટણ ઘર્ષણમાં ફેરવે છે, જે ઘર્ષણનું મૂલ્ય ઘટાડે છે.", "તે મશીનના ભાગોને ઠંડા રાખે છે.", "તે મશીનનું વજન ઘટાડવામાં મદદ કરે છે. "], correct: "બોલ-બેરિંગ સરકતા ઘર્ષણને લોટણ ઘર્ષણમાં ફેરવે છે, જે ઘર્ષણનું મૂલ્ય ઘટાડે છે." },
+	{ q: "શિયાળામાં જ્યારે આપણે બંને હથેળીઓને એકબીજા સાથે જોરથી ઘસીએ છીએ, ત્યારે હથેળીઓ ગરમ થાય છે. આ ઘટના પાછળ કયું કારણ જવાબદાર છે?", options: ["હથેળીઓમાં લોહીનું ભ્રમણ વધે છે.", "ઘર્ષણ બળ યાંત્રિક ઉર્જાનું ઉષ્મા ઉર્જામાં રૂપાંતર કરે છે.", "સ્નાયુબળ ગરમી પેદા કરે છે.", "વાતાવરણની હવા હથેળીઓ વચ્ચે દબાય છે. "], correct: "ઘર્ષણ બળ યાંત્રિક ઉર્જાનું ઉષ્મા ઉર્જામાં રૂપાંતર કરે છે." },
+	{ q: "તમે બરફ પર ચાલવાનો પ્રયત્ન કરતા લપસી જવાય છે. આ ઘટનાનું યોગ્ય કારણ શું છે?", options: ["બરફ ખૂબ જ ઠંડો હોવાથી સ્નાયુઓ કામ કરતા નથી.", "બરફની સપાટી અને બૂટ વચ્ચે ઘર્ષણ બળ અત્યંત ઓછું હોય છે.", "બરફ પર ગુરુત્વાકર્ષણ બળ લાગતું નથી.", "બરફ પર વાતાવરણનું દબાણ વધી જાય છે. "], correct: "બરફની સપાટી અને બૂટ વચ્ચે ઘર્ષણ બળ અત્યંત ઓછું હોય છે." },
+	{ q: "વાહનોના ટાયરો અમુક સમય પછી ઘસાઈ જાય છે અને લીસા બની જાય છે. આવા ટાયરો સાથે વાહન ચલાવવું જોખમી કેમ છે?", options: ["લીસા ટાયરો વાહનની ઝડપ ઘટાડી દે છે.", "રસ્તા અને ટાયર વચ્ચેની પકડ ઘટી જવાથી બ્રેક મારતી વખતે વાહન લપસી શકે છે.", "લીસા ટાયરોમાં હવા ઓછી ભરી શકાય છે.", "લીસા ટાયરો વધુ બળતણ વાપરે છે. "], correct: "રસ્તા અને ટાયર વચ્ચેની પકડ ઘટી જવાથી બ્રેક મારતી વખતે વાહન લપસી શકે છે." },
+	{ q: "ભારે સામાનને ખસેડવા માટે તેની નીચે રોલર્સ (નળાકાર લાકડા કે પૈડાં) મૂકવામાં આવે છે. આ પ્રક્રિયાથી કામ સરળ કેમ બને છે?", options: ["લોટણ ઘર્ષણ એ સરકતા ઘર્ષણ કરતા ઘણું ઓછું હોય છે.", "રોલર્સ સામાનનું વજન ઘટાડી દે છે.", "રોલર્સ જમીન પરનું દબાણ વધારે છે.", "સામાન અને જમીન વચ્ચેનો સીધો સંપર્ક વધી જાય છે. "], correct: "લોટણ ઘર્ષણ એ સરકતા ઘર્ષણ કરતા ઘણું ઓછું હોય છે." },
+	{ q: "દીવાસળીને માચીસની ખરબચડી સપાટી પર ઘસતા તે સળગી ઉઠે છે. જો આ સપાટી લીસી હોય તો શું થાય?", options: ["દીવાસળી વધુ ઝડપથી સળગશે.", "પૂરતું ઘર્ષણ ન થવાને કારણે જરૂરી ઉષ્મા પેદા થશે નહીં અને દીવાસળી સળગશે નહીં.", "દીવાસળીનો આકાર બદલાઈ જશે.", "માત્ર સ્નાયુબળથી દીવાસળી સળગી જશે. "], correct: "પૂરતું ઘર્ષણ ન થવાને કારણે જરૂરી ઉષ્મા પેદા થશે નહીં અને દીવાસળી સળગશે નહીં." },
+	{ q: "જ્યારે કોઈ પદાર્થ સપાટી પર સ્થિર અવસ્થામાં હોય ત્યારે તેને ગતિમાં લાવવા માટે જે બળનો સામનો કરવો પડે છે તેને શું કહે છે?", options: ["સરકતું ઘર્ષણ", "લોટણ ઘર્ષણ", "સ્થિત ઘર્ષણ", "તરલ ઘર્ષણ"], correct: "સ્થિત ઘર્ષણ" },
+	{ q: "સાયકલ સવાર જ્યારે પેડલ મારવાનું બંધ કરે છે ત્યારે સાયકલ થોડા સમય પછી ઉભી રહી જાય છે. આ ઘટના પાછળ કઈ પ્રક્રિયા જવાબદાર છે?", options: [" સાયકલ પર લાગતું ગુરુત્વાકર્ષણ બળ વધી જાય છે.", "ટાયર અને રસ્તા વચ્ચે લાગતું ઘર્ષણ બળ ગતિનો વિરોધ કરે છે.", "પૃથ્વીનું ચુંબકીય બળ સાયકલને રોકી રાખે છે.", "સાયકલના ટાયરમાં હવાનું દબાણ ઘટી જાય છે. "], correct: "ટાયર અને રસ્તા વચ્ચે લાગતું ઘર્ષણ બળ ગતિનો વિરોધ કરે છે." },
+	{ q: "જો કોઈ પદાર્થ પર લાગતા લંબબળ (વજન) ને બમણું કરવામાં આવે, તો તે પદાર્થ અને સપાટી વચ્ચે લાગતા ઘર્ષણ બળમાં શું ફેરફાર થશે?", options: [" ઘર્ષણ બળ અડધું થઈ જશે.", "ઘર્ષણ બળ ચાર ગણું થઈ જશે.", "ઘર્ષણ બળ પણ લગભગ બમણું થઈ જશે.", "ઘર્ષણ બળમાં કોઈ ફેરફાર થશે નહીં. "], correct: "ઘર્ષણ બળ પણ લગભગ બમણું થઈ જશે." },
+	{ q: "તરલ (હવા અથવા પાણી) માં ગતિ કરતા પદાર્થો પર લાગતા ઘર્ષણ બળને શું કહેવામાં આવે છે?", options: [" ઘર્ષણ (Friction)", "ખેંચાણ (Drag)", "દબાણ (Pressure)", "વેગ (Velocity) "], correct: "ખેંચાણ (Drag)" },
+	{ q:"સરકતા ઘર્ષણ (Sliding Friction) નું મૂલ્ય સ્થિત ઘર્ષણ (Static Friction) કરતા કેવું હોય છે?", options: [" ઓછું", "વધારે", "સમાન", "પદાર્થના આકાર પર આધાર રાખે છે. "], correct: "વધારે" },
+	{ q: "મશીનોમાં બોલ-બેરિંગનો ઉપયોગ કરવાથી કઈ ઘટના બને છે જે ઘર્ષણ ઘટાડે છે?", options: ["તે લોટણ ઘર્ષણને સરકતા ઘર્ષણમાં ફેરવે છે.", "તે સરકતા ઘર્ષણને લોટણ ઘર્ષણમાં ફેરવે છે.", "તે ઘર્ષણને સંપૂર્ણપણે નાબૂદ કરે છે.", "તે મશીનની ગરમી શોષી લે છે. "], correct: "તે સરકતા ઘર્ષણને લોટણ ઘર્ષણમાં ફેરવે છે." },
+	{ q: "પક્ષીઓ અને માછલીઓનો ધારારેખી (Streamline) આકાર કઈ પ્રક્રિયાને સરળ બનાવવા માટે હોય છે?", options: ["શિકારને ઝડપથી પકડવા માટે.", "તરલ ઘર્ષણ ઘટાડીને ઉર્જાનો વ્યય રોકવા માટે.", "ઠંડીથી બચવા માટે.", "વજન ઘટાડવા માટે. "], correct: "તરલ ઘર્ષણ ઘટાડીને ઉર્જાનો વ્યય રોકવા માટે." },
+	{ q: "બે સપાટીઓ વચ્ચે ઘર્ષણ શા માટે ઉત્પન્ન થાય છે?", options: ["સપાટીઓ વચ્ચેના આકર્ષણ બળને કારણે.", "બંને સપાટીઓની સૂક્ષ્મ અનિયમિતતાઓના આંતરબદ્ધ (Interlocking) થવાને કારણે.", "સપાટીઓના રંગને કારણે.", "પૃથ્વીના ધરી ભ્રમણને કારણે. "], correct: "બંને સપાટીઓની સૂક્ષ્મ અનિયમિતતાઓના આંતરબદ્ધ (Interlocking) થવાને કારણે." },
+	{ q: "જ્યારે વસ્તુ બીજી વસ્તુની સપાટી પર ગબડે છે, ત્યારે તેની ગતિને અવરોધતા બળને શું કહે છે?", options: [" સ્થિત ઘર્ષણ", "સરકતું ઘર્ષણ", "લોટણ ઘર્ષણ", "આકર્ષણ બળ"], correct: "સરકતું ઘર્ષણ" },
+	{ q: "સ્નેહક (Lubricants) પદાર્થો સપાટી પર લગાડવાથી શું થાય છે?", options: ["સપાટી વધુ ખરબચડી બને છે.", "સપાટીઓ વચ્ચે ઘર્ષણ બળ વધી જાય છે.", "સપાટીઓ વચ્ચે પાતળું સ્તર બને છે જે અનિયમિતતાઓને એકબીજામાં ભરાતા અટકાવે છે.", "તે પદાર્થની ગતિને રોકે છે. "], correct: "સપાટીઓ વચ્ચે પાતળું સ્તર બને છે જે અનિયમિતતાઓને એકબીજામાં ભરાતા અટકાવે છે." },
+	{ q: "દીવાસળીને જ્યારે માચીસની સપાટી પર ઘસવામાં આવે છે ત્યારે તે સળગી ઉઠે છે. આ ઘટના શું સમજાવે છે?", options: ["ઘર્ષણએ ઉષ્મા (ગરમી) ઉત્પન્ન કરે છે.", "માચીસમાં રાસાયણિક બળ હોતું નથી.", "હવા દીવાસળીને સળગાવે છે.", "દીવાસળીમાં સ્થિત વિદ્યુત બળ હોય છે. "], correct: "ઘર્ષણએ ઉષ્મા (ગરમી) ઉત્પન્ન કરે છે." },
+	{ q: "જો પૃથ્વી પરથી ઘર્ષણ બળ અદૃશ્ય થઈ જાય, તો નીચેનામાંથી કઈ પ્રક્રિયા શક્ય બનશે નહીં?", options: [" રસ્તા પર વાહન ચલાવવું.", "કાગળ પર પેનથી લખવું.", "દીવાલ પર ખીલી ઠોકવી.", "આપેલ તમામ. "], correct: "આપેલ તમામ." },
+	{ q: "લોટણ ઘર્ષણ (Rolling Friction), સરકતું ઘર્ષણ (Sliding Friction) અને સ્થિત ઘર્ષણ (Static Friction) ને તેમના મૂલ્યોના ઉતરતા ક્રમમાં ગોઠવો.", options: ["સ્થિત > સરકતું > લોટણ", "લોટણ > સરકતું > સ્થિત", "સરકતું > સ્થિત > લોટણ", "સ્થિત > લોટણ > સરકતું"], correct: "કે" },
+	{ q: "આકાશમાં ઉલ્કાઓ વાતાવરણમાં પ્રવેશે ત્યારે ખૂબ ગરમ થઈને સળગી જાય છે. આ ઘટના પાછળ કયું ઘર્ષણ મુખ્ય કારણ છે?", options: [" સ્થિત ઘર્ષણ", "સરકતું ઘર્ષણ", "હવાનું તરલ ઘર્ષણ", "ચુંબકીય ઘર્ષણ"], correct: "હવાનું તરલ ઘર્ષણ" }
+	    ];
+    let qIndex = 0;
+    let score = 0;
+    let timeVal = 30;
+    let timerJob;
+    let audio = document.getElementById("kbc-sound");
+
+    // વિકલ્પોને આડા-અવળા કરવા માટેનું ફંક્શન (Shuffle Function)
+    function shuffleArray(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
+        }
+    }
+
+    function beginGame() {
+        let n = document.getElementById("s-name").value;
+        let s = document.getElementById("s-school").value;
+        
+        if(n.trim() == "" || s.trim() == "") {
+            alert("કૃપા કરીને નામ અને શાળાની વિગત ભરો.");
+            return;
+        }
+        
+        document.getElementById("screen-start").style.display = "none";
+        document.getElementById("screen-quiz").style.display = "block";
+        
+        audio.volume = 0.5;
+        audio.play().catch(e => console.log("Audio needs user interaction"));
+
+        showQuestion();
+    }
+
+    function showQuestion() {
+        clearInterval(timerJob);
+        timeVal = 30;
+        document.getElementById("timer-display").innerText = timeVal;
+        document.getElementById("timer-display").style.borderColor = "#00d2ff";
+        document.getElementById("feedback-display").innerText = "";
+
+        let currentQ = quizData[qIndex];
+        document.getElementById("q-content").innerText = `${qIndex + 1}. ${currentQ.q}`;
+
+        // RANDOMIZATION LOGIC:
+        // 1. Copy the options to a new array
+        let optionsCopy = [...currentQ.options];
+        // 2. Shuffle the copied array
+        shuffleArray(optionsCopy);
+
+        let optHtml = "";
+        optionsCopy.forEach((optText, idx) => {
+            let letter = ['A','B','C','D'][idx];
+            // Pass the clicked option text to validation function
+            optHtml += `<div class="opt-btn" onclick="checkAns(this, '${optText}')">
+                            <span class="opt-letter">${letter}</span> ${optText}
+                        </div>`;
+        });
+        document.getElementById("opts-area").innerHTML = optHtml;
+
+        runTimer();
+    }
+
+    function runTimer() {
+        timerJob = setInterval(() => {
+            timeVal--;
+            document.getElementById("timer-display").innerText = timeVal;
+            if(timeVal <= 10) {
+                document.getElementById("timer-display").style.borderColor = "red";
+            }
+            if(timeVal <= 0) {
+                clearInterval(timerJob);
+                handleTimeOut();
+            }
+        }, 1000);
+    }
+
+    function handleTimeOut() {
+        document.getElementById("feedback-display").innerText = "સમય પૂરો!";
+        document.getElementById("feedback-display").style.color = "red";
+        disableBtns();
+        setTimeout(nextStep, 2000);
+    }
+
+    function checkAns(btn, selectedText) {
+        clearInterval(timerJob);
+        disableBtns();
+        
+        let correctText = quizData[qIndex].correct;
+        let allBtns = document.querySelectorAll(".opt-btn");
+        let feedback = document.getElementById("feedback-display");
+
+        // Check if the selected text matches the correct answer
+        if(selectedText === correctText) {
+            score++;
+            btn.classList.add("correct");
+            let praises = ["અભિનંદન!", "ખૂબ સરસ!", "ઉત્તમ!", "સાચો જવાબ!", "જોરદાર!", "Fantastic!"];
+            feedback.innerText = praises[Math.floor(Math.random() * praises.length)];
+            feedback.style.color = "#2ECC40";
+        } else {
+            btn.classList.add("wrong");
+            // Highlight the correct answer button
+            allBtns.forEach(b => {
+                if(b.innerText.includes(correctText)) {
+                    b.classList.add("correct");
+                }
+            });
+            feedback.innerText = "ખોટો જવાબ!";
+            feedback.style.color = "#FF4136";
+        }
+        
+        setTimeout(nextStep, 2500);
+    }
+
+    function disableBtns() {
+        let btns = document.querySelectorAll(".opt-btn");
+        btns.forEach(b => b.style.pointerEvents = "none");
+    }
+
+    function nextStep() {
+        qIndex++;
+        if(qIndex < quizData.length) {
+            showQuestion();
+        } else {
+            endGame();
+        }
+    }
+
+    function endGame() {
+        document.getElementById("screen-quiz").style.display = "none";
+        document.getElementById("screen-result").style.display = "block";
+        document.getElementById("final-score").innerText = score;
+        document.getElementById("final-name-disp").innerText = document.getElementById("s-name").value;
+        audio.pause();
+    }
+
+    function downloadCertificateImage() {
+        document.getElementById("c-name").innerText = document.getElementById("s-name").value;
+        document.getElementById("c-school").innerText = document.getElementById("s-school").value;
+        document.getElementById("c-score").innerText = score;
+        
+        let d = new Date();
+        document.getElementById("c-date").innerText = `${d.getDate()}/${d.getMonth()+1}/${d.getFullYear()}`;
+
+        html2canvas(document.querySelector("#cert-container")).then(canvas => {
+            let a = document.createElement("a");
+            a.download = `Certificate_${document.getElementById("s-name").value}.png`;
+            a.href = canvas.toDataURL();
+            a.click();
+        });
+    }
+</script>
+
+</body>
+</html>
