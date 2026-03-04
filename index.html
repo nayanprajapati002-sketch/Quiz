@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="gu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Quiz Portal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Hind+Vadodara:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #ffffff;
+            --card-bg: rgba(255, 255, 255, 0.15);
+            --card-hover: rgba(255, 255, 255, 0.25);
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Hind Vadodara', sans-serif;
+            /* ક્વિઝ પોર્ટલ માટે નવો મસ્ત બ્લુ-પર્પલ ગ્રેડિયન્ટ */
+            background: linear-gradient(-45deg, #1e3c72, #2a5298, #4b1248, #f0c27b);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+            color: white;
+            min-height: 100vh;
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Top Header */
+        header {
+            padding: 50px 20px 30px;
+            text-align: center;
+        }
+
+        header .school-name { 
+            font-size: 1.1rem; 
+            color: #ffd700; 
+            font-weight: 600; 
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+        }
+
+        header h1 { 
+            margin: 0; 
+            font-weight: 700; 
+            font-size: 2.5rem; 
+            text-shadow: 2px 3px 5px rgba(0,0,0,0.3); 
+        }
+
+        header p { 
+            opacity: 0.9; 
+            font-size: 1.2rem; 
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.2); 
+            font-weight: 500; 
+            margin-top: 10px;
+        }
+
+        /* Search Bar (ડિઝાઇન માટે) */
+        .search-container {
+            text-align: center;
+            margin: 0 auto 30px;
+            max-width: 500px;
+            padding: 0 20px;
+        }
+        
+        .search-box {
+            width: 100%;
+            padding: 15px 25px;
+            border-radius: 30px;
+            border: 1px solid rgba(255,255,255,0.3);
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            font-family: 'Hind Vadodara', sans-serif;
+            font-size: 1.1rem;
+            backdrop-filter: blur(10px);
+            outline: none;
+            box-sizing: border-box;
+            transition: 0.3s;
+        }
+
+        .search-box::placeholder { color: rgba(255,255,255,0.7); }
+        .search-box:focus { background: rgba(255, 255, 255, 0.2); border-color: white; box-shadow: 0 0 15px rgba(255,255,255,0.2); }
+
+        /* Quiz Grid */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            padding: 20px;
+            max-width: 1100px;
+            margin: auto;
+            padding-bottom: 60px; 
+        }
+
+        /* Modern Quiz Card */
+        .card {
+            background: var(--card-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px); 
+            border: 1px solid rgba(255,255,255,0.3);
+            padding: 25px;
+            border-radius: 24px;
+            text-decoration: none;
+            color: white;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: -100%; width: 50%; height: 100%;
+            background: linear-gradient(to right, transparent, rgba(255,255,255,0.2), transparent);
+            transform: skewX(-20deg);
+            transition: 0.5s;
+        }
+
+        .card:hover::before { left: 150%; }
+
+        .card:hover {
+            background: var(--card-hover);
+            transform: translateY(-8px) scale(1.02);
+            border-color: #fff;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+        }
+
+        .icon-box {
+            width: 70px;
+            height: 70px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 35px;
+            box-shadow: inset 0 0 10px rgba(255,255,255,0.1);
+            flex-shrink: 0;
+        }
+
+        .details { text-align: left; }
+        
+        .name { 
+            font-weight: 700; 
+            font-size: 1.3rem; 
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.2); 
+            margin-bottom: 5px;
+        }
+        
+        .sub-text {
+            font-size: 0.95rem;
+            opacity: 0.8;
+            font-weight: 500;
+        }
+
+        .play-btn {
+            position: absolute;
+            right: 20px;
+            background: white;
+            color: #1e3c72;
+            width: 40px; height: 40px;
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.2rem;
+            font-weight: bold;
+            opacity: 0;
+            transform: translateX(20px);
+            transition: 0.3s;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .card:hover .play-btn {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 20px;
+            opacity: 0.7;
+            font-size: 0.9rem;
+            margin-top: 20px;
+        }
+
+        @media (max-width: 600px) {
+            header h1 { font-size: 2rem; }
+            .card { flex-direction: column; text-align: center; gap: 15px; padding: 30px 20px; }
+            .details { text-align: center; }
+            .play-btn { display: none; } /* મોબાઈલમાં પ્લે બટન છુપાવી દીધું ક્લીન લુક માટે */
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="school-name">ઇકબાલગઢ પગાર કેન્દ્ર શાળા પીએમ શ્રી ગુજરાત</div>
+        <h1>જ્ઞાન કસોટી પોર્ટલ 🎓</h1>
+        <p>તમારું જ્ઞાન ચકાસો, મજેદાર રીતે!</p>
+    </header>
+
+    <div class="search-container">
+        <input type="text" class="search-box" placeholder="🔍 ક્વિઝ નું નામ શોધો... (દા.ત. વિજ્ઞાન)">
+    </div>
+
+    <div class="grid">
+        <a href="quiz.html" class="card">
+            <div class="icon-box">🧪</div>
+            <div class="details">
+                <div class="name">સાયન્સ ક્વિઝ Pro</div>
+                <div class="sub-text">ધોરણ ૬ થી ૮ | વિજ્ઞાન</div>
+            </div>
+            <div class="play-btn">▶</div>
+        </a>
+
+        <a href="Parakh_Quiz1.html" class="card">
+            <div class="icon-box">📘</div>
+            <div class="details">
+                <div class="name">પરખ ક્વિજ - 1</div>
+                <div class="sub-text">જનરલ નોલેજ ટેસ્ટ</div>
+            </div>
+            <div class="play-btn">▶</div>
+        </a>
+
+        <a href="Parakh_Quiz2.html" class="card">
+            <div class="icon-box">📗</div>
+            <div class="details">
+                <div class="name">પરખ ક્વિજ - 2</div>
+                <div class="sub-text">સામાજિક વિજ્ઞાન ટેસ્ટ</div>
+            </div>
+            <div class="play-btn">▶</div>
+        </a>
+
+        <a href="Parakh_Quiz3.html" class="card">
+            <div class="icon-box">📙</div>
+            <div class="details">
+                <div class="name">પરખ ક્વિજ - 3</div>
+                <div class="sub-text">ગણિત ગમ્મત ટેસ્ટ</div>
+            </div>
+            <div class="play-btn">▶</div>
+        </a>
+        
+        <a href="Parakh_Quiz4.html" class="card">
+            <div class="icon-box">🎒</div>
+            <div class="details">
+                <div class="name">પરખ ક્વિજ - 4</div>
+                <div class="sub-text">ગુજરાતી વ્યાકરણ</div>
+            </div>
+            <div class="play-btn">▶</div>
+        </a>
+
+    </div>
+
+    <footer>
+        Designed for Students by Nayan Prajapati
+    </footer>
+
+</body>
+</html>
