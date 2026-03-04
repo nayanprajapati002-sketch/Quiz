@@ -2,251 +2,179 @@
 <html lang="gu">
 <head>
   <meta charset="UTF-8">
-  <base target="_top">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <link href="https://fonts.googleapis.com/css2?family=Hind+Vadodara:wght@400;500;600;700&display=swap" rel="stylesheet">
-  
+  <title>Maths Quiz Pro | std7maths10</title>
+  <link href="https://fonts.googleapis.com/css2?family=Hind+Vadodara:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
-    :root {
-      --primary: #0ea5e9; --primary-dark: #0284c7; --accent: #10b981;
-      --glass: rgba(255, 255, 255, 0.90);
-      --bg-gradient: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
-      --text-main: #1f2937;
-    }
-    body { font-family: 'Hind Vadodara', sans-serif; background: var(--bg-gradient); margin: 0; min-height: 100vh; display: flex; justify-content: center; align-items: center; color: var(--text-main); overflow: hidden; user-select: none; }
-    .app-container { width: 100%; height: 100vh; display: flex; justify-content: center; align-items: center; position: relative; z-index: 10;}
-    .card { background: var(--glass); backdrop-filter: blur(10px); border-radius: 24px; padding: 2rem; width: 85%; max-width: 420px; text-align: center; box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4); border: 1px solid rgba(255, 255, 255, 0.2); max-height: 90vh; overflow-y: auto; transition: transform 0.3s ease; }
-    h1 { background: -webkit-linear-gradient(45deg, #0ea5e9, #10b981); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-weight: 800; font-size: 2rem; margin-bottom: 5px; }
-    h2, h3 { color: #374151; margin: 10px 0; }
-    p { color: #475569; font-weight: 600; font-size: 1.1rem; margin-top: 5px; }
-    input { width: 100%; padding: 15px; border: 2px solid #e0f2fe; border-radius: 15px; font-size: 1.1rem; text-align: center; outline: none; margin-top: 20px; font-family: 'Hind Vadodara', sans-serif; font-weight: 600; box-sizing: border-box; transition: 0.3s; background: rgba(255,255,255,0.8); }
-    input:focus { border-color: var(--primary); box-shadow: 0 0 0 4px rgba(14, 165, 233, 0.2); }
-    .btn { background: linear-gradient(90deg, var(--primary), var(--accent)); color: white; border: none; padding: 16px; width: 100%; border-radius: 15px; font-size: 1.2rem; font-weight: 700; cursor: pointer; margin-top: 15px; box-shadow: 0 10px 20px -5px rgba(14, 165, 233, 0.4); font-family: inherit; }
-    .btn:active { transform: scale(0.97); }
-    .btn-secondary { background: white; color: var(--primary-dark); border: 2px solid #e0f2fe; padding: 12px; width: 100%; border-radius: 15px; font-weight: 700; margin-top: 10px; cursor: pointer; font-family: inherit; }
-    .timer-badge { background: #fee2e2; color: #ef4444; padding: 5px 12px; border-radius: 20px; font-weight: bold; font-size: 1rem; }
-    .question-box { background: linear-gradient(to right, #f8fafc, #f1f5f9); padding: 20px; border-radius: 16px; margin: 20px 0; font-size: 1.25rem; font-weight: 700; color: #0f172a; border-left: 5px solid var(--primary); box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05); }
-    .option-btn { width: 100%; padding: 14px 18px; margin-bottom: 10px; background: white; border: 2px solid #e2e8f0; border-radius: 14px; font-size: 1.1rem; font-weight: 600; color: #334155; text-align: left; cursor: pointer; transition: all 0.2s; font-family: inherit; }
-    .option-btn:active { background: #f8fafc; }
-    .correct { background: #ecfdf5 !important; border-color: #10b981 !important; color: #065f46 !important; }
-    .wrong { background: #fef2f2 !important; border-color: #ef4444 !important; color: #991b1b !important; }
-    .lb-item { display: flex; justify-content: space-between; align-items: center; padding: 12px; border-bottom: 1px solid #f1f5f9; }
-    .lb-item:first-child { background: linear-gradient(to right, #f0fdf4, #fff); border-radius: 10px; border: 1px solid #bbf7d0; }
-    .lb-rank { font-weight: 900; width: 35px; font-size: 1.2rem; }
-    .lb-name { flex-grow: 1; text-align: left; font-weight: 600; color: #334155; }
-    .lb-details { text-align: right; font-size: 0.9rem; }
-    .score-pill { background: var(--primary); color: white; padding: 2px 8px; border-radius: 8px; font-size: 0.85rem; }
-    .time-pill { color: #64748b; font-size: 0.75rem; display: block; margin-top: 2px; }
-    .live-badge { background: #0f172a; color: white; padding: 6px 16px; border-radius: 30px; font-size: 0.85rem; display: inline-flex; align-items: center; gap: 6px; margin-bottom: 15px; }
-    .live-dot { width: 8px; height: 8px; background: #22c55e; border-radius: 50%; box-shadow: 0 0 5px #22c55e; }
+    /* અહી મેં તમારી જૂની ગ્લાસ થીમ અને નવી સર્ટિફિકેટ ડિઝાઇન બંને મિક્સ કરી છે */
+    :root { --primary: #6366f1; --accent: #f43f5e; --glass: rgba(255, 255, 255, 0.95); }
+    body { font-family: 'Hind Vadodara', sans-serif; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); margin: 0; min-height: 100vh; display: flex; justify-content: center; align-items: center; color: #1f2937; }
+    .card { background: var(--glass); backdrop-filter: blur(10px); border-radius: 30px; padding: 2rem; width: 90%; max-width: 450px; text-align: center; box-shadow: 0 25px 50px rgba(0,0,0,0.2); max-height: 90vh; overflow-y: auto; }
+    .btn { background: linear-gradient(to bottom, #6366f1, #4f46e5); color: white; border: none; padding: 15px; width: 100%; border-radius: 15px; font-size: 1.2rem; font-weight: 700; cursor: pointer; margin-top: 15px; box-shadow: 0 5px 0 #3730a3; transition: 0.1s; font-family: inherit; }
+    .btn:active { transform: translateY(5px); box-shadow: 0 0 0 #3730a3; }
+    .btn-gold { background: linear-gradient(to bottom, #f59e0b, #d97706); box-shadow: 0 5px 0 #b45309; }
+    .option-btn { width: 100%; padding: 15px; margin-bottom: 10px; background: #3b82f6; border: none; border-radius: 12px; color: white; font-size: 1.1rem; font-weight: 600; cursor: pointer; text-align: left; font-family: inherit; }
+    .correct { background: #22c55e !important; }
+    .wrong { background: #ef4444 !important; }
     .hidden { display: none !important; }
-    .fade-in { animation: fadeIn 0.4s ease-out; }
-    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-    .spinner { border: 3px solid #f1f5f9; border-top: 3px solid var(--primary); border-radius: 50%; width: 30px; height: 30px; animation: spin 1s linear infinite; margin: 0 auto; }
-    @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+    .lb-item { display: flex; justify-content: space-between; padding: 10px; background: white; border-radius: 10px; margin-bottom: 5px; border: 1px solid #eee; }
+    #cert-canvas { display: none; }
   </style>
 </head>
 <body>
 
-<canvas id="confetti" style="position:fixed; top:0; left:0; width:100%; height:100%; pointer-events:none; z-index:0;"></canvas>
+<div class="card">
+  <div id="screen-start">
+    <h1>📐 ગણિત માસ્ટર</h1>
+    <p>ધોરણ 7 | પ્રકરણ 10: બીજગણિતીય પદાવલિ</p>
+    <input type="text" id="username" placeholder="તમારું આખું નામ લખો..." style="width:100%; padding:12px; border-radius:10px; border:1px solid #ddd; margin:15px 0; text-align:center; font-size:1.1rem;">
+    <button class="btn" onclick="startGame()">ક્વિઝ શરૂ કરો 🚀</button>
+  </div>
 
-<div class="app-container">
-  <div class="card">
+  <div id="screen-quiz" class="hidden">
+    <div style="display:flex; justify-content:space-between; margin-bottom:10px; font-weight:700;">
+        <span>પ્રશ્ન: <span id="q-idx">1</span>/10</span>
+        <span>⏳ <span id="timer">45</span>s</span>
+    </div>
+    <div id="q-text" style="background:#f9fafb; padding:20px; border-radius:15px; font-weight:700; margin-bottom:15px;"></div>
+    <div id="options-box"></div>
+  </div>
+
+  <div id="screen-result" class="hidden">
+    <h2>પરિણામ 🎉</h2>
+    <div style="font-size:3.5rem; font-weight:900; color:var(--primary);" id="final-score">0/10</div>
+    <p id="time-stats"></p>
     
-    <div id="view-loading">
-      <div class="spinner" style="margin-bottom:15px;"></div>
-      <h3>તૈયાર થઈ રહ્યું છે...</h3>
-    </div>
+    <button id="btn-cert" class="btn btn-gold hidden" onclick="downloadCertificate()">📜 સર્ટિફિકેટ ડાઉનલોડ કરો</button>
+    
+    <div id="save-msg" style="margin:15px 0; font-weight:bold; color:var(--primary);">સ્કોર સેવ થાય છે... ⏳</div>
 
-    <div id="view-start" class="hidden fade-in">
-      <h1>📐 ગણિત માસ્ટર</h1> 
-      <p>ધોરણ 7 | પ્રકરણ 10: બીજગણિતીય પદાવલિ</p>
-      
-      <div style="background: #f0fdf4; padding: 15px; border-radius: 12px; margin: 20px 0; border: 1px dashed #10b981;">
-        <small style="color:var(--primary-dark); font-weight:bold;">🏆 નિયમ: જેનો સ્કોર વધુ અને સમય ઓછો, તે જીતશે!</small>
-      </div>
+    <h3 style="text-align:left; border-bottom:2px solid #6366f1;">🏆 લીડરબોર્ડ</h3>
+    <div id="lb-list" style="max-height:200px; overflow-y:auto; margin-bottom:15px;"></div>
 
-      <input type="text" id="username" placeholder="તમારું નામ લખો..." autocomplete="off">
-      
-      <button class="btn" onclick="startGame()">ક્વિઝ રમો ▶</button>
-      <button class="btn-secondary" onclick="showLeaderboardOnly()">🏅 લિડરબોર્ડ જુઓ</button>
-      <button class="btn-secondary" onclick="window.location.href='index.html'" style="border-color: #0ea5e9; color: #0284c7;">🏠 હોમ પેજ</button>
-    </div>
-
-    <div id="view-quiz" class="hidden fade-in">
-      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px;">
-        <span style="font-weight:bold; color:#64748b;">પ્રશ્ન <span id="q-current" style="color:var(--primary); font-size:1.2rem;">1</span>/<span id="q-total">10</span></span>
-        <div class="timer-badge">⏳ <span id="timer-display">45</span>s</div>
-      </div>
-      <div class="question-box" id="question-text">પ્રશ્ન લોડ થાય છે...</div>
-      <div id="options-container"></div>
-    </div>
-
-    <div id="view-result" class="hidden fade-in">
-      <div id="personal-result">
-        <h2>તમારું પરિણામ 🎉</h2>
-        <div style="font-size:4rem; font-weight:900; line-height:1; background: -webkit-linear-gradient(45deg, #0ea5e9, #10b981); -webkit-background-clip: text; -webkit-text-fill-color: transparent;" id="final-score">0</div>
-        <p style="margin-top:0;">કુલ પ્રશ્નો: <span id="final-total" style="font-weight:bold;">10</span> | સમય: <span id="final-time" style="font-weight:bold;">0</span> સેકન્ડ</p>
-        <hr style="border:0; border-top:1px solid #e2e8f0; margin:20px 0;">
-      </div>
-
-      <div>
-        <div class="live-badge">
-          <div class="live-dot"></div>
-          કુલ સ્પર્ધકો: <span id="total-participants" style="font-weight:bold;">0</span>
-        </div>
-        <h3 style="text-align:left; margin-bottom:10px;">🏆 ટોપ-5 ચેમ્પિયન</h3>
-        <div id="leaderboard-list" style="min-height: 100px;"><div class="spinner"></div></div>
-      </div>
-
-      <button class="btn" onclick="resetGame()" style="background:#0f172a; margin-top:20px;">ફરી રમો</button>
-      <button class="btn-secondary" onclick="window.location.href='index.html'">🏠 હોમ પેજ</button>
-    </div>
-
+    <button class="btn" onclick="location.reload()">ફરીથી રમો 🔄</button>
   </div>
 </div>
 
+<canvas id="cert-canvas" width="800" height="600"></canvas>
+
 <script>
-  // ૧. તમારી નવી માસ્ટર સ્ક્રિપ્ટ લિંક અહીં મૂકો
-  const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyeQ3jdz1IuGPaO9ySkN8yxjJmi6bwOsaza0DMGy_rFc9IdA-OiHbnKN5_j4T4onvCk/exec";
-  
-  // ૨. આ ફાઈલનું નામ (ટેબનું નામ) અહીં સેટ કરેલું છે
-  const TAB_NAME = "std7maths10";
+  const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbw4PIw3O5eWNFrDoul20G0X3PVzeQKpKpmxo_ZZUO5-Irx4-SeOI8L1XKm79KzhP1C7/execો";
+  const TAB_NAME = "std7maths10"; // શીટમાં ટેબનું નામ
+  const SUBJECT = "ગણિત (ધોરણ-7)";
+  const CHAPTER = "પ્રકરણ-10: બીજગણિતીય પદાવલિ";
 
-  const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-  function playSound(type) {
-    if (audioCtx.state === 'suspended') audioCtx.resume();
-    const osc = audioCtx.createOscillator(); const gain = audioCtx.createGain(); osc.connect(gain); gain.connect(audioCtx.destination);
-    if (type === 'tick') { osc.frequency.setValueAtTime(800, audioCtx.currentTime); osc.frequency.exponentialRampToValueAtTime(1200, audioCtx.currentTime + 0.05); gain.gain.setValueAtTime(0.05, audioCtx.currentTime); gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.05); osc.start(); osc.stop(audioCtx.currentTime + 0.05); }
-    else if (type === 'success') { osc.type = 'triangle'; osc.frequency.setValueAtTime(400, audioCtx.currentTime); osc.frequency.linearRampToValueAtTime(800, audioCtx.currentTime + 0.1); gain.gain.setValueAtTime(0.1, audioCtx.currentTime); gain.gain.linearRampToValueAtTime(0, audioCtx.currentTime + 0.3); osc.start(); osc.stop(audioCtx.currentTime + 0.3); }
-    else if (type === 'error') { osc.type = 'sawtooth'; osc.frequency.setValueAtTime(150, audioCtx.currentTime); osc.frequency.linearRampToValueAtTime(100, audioCtx.currentTime + 0.2); gain.gain.setValueAtTime(0.1, audioCtx.currentTime); gain.gain.linearRampToValueAtTime(0, audioCtx.currentTime + 0.2); osc.start(); osc.stop(audioCtx.currentTime + 0.2); }
-  }
+  let questions = [], currentQ = 0, score = 0, timer, timeLeft = 45, totalTimeTaken = 0, userName = "", myRank = 0;
 
-  let allQuestions = [];
-  let currentQIndex = 0, score = 0, totalTimeTaken = 0;
-  let timerInterval, timeLeft = 45; 
-  let userName = "";
-
-  window.onload = async function() {
-    try {
-      // ડેટા માંગતી વખતે TAB_NAME સાથે મોકલશે
-      const response = await fetch(`${SCRIPT_URL}?action=getQuizData&tabName=${TAB_NAME}`);
-      const data = await response.json();
-      initGame(data);
-    } catch (error) { alert("ડેટા લોડ કરવામાં ભૂલ આવી છે. કૃપા કરીને રિફ્રેશ કરો."); }
-  };
-
-  function initGame(data) { 
-    if(data.error) { alert("ભૂલ: " + data.error); return; }
-    allQuestions = data; 
-    switchView('view-start'); 
-  }
-
-  function switchView(viewId) {
-    ['view-loading', 'view-start', 'view-quiz', 'view-result'].forEach(id => { document.getElementById(id).classList.add('hidden'); });
-    document.getElementById(viewId).classList.remove('hidden');
-  }
-
-  function showLeaderboardOnly() { document.getElementById('personal-result').style.display = 'none'; switchView('view-result'); fetchLeaderboard(); }
-
-  function startGame() {
-    const input = document.getElementById('username');
-    if (!input.value.trim()) { input.style.borderColor = "red"; setTimeout(()=>input.style.borderColor="#e0f2fe", 1000); return; }
-    if (audioCtx.state === 'suspended') audioCtx.resume();
-    userName = input.value.trim();
-    if(allQuestions.length === 0) { alert(`તમારી શીટના '${TAB_NAME}' ટેબમાં પ્રશ્નો મળ્યા નથી!`); return; }
+  async function startGame() {
+    userName = document.getElementById('username').value.trim();
+    if(!userName) return alert("નામ લખો!");
     
-    currentQIndex = 0; score = 0; totalTimeTaken = 0;
-    document.getElementById('q-total').innerText = allQuestions.length;
-    document.getElementById('final-total').innerText = allQuestions.length;
-    document.getElementById('personal-result').style.display = 'block';
-    switchView('view-quiz'); loadQuestion();
+    document.getElementById('screen-start').classList.add('hidden');
+    const res = await fetch(`${SCRIPT_URL}?action=getQuizData&tabName=${TAB_NAME}`);
+    questions = await res.json();
+    
+    document.getElementById('screen-quiz').classList.remove('hidden');
+    loadQuestion();
   }
 
   function loadQuestion() {
-    clearInterval(timerInterval); timeLeft = 45; updateTimer();
-    const q = allQuestions[currentQIndex];
-    document.getElementById('q-current').innerText = currentQIndex + 1;
-    document.getElementById('question-text').innerText = q.q;
-    const container = document.getElementById('options-container'); container.innerHTML = "";
-    q.opt.forEach((optText, idx) => {
-      const btn = document.createElement('button'); btn.className = 'option-btn'; btn.innerText = optText;
-      btn.onclick = () => handleAnswer(idx, btn); container.appendChild(btn);
+    clearInterval(timer); timeLeft = 45;
+    document.getElementById('q-idx').innerText = currentQ + 1;
+    document.getElementById('timer').innerText = timeLeft;
+    
+    const q = questions[currentQ];
+    document.getElementById('q-text').innerText = q.q;
+    const box = document.getElementById('options-box'); box.innerHTML = "";
+    
+    q.opt.forEach((o, i) => {
+      const btn = document.createElement('button');
+      btn.className = 'option-btn'; btn.innerText = o;
+      btn.onclick = () => checkAns(i, btn);
+      box.appendChild(btn);
     });
-    timerInterval = setInterval(() => {
-      timeLeft--; updateTimer();
-      if(timeLeft <= 5 && timeLeft > 0) playSound('tick'); 
-      if (timeLeft <= 0) { clearInterval(timerInterval); playSound('error'); handleAnswer(-1, null); }
+
+    timer = setInterval(() => {
+      timeLeft--; document.getElementById('timer').innerText = timeLeft;
+      if(timeLeft <= 0) { clearInterval(timer); totalTimeTaken += 45; nextQ(); }
     }, 1000);
   }
 
-  function updateTimer() {
-    document.getElementById('timer-display').innerText = timeLeft;
-    const badge = document.querySelector('.timer-badge');
-    if(timeLeft <= 5) badge.style.background = "#fee2e2"; else badge.style.background = "#e0f2fe";
+  function checkAns(idx, btn) {
+    clearInterval(timer); totalTimeTaken += (45 - timeLeft);
+    const correct = questions[currentQ].ans;
+    const all = document.querySelectorAll('.option-btn');
+    all.forEach(b => b.disabled = true);
+
+    if(idx === correct) { score++; btn.classList.add('correct'); }
+    else { btn.classList.add('wrong'); all[correct].classList.add('correct'); }
+    setTimeout(nextQ, 1500);
   }
 
-  function handleAnswer(selectedIndex, btnElement) {
-    clearInterval(timerInterval); let timeSpent = 45 - timeLeft; totalTimeTaken += timeSpent;
-    const correctIndex = allQuestions[currentQIndex].ans;
-    const allBtns = document.querySelectorAll('.option-btn'); allBtns.forEach(b => b.disabled = true);
-    if (btnElement) {
-       if (selectedIndex === correctIndex) { score++; btnElement.classList.add('correct'); playSound('success'); } 
-       else { btnElement.classList.add('wrong'); allBtns[correctIndex].classList.add('correct'); playSound('error'); }
-    } else { allBtns[correctIndex].classList.add('correct'); }
-    setTimeout(() => { 
-      currentQIndex++; 
-      if (currentQIndex < allQuestions.length) loadQuestion(); 
-      else endGame(); 
-    }, 1500);
+  function nextQ() {
+    currentQ++;
+    if(currentQ < 10) loadQuestion();
+    else endGame();
   }
 
   async function endGame() {
-    switchView('view-result'); 
-    document.getElementById('final-score').innerText = score; 
-    document.getElementById('final-time').innerText = totalTimeTaken;
-    
-    // 70% થી વધુ માર્ક્સ હોય તો જ કન્ફેટી ઊડશે
-    if(score >= (allQuestions.length * 0.7)) fireConfetti();
-    
-    try {
-      // સ્કોર સેવ કરતી વખતે TAB_NAME સાથે મોકલશે
-      await fetch(SCRIPT_URL, { 
-        method: 'POST', 
-        headers: { 'Content-Type': 'text/plain;charset=utf-8' }, 
-        body: JSON.stringify({ name: userName, score: score, time: totalTimeTaken, tabName: TAB_NAME }) 
-      });
-      fetchLeaderboard();
-    } catch (e) { alert("સ્કોર સેવ કરવામાં ભૂલ થઈ!"); fetchLeaderboard(); }
-  }
+    document.getElementById('screen-quiz').classList.add('hidden');
+    document.getElementById('screen-result').classList.remove('hidden');
+    document.getElementById('final-score').innerText = score + "/10";
+    document.getElementById('time-stats').innerText = `સમય: ${totalTimeTaken} સેકન્ડ`;
 
-  async function fetchLeaderboard() {
-    document.getElementById('leaderboard-list').innerHTML = '<div class="spinner"></div>';
-    try {
-      // લીડરબોર્ડ માંગતી વખતે TAB_NAME સાથે મોકલશે
-      const response = await fetch(`${SCRIPT_URL}?action=getLeaderboard&tabName=${TAB_NAME}`); 
-      const data = await response.json(); renderLeaderboard(data);
-    } catch (error) { document.getElementById('leaderboard-list').innerHTML = "<p>લિડરબોર્ડ લોડ થઈ શક્યું નથી.</p>"; }
-  }
-
-  function renderLeaderboard(data) {
-    document.getElementById('total-participants').innerText = data.total; const list = document.getElementById('leaderboard-list');
-    if(!data || data.leaderboard.length === 0) { list.innerHTML = "<p style='padding:20px; color:#64748b;'>હજુ સુધી કોઈએ ક્વિઝ રમી નથી. પ્રથમ બનો! 🚀</p>"; return; }
-    let html = ""; const medals = ['🥇', '🥈', '🥉'];
-    data.leaderboard.forEach((row, i) => {
-      let icon = i < 3 ? medals[i] : `<span style='color:#64748b; font-size:1rem;'>#${i+1}</span>`;
-      let bgStyle = i === 0 ? "background:linear-gradient(to right, #f0fdf4, #fff);" : "";
-      html += `<div class="lb-item" style="${bgStyle}"><div class="lb-rank">${icon}</div><div class="lb-name">${row.name}</div><div class="lb-details"><span class="score-pill">${row.score} ગુણ</span><span class="time-pill">⏱ ${row.time}s</span></div></div>`;
+    // ડેટા સેવ કરો
+    const res = await fetch(SCRIPT_URL, {
+      method: 'POST',
+      body: JSON.stringify({ name: userName, score: score, time: totalTimeTaken, tabName: TAB_NAME })
     });
-    list.innerHTML = html;
+    const data = await res.json();
+    showLeaderboard(data);
   }
 
-  function resetGame() { document.getElementById('username').value = ""; switchView('view-start'); }
+  function showLeaderboard(data) {
+    document.getElementById('save-msg').innerText = "✔ સેવ થઈ ગયું!";
+    const list = document.getElementById('lb-list'); list.innerHTML = "";
+    
+    data.leaderboard.forEach((r, i) => {
+      if(r.name === userName && r.score == score) myRank = i + 1;
+      list.innerHTML += `<div class="lb-item"><span>#${i+1} ${r.name}</span><b>${r.score}</b></div>`;
+    });
 
-  function fireConfetti() {
-    const c = document.getElementById('confetti'); const ctx = c.getContext('2d'); c.width = window.innerWidth; c.height = window.innerHeight;
-    let p = []; for(let i=0; i<150; i++) p.push({x:c.width/2, y:c.height/2, vx:(Math.random()-0.5)*20, vy:(Math.random()-1)*20, c:`hsl(${Math.random()*360},100%,50%)`, life:100});
-    function d(){ ctx.clearRect(0,0,c.width,c.height); p.forEach((pt,i)=>{ pt.x+=pt.vx; pt.y+=pt.vy; pt.vy+=0.5; pt.life--; ctx.fillStyle=pt.c; ctx.fillRect(pt.x,pt.y,8,8); if(pt.life<=0)p.splice(i,1); }); if(p.length)requestAnimationFrame(d); } d();
+    // જો ૭૦% થી વધુ માર્કસ હોય તો સર્ટિફિકેટ બતાવવું
+    if(score >= 7) document.getElementById('btn-cert').classList.remove('hidden');
+  }
+
+  // --- સર્ટિફિકેટ જનરેશન ---
+  function downloadCertificate() {
+    const canvas = document.getElementById('cert-canvas');
+    const ctx = canvas.getContext('2d');
+    
+    // Background
+    ctx.fillStyle = "#fffdf5"; ctx.fillRect(0, 0, 800, 600);
+    ctx.lineWidth = 15; ctx.strokeStyle = "#1a237e"; ctx.strokeRect(10, 10, 780, 580);
+    ctx.lineWidth = 5; ctx.strokeStyle = "#d4af37"; ctx.strokeRect(25, 25, 750, 550);
+
+    ctx.textAlign = "center"; ctx.fillStyle = "#1a237e";
+    ctx.font = "bold 30px Arial"; ctx.fillText("ઇકબાલગઢ પગાર કેન્દ્ર શાળા પીએમ શ્રી ગુજરાત", 400, 100);
+    
+    ctx.font = "bold 45px Arial"; ctx.fillStyle = "#b45309"; ctx.fillText("🏆 સિદ્ધિ પ્રમાણપત્ર 🏆", 400, 180);
+    
+    ctx.font = "22px Arial"; ctx.fillStyle = "#4b5563"; ctx.fillText("આથી પ્રમાણપત્ર આપવામાં આવે છે કે,", 400, 240);
+    
+    ctx.font = "bold 38px Arial"; ctx.fillStyle = "#111827"; ctx.fillText(userName, 400, 310);
+    
+    ctx.font = "24px Arial"; ctx.fillStyle = "#374151";
+    ctx.fillText(`વિષય: ${SUBJECT}`, 400, 370);
+    ctx.fillText(`${CHAPTER}`, 400, 410);
+    ctx.fillText(`તેમણે આ કસોટીમાં ${score}/10 ગુણ સાથે ${myRank} મો નંબર મેળવ્યો છે.`, 400, 460);
+
+    ctx.font = "italic 25px Arial"; ctx.fillText("Nayan Prajapati (Science Teacher)", 600, 540);
+
+    const link = document.createElement('a');
+    link.download = `Certificate_${userName}.png`;
+    link.href = canvas.toDataURL();
+    link.click();
   }
 </script>
 </body>
