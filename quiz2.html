@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="gu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Science Quiz | ઇકબાલગઢ પગાર કેન્દ્ર શાળા</title>
+    <link href="https://fonts.googleapis.com/css2?family=Hind+Vadodara:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root { --primary: #ffd700; --bg: #1e3c72; }
+        body {
+            font-family: 'Hind Vadodara', sans-serif;
+            background: linear-gradient(-45deg, #1e3c72, #2a5298, #4b1248, #f0c27b);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+            color: white; min-height: 100vh; margin: 0; display: flex; align-items: center; justify-content: center; flex-direction: column;
+        }
+        @keyframes gradientBG { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
+        
+        .quiz-container {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(15px);
+            padding: 30px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.2);
+            width: 90%; max-width: 500px; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+        .btn {
+            background: var(--primary); color: #1e3c72; border: none; padding: 12px 25px;
+            font-size: 1.1rem; font-weight: 700; border-radius: 30px; cursor: pointer; margin-top: 20px; font-family: 'Hind Vadodara'; transition: 0.3s;
+        }
+        .btn:hover { transform: scale(1.05); }
+        input {
+            width: 80%; padding: 12px; border-radius: 10px; border: none; margin: 15px 0; font-size: 1rem; text-align: center; font-family: 'Hind Vadodara';
+        }
+        .option-btn {
+            display: block; width: 100%; padding: 12px; margin: 10px 0;
+            background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.4); color: white;
+            border-radius: 10px; cursor: pointer; text-align: left; font-size: 1.1rem; transition: 0.3s; font-family: 'Hind Vadodara';
+        }
+        .option-btn:hover { background: rgba(255,255,255,0.3); }
+        .leaderboard-table { width: 100%; border-collapse: collapse; margin-top: 15px; font-size: 0.95rem; }
+        .leaderboard-table th, .leaderboard-table td { padding: 10px; border-bottom: 1px solid rgba(255,255,255,0.2); }
+        #loader { font-size: 1.2rem; margin: 20px; display: none; font-weight: 600; }
+        footer { margin-top: 20px; font-size: 0.85rem; opacity: 0.8; }
+    </style>
+</head>
+<body>
+
+<div class="quiz-container">
+    <div id="setup-view">
+        <h2 style="color: var(--primary);">વિજ્ઞાન કસોટી Pro 🔬</h2>
+        <input type="text" id="userName" placeholder="તમારું નામ લખો...">
+        <br>
+        <button class="btn" onclick="startQuiz()">ક્વિઝ શરૂ કરો</button>
+    </div>
+
+    <div id="quiz-view" style="display: none;">
+        <p id="q-count" style="font-weight: bold;"></p>
+        <h3 id="question-text">પ્રશ્ન લોડ થઈ રહ્યો છે...</h3>
+        <div id="options-container"></div>
+    </div>
+
+    <div id="result-view" style="display: none;">
+        <h2 style="color: var(--primary);">પરિણામ 🏆</h2>
+        <p id="final-score" style="font-size: 1.3rem; font-weight: bold;"></p>
+        
+        <h4 style="margin-top: 20px; border-bottom: 2px solid var(--primary); padding-bottom: 5px;">ટોપ 5 વિદ્યાર્થીઓ</h4>
+        <table class="leaderboard-table">
+            <thead><tr><th>ક્રમ</th><th>નામ</th><th>સ્કોર</th><th>સમય</th></tr></thead>
+            <tbody id="leaderboard-body"></tbody>
+        </table>
+        
+        <button class="btn" onclick="location.reload()">ફરી રમો</button>
+        <button class="btn" onclick="window.location.href='index.html'" style="background: white;">હોમ પેજ</button>
+    </div>
+
+    <div id="loader">થોડી રાહ જુઓ... ⏳</div>
+</div>
+
+<footer>ઇકબાલગઢ પગાર કેન્દ્ર શાળા પીએમ શ્રી ગુજરાત</footer>
+
+<script>
+    // અગત્યનું: અહીં નીચે તમારી નવી Web App ની URL પેસ્ટ કરો
+    const SCRIPT_URL = "તમારી_APPS_SCRIPT_WEB_APP_URL_અહીં_પેસ્ટ_કરો";
+    
+    let questions = [];
+    let currentQ = 0;
+    let score = 0;
+    let startTime;
+
+    async function startQuiz() {
+        const name = document.getElementById('userName').value.trim();
+        if (!name) return alert("મહેરબાની કરીને તમારું નામ લખો!");
+
+        document.getElementById('setup-view').style.display = 'none';
+        document.getElementById('loader').style.display = 'block';
+
+        try {
+            const res = await fetch(`${SCRIPT_URL}?action=getQuizData`);
+            questions = await res.json();
+            
+            if(questions.length === 0) {
+                alert("પ્રશ્નો મળ્યા નથી. કૃપા કરીને શીટમાં પ્રશ્નો ઉમેરો.");
+                location.reload();
+                return;
+            }
+
+            document.getElementById('loader').style.display = 'none';
+            document.getElementById('quiz-view').style.display = 'block';
+            startTime = new Date();
+            showQuestion();
+        } catch (e) { 
+            alert("સર્વર સાથે જોડાઈ શક્યા નથી. ફરી પ્રયાસ કરો."); 
+            location.reload();
+        }
+    }
+
+    function showQuestion() {
+        if (currentQ >= questions.length) return finishQuiz();
+        const q = questions[currentQ];
+        document.getElementById('q-count').innerText = `પ્રશ્ન: ${currentQ + 1} / ${questions.length}`;
+        document.getElementById('question-text').innerText = q.q;
+        const container = document.getElementById('options-container');
+        container.innerHTML = "";
+        
+        q.opt.forEach((opt, idx) => {
+            const b = document.createElement('button');
+            b.className = 'option-btn';
+            b.innerText = opt;
+            b.onclick = () => { 
+                if(idx === q.ans) score++; 
+                currentQ++; 
+                showQuestion(); 
+            };
+            container.appendChild(b);
+        });
+    }
+
+    async function finishQuiz() {
+        document.getElementById('quiz-view').style.display = 'none';
+        document.getElementById('loader').style.display = 'block';
+        
+        const time = ((new Date() - startTime) / 1000).toFixed(2);
+        const name = document.getElementById('userName').value;
+
+        try {
+            const res = await fetch(SCRIPT_URL, {
+                method: 'POST',
+                body: JSON.stringify({ name, score, time })
+            });
+            const data = await res.json();
+
+            document.getElementById('loader').style.display = 'none';
+            document.getElementById('result-view').style.display = 'block';
+            document.getElementById('final-score').innerText = `તમારો સ્કોર: ${score} | સમય: ${time} સેકન્ડ`;
+            
+            const lbBody = document.getElementById('leaderboard-body');
+            lbBody.innerHTML = data.leaderboard.map((u, i) => 
+                `<tr><td>${i+1}</td><td>${u.name}</td><td>${u.score}</td><td>${u.time}s</td></tr>`
+            ).join('');
+        } catch (e) {
+            alert("સ્કોર સેવ કરવામાં કોઈ ભૂલ આવી છે.");
+        }
+    }
+</script>
+</body>
+</html>
