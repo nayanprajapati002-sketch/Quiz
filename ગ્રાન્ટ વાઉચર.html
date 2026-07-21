@@ -1,0 +1,767 @@
+<!DOCTYPE html>
+<html lang="gu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>વાઉચર જનરેટર - Voucher Generator</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Hind+Vadodara:wght@400;600;700&display=swap');
+
+        body {
+            font-family: 'Hind Vadodara', sans-serif;
+            background-color: #f4f6f9;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Running Ticker (Triranga & Hidden in Print) */
+        .creator-ticker-container {
+            background-color: #222;
+            overflow: hidden;
+            white-space: nowrap;
+            padding: 12px 0;
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.5);
+        }
+
+        .creator-ticker {
+            display: inline-block;
+            padding-left: 100%;
+            animation: ticker 15s linear infinite;
+            font-weight: 700;
+            font-size: 26px; /* મોટા ફોન્ટ */
+            letter-spacing: 1px;
+        }
+
+        .triranga-text {
+            background: linear-gradient(90deg, #FF9933 0%, #FFFFFF 50%, #138808 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 2px rgba(0,0,0,0.3);
+        }
+
+        @keyframes ticker {
+            0% { transform: translate3d(0, 0, 0); }
+            100% { transform: translate3d(-100%, 0, 0); }
+        }
+
+        /* Control Panel */
+        .controls-panel {
+            background: #ffffff;
+            padding: 20px 30px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+            margin: 20px auto;
+            max-width: 950px;
+            border-radius: 12px;
+            border-top: 5px solid #2980b9;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group.full-width {
+            grid-column: span 2;
+        }
+
+        .form-group label {
+            font-weight: 600;
+            margin-bottom: 5px;
+            color: #444;
+            font-size: 14px;
+        }
+
+        .form-group input[type="text"], .form-group select {
+            padding: 10px;
+            font-size: 15px;
+            border: 1px solid #c2c9d6;
+            border-radius: 6px;
+            font-family: inherit;
+            background-color: #fdfdfd;
+        }
+
+        .form-group select {
+            cursor: pointer;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+
+        .form-group input:focus, .form-group select:focus {
+            outline: none;
+            border-color: #2980b9;
+            box-shadow: 0 0 6px rgba(41, 128, 185, 0.4);
+        }
+
+        .radio-group {
+            grid-column: span 2;
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin: 15px 0;
+            font-size: 16px;
+            font-weight: 700;
+            background: #eef2f7;
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid #d0d7e2;
+        }
+
+        .radio-group label {
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #2c3e50;
+        }
+
+        .print-btn {
+            grid-column: span 2;
+            background-color: #2980b9;
+            color: white;
+            padding: 14px;
+            border: none;
+            border-radius: 8px;
+            font-size: 18px;
+            cursor: pointer;
+            transition: background 0.3s, transform 0.2s;
+            font-weight: 700;
+            letter-spacing: 1px;
+            margin-top: 10px;
+        }
+
+        .print-btn:hover {
+            background-color: #1f618d;
+            transform: translateY(-2px);
+        }
+
+        .instruction {
+            grid-column: span 2;
+            text-align: center;
+            color: #e67e22;
+            font-size: 15px;
+            margin-top: -5px;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .section-title {
+            grid-column: span 2;
+            background: #e9ecef;
+            padding: 8px 15px;
+            font-weight: bold;
+            color: #2c3e50;
+            border-radius: 5px;
+            margin-top: 10px;
+            font-size: 16px;
+            border-left: 4px solid #2980b9;
+        }
+
+        /* Print Area (A4 Size) */
+        .page-container {
+            width: 210mm;
+            height: 297mm;
+            background: white;
+            margin: 0 auto 50px auto;
+            box-shadow: 0 0 20px rgba(0,0,0,0.15);
+            padding: 10mm;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        /* Voucher Box Styles */
+        .voucher-box {
+            position: relative;
+            background: #ffffff;
+            border: 1.5px solid #2c3e50;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 12px 15px;
+            font-size: 13px;
+            color: #000000;
+        }
+
+        /* Layout 1: Full Page (1 Voucher) */
+        .layout-1 {
+            justify-content: center;
+        }
+        .layout-1 .voucher-box {
+            height: 98%;
+            width: 100%;
+            padding: 25px 35px;
+            font-size: 16px;
+        }
+        .layout-1 .v-table-container {
+            height: 600px !important;
+        }
+        .layout-1 .v-empty-box {
+            width: 55px;
+            height: 48px;
+        }
+        .layout-1 .v-col-amount, .layout-1 .v-body-amount {
+            width: 130px;
+        }
+
+        /* Layout 2: Half Page (2 Vouchers) */
+        .layout-2 .voucher-box {
+            height: 48.5%;
+            width: 100%;
+        }
+        .layout-2 .v-table-container {
+            height: 285px !important;
+        }
+        .layout-2 .v-empty-box {
+            width: 42px;
+            height: 38px;
+        }
+
+        /* Voucher Header */
+        .v-header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 5px;
+        }
+
+        .v-no-date {
+            display: flex;
+            gap: 15px;
+            font-weight: 600;
+        }
+
+        .v-no-date span {
+            border-bottom: 1px solid #000;
+            min-width: 120px;
+            display: inline-block;
+            text-align: center;
+        }
+
+        .v-title-badge {
+            background-color: #ffffff;
+            border: 2px solid #2980b9;
+            color: #2980b9;
+            padding: 3px 20px;
+            font-weight: 700;
+            font-size: 16px;
+            letter-spacing: 1px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        
+        .layout-1 .v-title-badge {
+            font-size: 22px;
+            padding: 5px 30px;
+        }
+
+        /* Voucher Fields */
+        .v-row {
+            display: flex;
+            align-items: baseline;
+            gap: 8px;
+            margin-bottom: 3px;
+            font-weight: 600;
+        }
+
+        .v-line {
+            border-bottom: 1px solid #000;
+            flex-grow: 1;
+            display: inline-block;
+            min-height: 1.1em;
+            padding-left: 5px;
+        }
+
+        [class^="out-"] {
+            font-weight: 700;
+            color: #000;
+        }
+
+        /* Particulars Table Area */
+        .v-table-container {
+            border: 1.5px solid #2c3e50;
+            margin: 4px 0;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        .v-table-header {
+            display: flex;
+            border-bottom: 1.5px solid #2c3e50;
+            background-color: #f8f9fa;
+            font-weight: 700;
+            text-align: center;
+        }
+
+        .v-col-subject {
+            flex-grow: 1;
+            padding: 5px;
+            border-right: 1.5px solid #2c3e50;
+        }
+
+        .v-col-amount {
+            width: 100px;
+            display: flex;
+        }
+
+        .v-sub-col {
+            flex: 1;
+            padding: 5px;
+            text-align: center;
+        }
+        .v-sub-col:first-child {
+            border-right: 1.5px solid #2c3e50;
+        }
+
+        .v-table-body {
+            display: flex;
+            flex-grow: 1;
+            position: relative;
+            padding-bottom: 70px; /* Space for the bottom footer rows */
+        }
+
+        .v-body-subject {
+            flex-grow: 1;
+            border-right: 1.5px solid #2c3e50;
+            padding: 8px;
+            white-space: pre-line;
+            line-height: 1.5;
+        }
+
+        .v-body-amount {
+            width: 100px;
+            display: flex;
+        }
+
+        .v-amount-box-1 {
+            flex: 1;
+            border-right: 1.5px solid #2c3e50;
+            padding: 8px 4px;
+            text-align: center;
+        }
+
+        .v-amount-box-2 {
+            flex: 1;
+            padding: 8px 4px;
+            text-align: center;
+        }
+
+        /* Footer Row Inside the Box */
+        .v-footer-row {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            display: flex;
+            flex-direction: column;
+            border-top: 1.5px solid #2c3e50;
+            background-color: #ffffff;
+            font-weight: 600;
+        }
+
+        .v-total-row {
+            display: flex;
+            border-bottom: 1.5px solid #2c3e50;
+        }
+
+        .v-total-label {
+            flex-grow: 1;
+            text-align: right;
+            padding: 6px 10px;
+            border-right: 1.5px solid #2c3e50;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+        }
+
+        .v-words-row {
+            display: flex;
+            padding: 6px 10px;
+        }
+
+        .v-total-words {
+            flex-grow: 1;
+            display: flex;
+            align-items: baseline;
+            gap: 5px;
+        }
+
+        .v-total-words .v-line {
+            margin-right: 5px;
+        }
+
+        /* Bottom Sign Area */
+        .v-bottom-sign {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            margin-top: 3px;
+            font-weight: 700;
+        }
+
+        .v-sign-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .v-empty-box {
+            border: 1.5px dashed #2c3e50;
+        }
+
+        .v-sign-line-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .v-sign-line {
+            border-bottom: 1px solid #000;
+            width: 180px;
+            display: inline-block;
+        }
+
+        @media print {
+            body { background: white; }
+            .controls-panel { display: none !important; }
+            .creator-ticker-container { display: none !important; } /* ખાસ પ્રિન્ટમાં દૂર કરવા માટે */
+            .page-container {
+                box-shadow: none;
+                margin: 0;
+                padding: 6mm;
+                width: 210mm;
+                height: 297mm;
+                page-break-after: always;
+                justify-content: space-between;
+            }
+            .voucher-box {
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+            @page { size: A4; margin: 0; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Running Triranga Ticker (Hidden in PDF/Print) -->
+<div class="creator-ticker-container no-print">
+    <div class="creator-ticker">
+        <span class="triranga-text">ક્રિએટર : જીનેશ શાહ(9510566006)</span>
+    </div>
+</div>
+
+<!-- Control Panel -->
+<div class="controls-panel no-print">
+    <div class="radio-group">
+        <label><input type="radio" name="layout" value="1" onchange="updateLayout()"> A4 માં 1 વાઉચર (આખું પેજ)</label>
+        <label><input type="radio" name="layout" value="2" onchange="updateLayout()" checked> A4 માં 2 વાઉચર (અડધું-અડધું - અલગ-અલગ વિગત)</label>
+    </div>
+    
+    <div class="instruction">વાઉચરની વિગતો બદલો. બધું સીધું જ પ્રિન્ટમાં સેટ થઈ જશે.</div>
+
+    <div class="form-grid">
+        
+        <!-- ================= TOP VOUCHER (વાઉચર - ૧) ================= -->
+        <div class="section-title">📄 ઉપરનું વાઉચર (વાઉચર - ૧) ની વિગત</div>
+        <div class="form-group">
+            <label>વાઉચર નં. (૧) :</label>
+            <input type="text" id="inp-vno-1" oninput="updateText()" placeholder="દા.ત. ૧૦૧">
+        </div>
+        <div class="form-group">
+            <label>તારીખ (૧) :</label>
+            <input type="text" id="inp-date-1" oninput="updateText()" placeholder="દા.ત. ૨૦/૦૭/૨૦૨૬">
+        </div>
+        <div class="form-group">
+            <label>શ્રી (૧) :</label>
+            <input type="text" id="inp-shri-1" oninput="updateText()" placeholder="નામ લખો">
+        </div>
+        <div class="form-group">
+            <label>ગ્રાન્ટનું નામ (૧) :</label>
+            <input type="text" id="inp-grant-1" oninput="updateText()" placeholder="ગ્રાન્ટનું નામ લખો">
+        </div>
+        <div class="form-group">
+            <label>લેનારનું નામ (૧) :</label>
+            <input type="text" id="inp-lenar-1" oninput="updateText()" placeholder="નામ લખો">
+        </div>
+        <div class="form-group">
+            <label>ગામ (૧) :</label>
+            <input type="text" id="inp-gam-1" oninput="updateText()" placeholder="ગામનું નામ લખો">
+        </div>
+        <div class="form-group">
+            <label>રૂપિયા (૧) :</label>
+            <input type="text" id="inp-rs-1" oninput="updateText()" placeholder="દા.ત. ૧૫૦૦">
+        </div>
+        <div class="form-group">
+            <label>પૈસા (૧) :</label>
+            <input type="text" id="inp-paisa-1" oninput="updateText()" placeholder="દા.ત. ૦૦">
+        </div>
+        <div class="form-group full-width">
+            <label>અંકે રૂપિયા (૧) :</label>
+            <input type="text" id="inp-words-1" oninput="updateText()" placeholder="દા.ત. પંદર સો રૂપિયા પૂરા">
+        </div>
+        <div class="form-group full-width">
+            <label>બાબત (૧) :</label>
+            <input type="text" id="inp-subject-1" oninput="updateText()" placeholder="બાબત લખો">
+        </div>
+
+        <!-- ================= BOTTOM VOUCHER (વાઉચર - ૨) ================= -->
+        <div class="section-title">📄 નીચેનું વાઉચર (વાઉચર - ૨) ની વિગત</div>
+        <div class="form-group">
+            <label>વાઉચર નં. (૨) :</label>
+            <input type="text" id="inp-vno-2" oninput="updateText()" placeholder="દા.ત. ૧૦૨">
+        </div>
+        <div class="form-group">
+            <label>તારીખ (૨) :</label>
+            <input type="text" id="inp-date-2" oninput="updateText()" placeholder="દા.ત. ૨૦/૦૭/૨૦૨૬">
+        </div>
+        <div class="form-group">
+            <label>શ્રી (૨) :</label>
+            <input type="text" id="inp-shri-2" oninput="updateText()" placeholder="નામ લખો">
+        </div>
+        <div class="form-group">
+            <label>ગ્રાન્ટનું નામ (૨) :</label>
+            <input type="text" id="inp-grant-2" oninput="updateText()" placeholder="ગ્રાન્ટનું નામ લખો">
+        </div>
+        <div class="form-group">
+            <label>લેનારનું નામ (૨) :</label>
+            <input type="text" id="inp-lenar-2" oninput="updateText()" placeholder="નામ લખો">
+        </div>
+        <div class="form-group">
+            <label>ગામ (૨) :</label>
+            <input type="text" id="inp-gam-2" oninput="updateText()" placeholder="ગામનું નામ લખો">
+        </div>
+        <div class="form-group">
+            <label>રૂપિયા (૨) :</label>
+            <input type="text" id="inp-rs-2" oninput="updateText()" placeholder="દા.ત. ૨૫૦૦">
+        </div>
+        <div class="form-group">
+            <label>પૈસા (૨) :</label>
+            <input type="text" id="inp-paisa-2" oninput="updateText()" placeholder="દા.ત. ૦૦">
+        </div>
+        <div class="form-group full-width">
+            <label>અંકે રૂપિયા (૨) :</label>
+            <input type="text" id="inp-words-2" oninput="updateText()" placeholder="દા.ત. અઢી હજાર રૂપિયા પૂરા">
+        </div>
+        <div class="form-group full-width">
+            <label>બાબત (૨) :</label>
+            <input type="text" id="inp-subject-2" oninput="updateText()" placeholder="બાબત લખો">
+        </div>
+        
+        <button class="print-btn" onclick="window.print()">🖨️ પ્રિન્ટ કરો (Ctrl + P)</button>
+    </div>
+</div>
+
+<!-- Print Area -->
+<div class="page-container layout-2" id="printArea">
+    
+    <!-- Voucher Box 1 -->
+    <div class="voucher-box" id="voucher1">
+        <div>
+            <div class="v-header-top">
+                <div class="v-no-date">
+                    <div>વાઉચર નં. <span class="out-vno-1"></span></div>
+                </div>
+                <div class="v-title-badge">વાઉચર</div>
+                <div class="v-no-date">
+                    <div>તા. <span class="out-date-1"></span></div>
+                </div>
+            </div>
+
+            <div class="v-row">
+                શ્રી <span class="v-line out-shri-1"></span> ગ્રાન્ટનું નામ <span class="v-line out-grant-1" style="max-width: 200px; display:inline-block;"></span>
+            </div>
+            
+            <div class="v-row">
+                લેનારનું નામ <span class="v-line out-lenar-1"></span> ગામ <span class="v-line out-gam-1" style="max-width: 180px; display:inline-block;"></span>
+            </div>
+
+            <div class="v-table-container">
+                <div class="v-table-header">
+                    <div class="v-col-subject">બાબત</div>
+                    <div class="v-col-amount">
+                        <div class="v-sub-col">રૂપિયા</div>
+                        <div class="v-sub-col">પૈસા</div>
+                    </div>
+                </div>
+                <div class="v-table-body">
+                    <div class="v-body-subject out-subject-1"></div>
+                    <div class="v-body-amount">
+                        <div class="v-amount-box-1 out-rs-1"></div>
+                        <div class="v-amount-box-2 out-paisa-1"></div>
+                    </div>
+                    
+                    <div class="v-footer-row">
+                        <!-- Total Row -->
+                        <div class="v-total-row">
+                            <div class="v-total-label">કુલ રૂ.</div>
+                            <div class="v-body-amount">
+                                <div class="v-amount-box-1 out-rs-total-1"></div>
+                                <div class="v-amount-box-2 out-paisa-total-1"></div>
+                            </div>
+                        </div>
+                        <!-- Words Row -->
+                        <div class="v-words-row">
+                            <div class="v-total-words">
+                                અંકે રૂ. <span class="v-line out-words-1"></span> મળ્યા છે.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="v-bottom-sign">
+            <div></div>
+            <div class="v-sign-container">
+                <div class="v-empty-box"></div>
+                <div class="v-sign-line-wrapper">
+                    લેનારની સહી <span class="v-sign-line"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Voucher Box 2 -->
+    <div class="voucher-box" id="voucher2">
+        <div>
+            <div class="v-header-top">
+                <div class="v-no-date">
+                    <div>વાઉચર નં. <span class="out-vno-2"></span></div>
+                </div>
+                <div class="v-title-badge">વાઉચર</div>
+                <div class="v-no-date">
+                    <div>તા. <span class="out-date-2"></span></div>
+                </div>
+            </div>
+
+            <div class="v-row">
+                શ્રી <span class="v-line out-shri-2"></span> ગ્રાન્ટનું નામ <span class="v-line out-grant-2" style="max-width: 200px; display:inline-block;"></span>
+            </div>
+            
+            <div class="v-row">
+                લેનારનું નામ <span class="v-line out-lenar-2"></span> ગામ <span class="v-line out-gam-2" style="max-width: 180px; display:inline-block;"></span>
+            </div>
+
+            <div class="v-table-container">
+                <div class="v-table-header">
+                    <div class="v-col-subject">બાબત</div>
+                    <div class="v-col-amount">
+                        <div class="v-sub-col">રૂપિયા</div>
+                        <div class="v-sub-col">પૈસા</div>
+                    </div>
+                </div>
+                <div class="v-table-body">
+                    <div class="v-body-subject out-subject-2"></div>
+                    <div class="v-body-amount">
+                        <div class="v-amount-box-1 out-rs-2"></div>
+                        <div class="v-amount-box-2 out-paisa-2"></div>
+                    </div>
+                    
+                    <div class="v-footer-row">
+                        <!-- Total Row -->
+                        <div class="v-total-row">
+                            <div class="v-total-label">કુલ રૂ.</div>
+                            <div class="v-body-amount">
+                                <div class="v-amount-box-1 out-rs-total-2"></div>
+                                <div class="v-amount-box-2 out-paisa-total-2"></div>
+                            </div>
+                        </div>
+                        <!-- Words Row -->
+                        <div class="v-words-row">
+                            <div class="v-total-words">
+                                અંકે રૂ. <span class="v-line out-words-2"></span> મળ્યા છે.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="v-bottom-sign">
+            <div></div>
+            <div class="v-sign-container">
+                <div class="v-empty-box"></div>
+                <div class="v-sign-line-wrapper">
+                    લેનારની સહી <span class="v-sign-line"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+</div>
+
+<script>
+    function updateText() {
+        // Voucher 1
+        setVal('out-vno-1', 'inp-vno-1', '');
+        setVal('out-date-1', 'inp-date-1', '');
+        setVal('out-shri-1', 'inp-shri-1', '');
+        setVal('out-grant-1', 'inp-grant-1', '');
+        setVal('out-lenar-1', 'inp-lenar-1', '');
+        setVal('out-gam-1', 'inp-gam-1', '');
+        setVal('out-subject-1', 'inp-subject-1', '');
+        setVal('out-rs-1', 'inp-rs-1', '');
+        setVal('out-rs-total-1', 'inp-rs-1', '');
+        setVal('out-paisa-1', 'inp-paisa-1', '');
+        setVal('out-paisa-total-1', 'inp-paisa-1', '');
+        setVal('out-words-1', 'inp-words-1', '');
+
+        // Voucher 2
+        setVal('out-vno-2', 'inp-vno-2', '');
+        setVal('out-date-2', 'inp-date-2', '');
+        setVal('out-shri-2', 'inp-shri-2', '');
+        setVal('out-grant-2', 'inp-grant-2', '');
+        setVal('out-lenar-2', 'inp-lenar-2', '');
+        setVal('out-gam-2', 'inp-gam-2', '');
+        setVal('out-subject-2', 'inp-subject-2', '');
+        setVal('out-rs-2', 'inp-rs-2', '');
+        setVal('out-rs-total-2', 'inp-rs-2', '');
+        setVal('out-paisa-2', 'inp-paisa-2', '');
+        setVal('out-paisa-total-2', 'inp-paisa-2', '');
+        setVal('out-words-2', 'inp-words-2', '');
+    }
+
+    function setVal(outClass, inpId, defaultHtml) {
+        const val = document.getElementById(inpId).value;
+        const els = document.querySelectorAll('.' + outClass);
+        els.forEach(el => {
+            if (el) {
+                if (val.trim() === '') {
+                    el.innerHTML = defaultHtml;
+                } else {
+                    el.innerText = val;
+                }
+            }
+        });
+    }
+
+    function updateLayout() {
+        const layout = document.querySelector('input[name="layout"]:checked').value;
+        const printArea = document.getElementById('printArea');
+        const voucher2 = document.getElementById('voucher2');
+
+        if (layout === "1") {
+            printArea.classList.remove('layout-2');
+            printArea.classList.add('layout-1');
+            voucher2.style.display = 'none';
+        } else {
+            printArea.classList.remove('layout-1');
+            printArea.classList.add('layout-2');
+            voucher2.style.display = 'flex';
+        }
+    }
+
+    updateText();
+</script>
+
+</body>
+</html>

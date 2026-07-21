@@ -1,0 +1,709 @@
+<!DOCTYPE html>
+<html lang="gu">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>S7 Chap1-1 McQ (Jeetendra Rathod)</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Hind+Vadodara:wght@400;600;700&family=Noto+Serif+Gujarati:wght@400;700&display=swap" rel="stylesheet">
+
+<style>
+/* 🌟 સાઈઝ અને સેન્ટરિંગ 🌟 */
+* { box-sizing: border-box; }
+
+/* 🌟 આખી ક્વિઝ માટે Hind Vadodara ફોન્ટ 🌟 */
+body, input, button, textarea, select {
+    font-family: 'Hind Vadodara', 'Noto Serif Gujarati', sans-serif !important;
+}
+
+/* 🌟 સર્ટિફિકેટના ક્લાસિક લુક માટે Noto Serif Gujarati 🌟 */
+#certificate, #certificate * {
+    font-family: 'Noto Serif Gujarati', serif !important;
+}
+
+
+   /* -------------------------------------
+   General Setup & Background Fix (Brick Red Theme)
+-------------------------------------- */
+html, body { margin: 0; padding: 0; min-height: 100vh; }
+
+body {
+    color: black; /* ડાર્ક બેકગ્રાઉન્ડ પર વ્હાઈટ ટેક્સ્ટ વધુ સારું લાગશે */
+    display: flex; 
+    justify-content: center; 
+    align-items: center; 
+    text-align: center;
+    user-select: none; 
+    overflow-x: hidden; 
+    overflow-y: auto; 
+    padding: 30px 10px; 
+    
+    /* નવું Vibrant Gradient */
+   background: linear-gradient(-45deg, #1d976c, #93f9b9, #1e3c72, #2a5298);
+background-size: 600% 600%;
+animation: gradientMove 12s ease infinite;
+}
+
+@keyframes gradientMove {
+    0% { background-position: 0% 50%; } 25% { background-position: 50% 100%; }
+    50% { background-position: 100% 50%; } 75% { background-position: 50% 0%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* -------------------------------------
+   Main Container & Cards
+-------------------------------------- */
+.container {
+    width: 95%; max-width: 900px; 
+    background: rgba(100, 30, 22, 0.85); /* ઘાટો બ્રિક રેડ */
+    border-radius: 20px;
+    padding: 25px; 
+    border: 4px solid #7B241C; 
+    box-shadow: 0 0 40px rgba(231, 76, 60, 0.6); 
+    margin: auto;
+}
+
+.card {
+    background: #FDEDEC; /* આછો ક્રીમ-રેડ ટિન્ટ */
+    padding: 25px 20px; border-radius: 25px; 
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    flex: 1; display: flex; flex-direction: column; justify-content: center; position: relative; 
+}
+
+/* -------------------------------------
+   Typography & Header
+-------------------------------------- */
+#question { 
+    font-size: 30px; 
+    font-weight: 700; 
+    margin-top: 10px !important; 
+    margin-bottom: 20px; 
+    line-height: 1.5; 
+    color: #7B241C; /* ઘાટો ઈંટ જેવો લાલ (વાંચવામાં સરળ) */
+}
+
+.creator-name { 
+    font-size: 24px; 
+    font-weight: 700; 
+    color: #943126; /* ક્લાસિક બ્રિક રેડ */
+    margin: 5px 0 2px 0; 
+}
+
+.school-name { 
+    font-size: 18px; 
+    font-weight: 700; 
+    color: #B03A2E; /* થોડો વાઇબ્રન્ટ રેડ */
+    font-style: italic; 
+    margin: 2px 0; 
+}
+
+.school-location { 
+    font-size: 16px; 
+    color: #A93226; /* માટી જેવો લાલ કલર */
+    font-style: italic; 
+    margin: 2px 0 15px 0; 
+}
+
+/* -------------------------------------
+   Inputs & Buttons
+-------------------------------------- */
+input {
+    width: 85%; max-width: 320px; padding: 14px 20px; margin: 15px auto; display: block; text-align: center;
+    font-size: 18px; font-weight: 600; color: #001f3f; background: #f8f9fa; border: 2px solid transparent;
+    border-radius: 50px; outline: none; box-shadow: inset 0 3px 6px rgba(56, 239, 125, 0.6), 0 5px 15px rgba(0,0,0,0.1);
+    transition: all 0.4s ease;
+}
+input:focus { background: #ffffff; border: 2px solid #38ef7d; box-shadow: 0 0 20px rgba(255, 64, 129, 0.5); transform: scale(1.03); }
+
+/* 🌟 બટન સ્ટાઈલ 🌟 */
+.start-btn, .next-btn, .regular-btn {
+    background: linear-gradient(135deg, #a8e063, #56ab2f) !important; color: white; font-weight: 700;
+    border: none; border-radius: 50px; cursor: pointer; display: block; letter-spacing: 1px;
+    transition: all 0.2s ease; animation: pulseGlow 2s infinite;
+}
+/* 🚀 સ્ટાર્ટ બટન (Brick Red & Terracotta Theme) */
+.start-btn { 
+    font-size: 24px; 
+    padding: 15px 40px; 
+    margin: 30px auto; 
+    cursor: pointer;
+    border: none;
+    border-radius: 50px; /* બટનને સરસ વળાંક આપવા માટે */
+    color: white;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    
+    /* 🎨 Brick Red થી Burnt Orange ગ્રેડિયન્ટ */
+    background: linear-gradient(to bottom, #e67e22, #b03a2e); 
+    
+    /* 🌑 Outer Shadow (Brick Red Tint) અને Inner Shadow (Depth માટે) */
+    box-shadow: 0 10px 20px rgba(176, 58, 46, 0.4), 
+                inset 0 -5px 0 rgba(0, 0, 0, 0.2); 
+    
+    transition: all 0.3s ease; /* સ્મૂથ ઈફેક્ટ માટે */
+}
+
+/* બટન પર માઉસ લઈ જતાં (Hover) થતી ઈફેક્ટ */
+.start-btn:hover {
+    transform: translateY(-3px); /* થોડું ઉપર આવશે */
+    box-shadow: 0 15px 25px rgba(176, 58, 46, 0.5), 
+                inset 0 -5px 0 rgba(0, 0, 0, 0.2);
+    background: linear-gradient(to bottom, #eb984e, #cb4335); /* થોડું લાઈટ થશે */
+}
+
+/* બટન દબાવતી વખતે (Active) થતી ઈફેક્ટ */
+.start-btn:active {
+    transform: translateY(2px); /* નીચે જશે (ક્લિક જેવું લાગશે) */
+    box-shadow: 0 5px 10px rgba(176, 58, 46, 0.4);
+}
+.next-btn { font-size: 20px; padding: 12px 35px; margin: 25px auto 10px auto; box-shadow: 0 8px 15px rgba(221, 36, 118, 0.4), inset 0 -4px 0 rgba(0, 0, 0, 0.2); }
+.regular-btn { font-size: 18px; padding: 10px 25px; margin: 10px 5px; display: inline-block; animation: none; }
+
+.start-btn:hover, .next-btn:hover, .regular-btn:hover { 
+    transform: translateY(-3px); 
+    box-shadow: 0 12px 20px rgba(86, 171, 47, 0.6), inset 0 -4px 0 rgba(0, 0, 0, 0.2); 
+    animation: none; 
+}
+.start-btn:active, .next-btn:active, .regular-btn:active { transform: translateY(2px); box-shadow: 0 10px 20px rgba(86, 171, 47, 0.4), inset 0 -5px 0 rgba(0, 0, 0, 0.2); 
+}
+
+@keyframes pulseGlow {
+    0% { box-shadow: 0 0 0 0 rgba(86, 171, 47, 0.6), inset 0 -5px 0 rgba(0,0,0,0.2); }
+    70% { box-shadow: 0 0 0 15px rgba(86, 171, 47, 0), inset 0 -5px 0 rgba(0,0,0,0.2); }
+    100% { box-shadow: 0 0 0 0 rgba(86, 171, 47, 0), inset 0 -5px 0 rgba(0,0,0,0.2); }
+}
+/* -------------------------------------
+   Quiz o & Top Bar
+-------------------------------------- */
+#o { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 20px; }
+.option {
+    position: relative; padding: 18px 20px; border-radius: 50px; border: 2px solid #00e5ff;
+    background: linear-gradient(145deg, #001f3f, #003366); color: #fff; font-size: 18px; font-weight: 600;
+    cursor: pointer; transition: 0.3s; box-shadow: 0 0 15px rgba(0,229,255,0.5); text-align: center;
+}
+.option:hover { transform: scale(1.03); box-shadow: 0 0 25px #00e5ff; }
+.correct { background: linear-gradient(145deg, #1b5e20, #4CAF50) !important; border-color: #4CAF50 !important; box-shadow: 0 0 25px #4CAF50 !important; color: white; }
+.wrong { background: linear-gradient(145deg, #b71c1c, #f44336) !important; border-color: #f44336 !important; color: white; box-shadow: 0 0 25px #f44336 !important; }
+
+.top-bar { display: flex; justify-content: space-between; align-items: center; background: rgba(255,255,255,0.1); padding: 5px 20px; border-radius: 15px; margin-bottom: 15px; }
+.score { font-size: 22px; color: #007bff; font-weight: 600; }
+/* 🕒 ટાઈમર સર્કલ (Brick Red & Terracotta Theme) */
+.timer-circle { 
+    width: 80px; 
+    height: 80px; 
+    border-radius: 50%; 
+    /* 🎨 Brick Red થી Burnt Orange નો ગ્રેડિયન્ટ */
+    background: linear-gradient(145deg, #e67e22, #b03a2e); 
+    color: white; 
+    font-size: 28px; 
+    font-weight: bold; 
+    display: flex; 
+    justify-content: center; 
+    align-items: center; 
+    /* લાલ રંગની આછી છાંટ વાળો શેડો */
+    box-shadow: 0 5px 15px rgba(123, 36, 28, 0.4); 
+    border: 4px solid #fff; 
+}
+/* -------------------------------------
+   3D Progress Bar & Dashboard
+-------------------------------------- */
+.progress { display: flex; justify-content: space-between; align-items: center; gap: 6px; margin: 15px auto 25px auto; width: 95%; background: transparent; height: auto; }
+.step-box { flex: 1; height: 16px; background: #1e293b; border-radius: 6px; box-shadow: inset 0 2px 5px rgba(0,0,0,0.8), 0 1px 2px rgba(255,255,255,0.1); transition: all 0.4s ease; }
+.step-box.active { background: #ffd700; box-shadow: 0 0 12px #ffd700, inset 0 2px 5px rgba(255,255,255,0.6); transform: scale(1.15); }
+.step-box.correct-step { background: linear-gradient(145deg, #00e676, #1b5e20) !important; box-shadow: 0 0 15px #00e676, inset 0 2px 5px rgba(255,255,255,0.6); border: 1px solid #b2ff59; transform: scale(1.1); }
+.step-box.wrong-step { background: linear-gradient(145deg, #ff1744, #b71c1c) !important; box-shadow: 0 0 15px #ff1744, inset 0 2px 5px rgba(255,255,255,0.6); border: 1px solid #ff8a80; transform: scale(1.1); }
+.step-box.skipped-step { background: #64748b !important; transform: scale(1.0); opacity: 0.7; }
+
+.dashboard { display: flex; justify-content: space-between; gap: 15px; margin: 20px 0 30px 0; flex-wrap: wrap; }
+.dash-card { background: #f8fafc; border-radius: 15px; padding: 20px; flex: 1; min-width: 120px; text-align: left; box-shadow: inset 0 0 0 1px rgba(0,0,0,0.05), 0 4px 10px rgba(0,0,0,0.05); }
+.dash-title { font-size: 16px; color: #64748b; margin: 0 0 5px 0; font-weight: 600; }
+.dash-value { font-size: 40px; color: #0f172a; margin: 0; font-weight: 700; }
+.breakdown-list { list-style: none; padding: 0; margin: 0; font-size: 16px; color: #334155; font-weight: 600; }
+.breakdown-list li { display: flex; justify-content: space-between; margin-bottom: 8px; border-bottom: 1px solid #e2e8f0; padding-bottom: 5px; }
+.breakdown-list li:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+.emoji { font-size: 20px; min-height: 40px; margin-top: 10px; padding: 5px; line-height: 1.4; word-wrap: break-word; }
+
+
+/* -------------------------------------
+   🌟 નવું લાઈટ લેન્ડસ્કેપ સર્ટિફિકેટ (Premium Light Landscape) 🌟
+-------------------------------------- */
+#certificate {
+    display: none;
+    width: 1123px; /* A4 Landscape Width */
+    height: 794px; /* A4 Landscape Height */
+    padding: 50px;
+    background: #fdfbf4; /* સુંદર ક્રીમ/લાઈટ કલર */
+    position: relative;
+    text-align: center;
+    box-shadow: 0 0 30px rgba(0,0,0,0.2);
+    color: #333;
+    overflow: hidden;
+    margin: auto;
+}
+
+/* 🌟 ડબલ બોર્ડર ડિઝાઇન 🌟 */
+.cert-border {
+    position: absolute; top: 20px; left: 20px; right: 20px; bottom: 20px;
+    border: 4px solid #c8b388; /* Muted Gold */
+    pointer-events: none;
+}
+.cert-border-inner {
+    position: absolute; top: 30px; left: 30px; right: 30px; bottom: 30px;
+    border: 1px solid #c8b388; 
+    pointer-events: none;
+}
+
+/* 🌟 ટેક્સ્ટ અને ટાઈટલ 🌟 */
+.cert-title {
+    font-size: 55px; font-weight: 700; color: #1a365d; /* Dark Navy Blue */
+    margin-top: 40px; margin-bottom: 10px; letter-spacing: 2px;
+}
+.cert-subtitle { font-size: 32px; font-weight: 700; color: #1a365d; margin-bottom: 30px; }
+.cert-body { font-size: 24px; color: #444; margin: 15px 0; }
+.cert-name { font-size: 48px; font-weight: 700; color: #b81d54; margin: 15px 0; }
+.cert-school { font-size: 26px; color: #b81d54; margin-bottom: 15px; font-weight: 700; }
+
+/* 🌟 ગોળ સ્કોર બેજ (Brick Red Theme) 🌟 */
+.score-badge-wrapper { 
+    margin: 25px auto 0 auto; 
+    display: flex; 
+    justify-content: center; 
+    align-items: center; 
+}
+
+.score-badge-outer {
+    width: 150px; height: 150px; border-radius: 50%; 
+    background: #7B241C; /* ઘાટો બ્રિક રેડ (Dark Red) */
+    display: flex; justify-content: center; align-items: center; 
+    box-shadow: 0 10px 25px rgba(123, 36, 28, 0.4);
+    border: 2px solid #943126;
+}
+
+.score-badge-inner {
+    width: 130px; height: 130px; border-radius: 50%; 
+    background: #E67E22; /* ટેરાકોટા / બર્ન્ટ ઓરેન્જ (Terracotta) */
+    border: 4px solid #FAD7A0; /* હળવો ક્રીમ-ઓરેન્જ બોર્ડર */
+    display: flex; flex-direction: column; justify-content: center; align-items: center;
+    box-shadow: inset 0 0 15px rgba(0,0,0,0.2);
+}
+
+.badge-label { 
+    font-size: 16px; 
+    color: #FFFFFF; 
+    font-weight: 600; 
+    margin-bottom: -2px; 
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+}
+
+.badge-score { 
+    font-size: 60px; 
+    color: #FFFFFF; 
+    font-weight: 800; 
+    margin: 0; 
+    line-height: 1; 
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+}
+
+/* 🌟 ફૂટર 🌟 */
+.footer-line { position: absolute; bottom: 130px; left: 60px; right: 60px; height: 1px; background: #c8b388; opacity: 0.5; }
+.cert-footer-container {
+    position: absolute; bottom: 50px; left: 60px; right: 60px;
+    display: flex; justify-content: space-between; align-items: flex-end;
+}
+.cert-signature { text-align: left; font-size: 20px; color: #333; font-weight: 600; display: flex; align-items: center; gap: 15px; }
+.cert-date-box { text-align: right; font-size: 22px; color: #333; font-weight: 600; display: flex; align-items: center; gap: 10px; }
+
+
+/* -------------------------------------
+   🏆 Floating Trophies & Medals Animation
+-------------------------------------- */
+.floating-item {
+    position: fixed;
+    bottom: -100px;
+    font-size: 40px; /* ઇમોજીની સાઈઝ */
+    filter: drop-shadow(0 5px 10px rgba(0,0,0,0.3));
+    animation: floatUp 10s linear infinite;
+    z-index: -1;
+    opacity: 0.6; /* થોડું ઝાંખું રાખવા માટે જેથી ટેક્સ્ટ વંચાય */
+}
+
+@keyframes floatUp {
+    0% {
+        transform: translateY(0) rotate(0deg);
+        opacity: 0;
+    }
+    10% {
+        opacity: 0.6;
+    }
+    90% {
+        opacity: 0.6;
+    }
+    100% {
+        transform: translateY(-120vh) rotate(360deg); /* ઉડતી વખતે ગોળ ફરશે */
+        opacity: 0;
+    }
+}
+
+/* -------------------------------------
+   📱 MOBILE & LANDSCAPE RESPONSIVENESS
+-------------------------------------- */
+@media screen and (max-width: 900px) and (orientation: landscape) { body { display: block; padding: 20px 10px; } .container { margin: 20px auto; height: auto; } }
+@media (max-width: 768px) {
+    body { display: block; padding: 25px 10px; }
+    .container { width: 95%; margin: 10px auto; max-width: 500px; padding: 15px; }
+    #o { grid-template-columns: 1fr; gap: 12px; }
+    .timer-circle { 
+    width: 60px; 
+    height: 60px; 
+    font-size: 20px; 
+    border: 3px solid #fff; 
+    background: linear-gradient(145deg, #00e676, #1b5e20); /* લીલો ગ્રેડિયન્ટ */
+    color: white;
+}
+    .top-bar { padding: 5px 10px; margin-bottom: 8px; } .score { font-size: 18px; }
+    #question { font-size: 22px; margin-bottom: 10px; } .option { font-size: 16px; padding: 14px 15px; }
+    .emoji { font-size: 16px; min-height: 25px; }
+    .dashboard { flex-direction: column; gap: 10px; } .dash-card { min-width: 100%; text-align: center; }
+    .breakdown-list li { justify-content: space-around; }
+}
+</style>
+</head>
+
+<body>
+
+<div class="floating-item" style="left:90%; animation-duration:11s;">🌱</div>
+<div class="floating-item" style="left:10%; animation-duration:9s;">🧬</div>
+<div class="floating-item" style="left:30%; animation-duration:12s;">🥇</div>
+<div class="floating-item" style="left:50%; animation-duration:10s;">🧲</div>
+<div class="floating-item" style="left:70%; animation-duration:8s;">🏆</div>
+<div class="floating-item" style="left:90%; animation-duration:11s;">🔬</div>
+<div class="floating-item" style="left:90%; animation-duration:11s;">🔭</div>
+
+<div class="container">
+
+    <div id="home" class="card">
+        <h2>વનસ્પતિમાં પોષણ, પ્રકરણ-1, વિજ્ઞાન-7</h2>
+        <input type="text" id="studentName" placeholder="તમારું નામ લખો">
+        <input type="text" id="schoolName" placeholder="શાળાનું નામ લખો">
+        <button class="start-btn" onclick="startQuiz()">💥 ક્વિઝ શરૂ કરો. </button>
+        <footer>જિતેન્દ્ર  રાઠોડ (જુનાપાધર પ્રાથમિક શાળા,તા. વિરમગામ, જિ. અમદાવાદ)</footer>
+    </div>
+
+    <div id="quiz" class="card" style="display:none;">
+<button class="next-btn" style="display: none;" onclick="nextQuestion()">આગળનો પ્રશ્ન ➡️</button>
+        <div class="top-bar">
+            <div class="timer-circle" id="timer-display">30</div>
+            <div class="score">🏆 સ્કોર: <span id="score">0</span>/25</div>
+        </div>
+        
+        <h3 id="question"></h3>
+<div class="progress" id="progressBarContainer"></div>
+        <div id="o"></div>
+         <div id="emojiEffect" class="emoji"></div>
+    </div>
+
+    <div id="result" class="card" style="display:none;">
+        <h2 style="font-size:28px; color:#1e293b; margin-bottom:10px;">🎉 અભિનંદન! અદ્દભુત પ્રદર્શન!</h2>
+        <h2 style="color:#c2185b; margin-top:0;"><span id="finalName"></span></h2>
+        <h4 id="finalSchool" style="margin-top:0; color:#475569;"></h4>
+        
+        <div class="dashboard">
+            <div class="dash-card">
+                <p class="dash-title">Score</p>
+                <p class="dash-value" id="res-score">0/25</p>
+            </div>
+            <div class="dash-card">
+                <p class="dash-title">Accuracy</p>
+                <p class="dash-value" id="res-accuracy">0%</p>
+            </div>
+            <div class="dash-card" style="display:flex; flex-direction:column; justify-content:center;">
+                <ul class="breakdown-list">
+                    <li><span>Right ✅</span> <span id="res-right" style="color:#4CAF50;">0</span></li>
+                    <li><span>Wrong ❌</span> <span id="res-wrong" style="color:#f44336;">0</span></li>
+                    <li><span>Skipped ⏭️</span> <span id="res-skipped" style="color:#64748b;">0</span></li>
+                </ul>
+            </div>
+        </div>
+        
+        <p id="message" style="font-size:22px; font-weight:bold; margin-bottom:15px;"></p>
+        
+        <div>
+            <button class="regular-btn" onclick="downloadPNG()">📥 Certificate PNG</button>
+            <button class="regular-btn" onclick="downloadPDF()">📄 Certificate PDF</button>
+            <button class="start-btn" onclick="location.reload()" style="font-size:20px; padding:10px 30px; margin-top:15px;">🔄ફરી શરૂ કરો</button>
+        </div>
+
+        <div id="certificate">
+            <div class="cert-border"></div>
+            <div class="cert-border-inner"></div>
+            
+            <h1 class="cert-title">સફળતા મેળવ્યા બદલનું પ્રમાણપત્ર</h1>
+            <h2 class="cert-subtitle">વનસ્પતિમાં પોષણ, પ્રકરણ-1, વિજ્ઞાન-7</h2>
+            
+            <p class="cert-body">આથી પ્રમાણિત કરવામાં આવે છે કે</p>
+            
+            <h1 id="certName" class="cert-name"></h1>
+            <h3 id="certSchool" class="cert-school"></h3>
+            
+            <p class="cert-body">એ <b>વનસ્પતિમાં પોષણ, પ્રકરણ-1, વિજ્ઞાન-7, ભાગ-1 </b> માં ઉત્કૃષ્ટ પ્રદર્શન કર્યું છે.<br>આપે કુલ 25 ગુણમાંથી</p>
+           
+            <div class="score-badge-wrapper">
+                <div class="score-badge-outer">
+                    <div class="score-badge-inner">
+                        <span class="badge-label">મેળવેલ ગુણ</span>
+                        <span class="badge-score" id="certScore">0</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer-line"></div>
+            
+            <div class="cert-footer-container">
+                <div class="cert-signature">
+                    <span style="font-size: 30px;">⏳</span>
+                    <div>
+                        ગણિત/વિજ્ઞાન શિક્ષક<br>
+                        <span style="font-size: 16px; font-weight: normal; color: #555;">માર્ગદર્શક</span>
+                    </div>
+                </div>
+                <div class="cert-date-box">
+                    <span style="font-size: 30px;">📜</span> Date: <span id="certDate"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+<script>
+let audioCtx;
+function initAudio(){ if(!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)(); }
+
+function playBeep(type){
+    if(!audioCtx) return;
+    const osc = audioCtx.createOscillator();
+    const gainNode = audioCtx.createGain();
+    osc.connect(gainNode); gainNode.connect(audioCtx.destination);
+    osc.frequency.value = type === "correct" ? 900 : 300;
+    osc.type = "sine"; osc.start();
+    gainNode.gain.setValueAtTime(1, audioCtx.currentTime);
+    gainNode.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.4);
+    osc.stop(audioCtx.currentTime + 0.4);
+}
+
+function playTick(){
+    if(!audioCtx) return;
+    const osc = audioCtx.createOscillator();
+    const gainNode = audioCtx.createGain();
+    osc.connect(gainNode); gainNode.connect(audioCtx.destination);
+    osc.frequency.value = 1200; osc.type = "square"; osc.start();
+    gainNode.gain.setValueAtTime(0.3, audioCtx.currentTime);
+    gainNode.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.08);
+    osc.stop(audioCtx.currentTime + 0.08);
+}
+
+function saveToSheet(name, school, score){
+    fetch("https://script.google.com/macros/s/AKfycbx7AeohmhB-rK4jiJckTcegPxBQt1whmbCrNS9Xo20NC39t82dvbJ-JawVG2tywtHre/exec", {
+        method: "POST", body: JSON.stringify({ name: name, school: school, score: score + "/" + questions.length, date: new Date().toLocaleDateString("gu-IN") })
+    }).then(res => res.text()).then(data => console.log("Saved:", data)).catch(err => console.error("Error:", err));
+}
+
+function shuffleArray(array){
+    for(let i=array.length-1;i>0;i--){
+        let j=Math.floor(Math.random()*(i+1));
+        [array[i],array[j]]=[array[j],array[i]];
+    }
+    return array;
+}
+
+let questions = [
+
+  { "q": "સજીવોને કાર્ય કરવા માટે જરૂરી શક્તિ શેમાંથી મળે છે?", "o": ["હવામાંથી", "ખોરાકમાંથી", "માત્ર પાણીમાંથી", "આરામ કરવાથી"], "a": 1 },
+  { "q": "જે સજીવો પોતાનું પોષણ યજમાન સજીવ પાસેથી મેળવે છે તેને શું કહેવાય?", "o": ["મૃતોપજીવી", "સ્વાવલંબી", "પરોપજીવી", "વિઘટકો"], "a": 2 },
+  { "q": "મૃત અને સડતા પદાર્થોમાંથી પોષણ મેળવતા સજીવોને શું કહે છે?", "o": ["પરોપજીવી", "મૃતોપજીવી", "સ્વાવલંબી", "તૃણાહારી"], "a": 1 },
+  { "q": "અમરવેલ એ કયા પ્રકારની વનસ્પતિનું ઉદાહરણ છે?", "o": ["સ્વયંપોષી", "પરપોષી / પરોપજીવી", "મૃતોપજીવી", "કીટાહારી"], "a": 1 },
+  { "q": "મોટા ભાગની ફૂગ કેવા પ્રકારનું પોષણ ધરાવે છે?", "o": ["સ્વાવલંબી", "મૃતોપજીવી", "પરોપજીવી", "માંસાહારી"], "a": 1 },
+  { "q": "પર્ણમાં શેની હાજરી ચકાસવા માટે આયોડિનના દ્રાવણનો ઉપયોગ થાય છે?", "o": ["સ્ટાર્ચ (Starch)", "પ્રોટીન", "ચરબી", "વિટામિન"], "a": 0 },
+  { "q": "આયોડિન કસોટી દરમિયાન પર્ણમાં સ્ટાર્ચની હાજરીથી પર્ણનો રંગ કેવો થાય છે?", "o": ["પીળો", "લાલ", "ભૂરો-કાળો", "સફેદ"], "a": 2 },
+  { "q": "વનસ્પતિના પર્ણમાં કયું લીલા રંગનું રંજકદ્રવ્ય આવેલું હોય છે?", "o": ["હિમોગ્લોબિન", "ஹરિતદ્રવ્ય (ક્લોરોફિલ)", "ઝેન્થોફિલ", "કેરોટિન"], "a": 1 },
+  { "q": "લીલી વનસ્પતિ સૂર્યપ્રકાશની હાજરીમાં ખોરાક બનાવે તે ક્રિયાને શું કહે છે?", "o": ["શ્વસન ક્રિયા", "બાષ્પોત્સર્જન", "પ્રકાશસંશ્લેષણ", "પાચન ક્રિયા"], "a": 2 },
+  { "q": "પ્રકાશસંશ્લેષણ માટે વનસ્પતિ હવામાંથી કયો વાયુ લે છે?", "o": ["ઑક્સિજન", "નાઇટ્રોજન", "કાર્બન ડાયોક્સાઈડ", "ஹાઇડ્રોજન"], "a": 2 },
+  { "q": "પ્રકાશસંશ્લેષણ પ્રક્રિયા દરમિયાન વનસ્પતિ દ્વારા કયો વાયુ મુક્ત થાય છે?", "o": ["કાર્બન ડાયોક્સાઈડ", "ઑક્સિજન", "નાઇટ્રોજન", "આર્ગોન"], "a": 1 },
+  { "q": "વનસ્પતિ દ્વારા તૈયાર કરાયેલ ખોરાક કયા સ્વરૂપે સંગ્રહ પામે છે?", "o": ["સ્ટાર્ચ", "ગ્લુકોઝ", "ચરબી", "પ્રોટીન"], "a": 0 },
+  { "q": "પ્રકાશસંશ્લેષણની પ્રક્રિયામાં સૂર્ય-ઊર્જાનું શોષણ વનસ્પતિનો કયો ઘટક કરે છે?", "o": ["મૂળરોમ", "પર્ણરંધ્ર", "હરિતદ્રવ્ય", "પર્ણશિરા"], "a": 2 },
+  { "q": "પીળી, પાતળી દોરી જેવું પ્રકાંડ ધરાવતી પરોપજીવી વનસ્પતિ કઈ છે?", "o": ["કળશપર્ણ", "અમરવેલ", "જાસૂદ", "મશરૂમ"], "a": 1 },
+  { "q": "સ્વયંપોષણ અને પરપોષણ બંને પ્રકારનું પોષણ ધરાવતી વનસ્પતિ કઈ છે?", "o": ["અમરવેલ", "કળશપર્ણ", "લીમડો", "મશરૂમ"], "a": 1 },
+  { "q": "પર્ણમાં વાયુઓનો વિનિમય (આદાન-પ્રદાન) કયા સૂક્ષ્મ છિદ્રો દ્વારા થાય છે?", "o": ["પર્ણશિરા", "પર્ણરંધ્રો", "મૂળરોમ", "વજ્રપત્ર"], "a": 1 },
+  { "q": "કઈ વનસ્પતિ કીટકોને ફસાવે છે અને તેનું પાચન કરી આરોગે છે?", "o": ["કળશપર્ણ", "અમરવેલ", "જાસૂદ", "ગુલાબ"], "a": 0 },
+  { "q": "પ્રકાશસંશ્લેષણ દરમિયાન સૂર્ય-ઊર્જાનું કઈ ઊર્જામાં રૂપાંતર થાય છે?", "o": ["યાંત્રિક ઊર્જા", "રાસાયણિક ઊર્જા", "ધ્વનિ ઊર્જા", "વિદ્યુત ઊર્જા"], "a": 1 },
+  { "q": "પ્રકાશસંશ્લેષણ માટે વનસ્પતિનો કયો ભાગ વાતાવરણમાંથી મુખ્યત્વે CO2 લે છે?", "o": ["મૂળ", "પ્રકાંડ", "પુષ્પ", "પર્ણ (પર્ણરંધ્ર દ્વારા)"], "a": 3 },
+  { "q": "ખેડૂતો મોટા ગ્રીનહાઉસમાં ફળો અને શાકભાજી કેમ ઉગાડે છે?", "o": ["વધુ ઠંડી-ગરમી અને પ્રાણીઓથી રક્ષણ મેળવવા", "માત્ર સુંદરતા માટે", "જમીન બચાવવા", "પાણીનો બગાડ કરવા"], "a": 0 },
+  { "q": "'પ્રકાશસંશ્લેષણ દરમિયાન કાર્બન ડાયૉક્સાઇડ મુક્ત થાય છે' આ વિધાન કેવું છે?", "o": ["સાચું", "ખોટું", "કહી ન શકાય", "અધૂરું છે"], "a": 1 },
+  { "q": "જે વનસ્પતિઓ પોતાનો ખોરાક જાતે બનાવે છે તેને શું કહેવાય?", "o": ["મૃતોપજીવી", "સ્વાવલંબી", "પરપોષી", "પરોપજીવી"], "a": 1 },
+  { "q": "'પ્રોટીન એ પ્રકાશસંશ્લેષણની પેદાશ નથી' આ વિધાન કેવું છે?", "o": ["સાચું", "ખોટું", "અંશતઃ સાચું", "એકપણ નહીં"], "a": 0 },
+  { "q": "પર્ણની આયોડિન કસોટી કરતા પહેલાં તેને કયા પ્રવાહી વડે ધોઈને લીલો રંગ દૂર કરાય છે?", "o": ["પાણી", "તેલ", "આલ્કોહોલ", "દૂધ"], "a": 2 },
+  { "q": "નાઈટ્રોજન મેળવવા માટે વનસ્પતિને કયા સૂક્ષ્મજીવો મદદરૂપ થાય છે?", "o": ["બૅક્ટરિયા (રાઈઝોબિયમ)", "વાયરસ", "અળસિયા", "કીટકો"], "a": 0 }
+];
+
+let current=0; let timer; let timeLeft=30; let aed=false;
+let score = 0; let wrongCount = 0; let skipCount = 0;
+
+function startQuiz(){
+    let name=document.getElementById("studentName").value;
+    let school=document.getElementById("schoolName").value;
+    if(name=="" || school==""){ alert("નામ અને શાળાનું નામ લખો"); return; }
+
+    initAudio(); if(audioCtx.state === 'suspended') { audioCtx.resume(); }
+    questions = shuffleArray(questions);
+    
+    current = 0; score = 0; wrongCount = 0; skipCount = 0;
+    document.getElementById("home").style.display="none";
+    document.getElementById("quiz").style.display="block";
+    
+    let progressContainer = document.getElementById("progressBarContainer");
+    progressContainer.innerHTML = "";
+    for(let i = 0; i < questions.length; i++) {
+        let box = document.createElement("div"); box.className = "step-box"; box.id = "step-" + i;
+        progressContainer.appendChild(box);
+    }
+    loadQuestion();
+}
+
+function loadQuestion(){
+    aed=false; clearInterval(timer); timeLeft=30;
+    document.getElementById("timer-display").innerText=timeLeft;
+    document.getElementById("timer-display").style.background = "linear-gradient(145deg, #00c6ff, #0072ff)";
+    document.getElementById("timer-display").style.color = "white";
+    document.getElementById("emojiEffect").innerText="";
+    document.getElementById("question").innerText=(current+1)+". "+questions[current].q;
+
+    let nextBtn = document.querySelector(".next-btn");
+    if(current === questions.length - 1){ nextBtn.innerHTML = "✅ ક્વિઝ સબમિટ કરો"; } 
+    else { nextBtn.innerHTML = "આગળનો પ્રશ્ન ➡️"; }
+
+    let optDiv=document.getElementById("o"); optDiv.innerHTML="";
+    let o = questions[current].o.map((opt,index)=>{ return {text:opt, index:index}; });
+    o = shuffleArray(o);
+
+    o.forEach((opt)=>{
+        let btn=document.createElement("button"); btn.className="option"; btn.innerText=opt.text;
+        btn.onclick=()=>selecta(opt.index,btn); optDiv.appendChild(btn);
+    });
+
+    updateProgress();
+
+    timer=setInterval(()=>{
+        timeLeft--; document.getElementById("timer-display").innerText=timeLeft;
+        if(timeLeft <= 5){ playBeep("wrong"); } else { playTick(); }
+        if(timeLeft<=5){ document.getElementById("timer-display").style.background = "linear-gradient(145deg, #00e676, #1b5e20)"; }
+        if(timeLeft<=0){ clearInterval(timer); nextQuestion(); }
+    },1000);
+}
+
+function selecta(i,btn){
+    if(aed) return; aed=true;
+    let buttons = document.querySelectorAll(".option"); clearInterval(timer);
+
+    if(i==questions[current].a){
+        score++; btn.classList.add("correct"); playBeep("correct");
+        document.getElementById("step-" + current).classList.add("correct-step"); 
+        document.getElementById("emojiEffect").innerText="✅ સાચો જવાબ! 🥳 ખૂબ ખૂબ અભિનંદન";
+        speak("સાચો જવાબ"); confetti({particleCount:100,spread:90,origin:{y:0.6}});
+    }else{
+        wrongCount++; btn.classList.add("wrong");
+        buttons.forEach(button=>{ if(button.innerText == questions[current].o[questions[current].a]){ button.classList.add("correct"); } });
+        playBeep("wrong");
+        document.getElementById("step-" + current).classList.add("wrong-step"); 
+        document.getElementById("emojiEffect").innerText="❌ ખોટો જવાબ!😰 હજુ વધારે મહેનત કરો.";
+        speak("ખોટો જવાબ");
+    }
+    document.getElementById("score").innerText=score;
+
+    // --- નવો ઉમેરેલો કોડ (૨.૫ સેકન્ડ પછી આપોઆપ આગળ વધશે) ---
+    setTimeout(() => {
+        nextQuestion();
+    }, 2500); 
+}
+   
+function nextQuestion(){
+    if(!aed){ skipCount++; document.getElementById("step-" + current).classList.add("skipped-step"); }
+    if(current < questions.length - 1){ current++; loadQuestion(); }
+    else{ showResult(); }
+}
+
+function updateProgress(){
+    for(let i = 0; i < questions.length; i++){
+        let box = document.getElementById("step-" + i); if(box) box.classList.remove("active");
+    }
+    let currentBox = document.getElementById("step-" + current); if(currentBox) currentBox.classList.add("active");
+}
+
+function showResult(){
+    clearInterval(timer);
+    document.getElementById("quiz").style.display="none"; document.getElementById("result").style.display="block";
+
+    let name=document.getElementById("studentName").value; let school=document.getElementById("schoolName").value;
+    saveToSheet(name, school, score);
+
+    document.getElementById("finalName").innerText = name;
+    document.getElementById("finalSchool").innerText = "🏫 શાળા: " + school;
+
+    document.getElementById("res-score").innerText = score + "/" + questions.length;
+    let accuracy = Math.round((score / questions.length) * 100);
+    document.getElementById("res-accuracy").innerText = accuracy + "%";
+    document.getElementById("res-right").innerText = score;
+    document.getElementById("res-wrong").innerText = wrongCount;
+    document.getElementById("res-skipped").innerText = skipCount;
+
+    let stars="⭐".repeat(Math.ceil(score/2)); document.getElementById("message").innerHTML="તમને મળ્યા: "+stars;
+    if(score >= 8){ confetti({particleCount:300,spread:120,origin:{y:0.6}}); }
+}
+
+function speak(text){
+    let speech = new SpeechSynthesisUtterance(text); speech.lang = "gu-IN"; window.speechSynthesis.speak(speech);
+}
+
+function prepareCertificate(){
+    let name = document.getElementById("studentName").value;
+    let school = document.getElementById("schoolName").value;
+    document.getElementById("certName").innerText = name;
+    document.getElementById("certSchool").innerText = "🏫 " + school;
+    document.getElementById("certScore").innerText = score;
+    let today = new Date();
+    document.getElementById("certDate").innerText = today.toLocaleDateString("gu-IN");
+}
+
+function downloadPNG(){
+    prepareCertificate();
+    let cert = document.getElementById("certificate");
+    cert.style.display = "block"; cert.style.opacity = "0";
+    setTimeout(() => {
+        cert.style.opacity = "1";
+        html2canvas(cert, { scale: 2 }).then(canvas => {
+            let link = document.createElement(a); link.download = "Certificate.png"; link.href = canvas.toDataURL("image/png"); link.click();
+            cert.style.display = "none";
+        });
+    }, 300);
+}
+
+function downloadPDF(){
+    prepareCertificate();
+    let cert = document.getElementById("certificate");
+    cert.style.display = "block"; cert.style.opacity = "0";
+    setTimeout(() => {
+        cert.style.opacity = "1";
+        html2canvas(cert, { scale: 2 }).then(canvas => {
+            const { jsPDF } = window.jspdf; let pdf = new jsPDF("landscape","pt","a4");
+            let imgData = canvas.toDataURL("image/png"); let width = pdf.internal.pageSize.getWidth(); let height = pdf.internal.pageSize.getHeight();
+            pdf.addImage(imgData,"PNG",0,0,width,height); pdf.save("Certificate.pdf");
+            cert.style.display = "none";
+        });
+    }, 300);
+}
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</body>
+</html>
